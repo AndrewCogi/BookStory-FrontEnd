@@ -39,7 +39,7 @@ class _PopularBookListViewState extends State<PopularBookListView>
             return GridView(
               padding: const EdgeInsets.all(8),
               physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.vertical,
+              scrollDirection: Axis.horizontal,
               children: List<Widget>.generate(
                 Category.popularBookList.length,
                 (int index) {
@@ -63,9 +63,9 @@ class _PopularBookListViewState extends State<PopularBookListView>
               ),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 32.0,
-                crossAxisSpacing: 32.0,
-                childAspectRatio: 0.8,
+                mainAxisSpacing: 12.0,
+                crossAxisSpacing: 12.0,
+                childAspectRatio: 1.0,
               ),
             );
           }
@@ -103,7 +103,6 @@ class CategoryView extends StatelessWidget {
               splashColor: Colors.transparent,
               onTap: callback,
               child: SizedBox(
-                height: 280,
                 child: Stack(
                   alignment: AlignmentDirectional.bottomCenter,
                   children: <Widget>[
@@ -142,7 +141,7 @@ class CategoryView extends StatelessWidget {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                top: 8,
+                                                top: 1,
                                                 left: 16,
                                                 right: 16,
                                                 bottom: 8),
@@ -154,11 +153,11 @@ class CategoryView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '${category!.description} lesson',
+                                                  '${category!.description}',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w200,
-                                                    fontSize: 12,
+                                                    fontSize: 10,
                                                     letterSpacing: 0.27,
                                                     color: BookStoryAppTheme
                                                         .grey,
@@ -167,6 +166,13 @@ class CategoryView extends StatelessWidget {
                                                 Container(
                                                   child: Row(
                                                     children: <Widget>[
+                                                      Icon(
+                                                        Icons.recommend_outlined,
+                                                        color:
+                                                        BookStoryAppTheme
+                                                            .nearlyBlue,
+                                                        size: 14,
+                                                      ),
                                                       Text(
                                                         '${category!.playCount}',
                                                         textAlign:
@@ -174,20 +180,14 @@ class CategoryView extends StatelessWidget {
                                                         style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.w200,
-                                                          fontSize: 18,
+                                                          fontSize: 12,
                                                           letterSpacing: 0.27,
                                                           color:
                                                               BookStoryAppTheme
                                                                   .grey,
                                                         ),
                                                       ),
-                                                      Icon(
-                                                        Icons.star,
-                                                        color:
-                                                            BookStoryAppTheme
-                                                                .nearlyBlue,
-                                                        size: 20,
-                                                      ),
+
                                                     ],
                                                   ),
                                                 )
@@ -222,7 +222,7 @@ class CategoryView extends StatelessWidget {
                             boxShadow: <BoxShadow>[
                               BoxShadow(
                                   color: BookStoryAppTheme.grey
-                                      .withOpacity(0.2),
+                                      .withOpacity(0.08),
                                   offset: const Offset(0.0, 0.0),
                                   blurRadius: 6.0),
                             ],

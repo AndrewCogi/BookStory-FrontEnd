@@ -5,6 +5,7 @@ import 'package:book_story/main.dart';
 import 'package:book_story/screens/book_info_screen.dart';
 import 'package:book_story/theme/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -18,6 +19,21 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
+
+    // for fixed web height
+    var screenHeight;
+    final webScreenHeight = 1000;
+    try{
+      if(Platform.isIOS || Platform.isAndroid){
+        screenHeight = MediaQuery.of(context).size.height*1;
+      } else{
+        screenHeight = webScreenHeight;
+      }
+    } catch(e){
+      screenHeight = webScreenHeight;
+    }
+
+
     return Container(
       color: isLightMode ? BookStoryAppTheme.nearlyWhite : BookStoryAppTheme.nearlyBlack,
       child: Scaffold(
@@ -31,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: SingleChildScrollView(
                 child: Container(
-                  height: MediaQuery.of(context).size.height,
+                  height: screenHeight,
                   child: Column(
                     children: <Widget>[
                       getSearchBarUI(),
