@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class CategoryListView extends StatefulWidget {
   const CategoryListView({Key? key, this.callBack}) : super(key: key);
 
-  final Function()? callBack;
+  final Function(Category)? callBack;
   @override
   _CategoryListViewState createState() => _CategoryListViewState();
 }
@@ -82,14 +82,14 @@ class _CategoryListViewState extends State<CategoryListView>
 class CategoryView extends StatelessWidget {
   const CategoryView(
       {Key? key,
-      this.category,
+      required this.category,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
 
-  final VoidCallback? callback;
-  final Category? category;
+  final void Function(Category)? callback;
+  final Category category;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
@@ -105,7 +105,9 @@ class CategoryView extends StatelessWidget {
                 100 * (1.0 - animation!.value), 0.0, 0.0),
             child: InkWell(
               splashColor: Colors.transparent,
-              onTap: callback,
+              onTap: (){
+                callback?.call(category);
+              },
               child: SizedBox(
                 width: 280,
                 child: Stack(
@@ -136,7 +138,7 @@ class CategoryView extends StatelessWidget {
                                             padding:
                                                 const EdgeInsets.only(top: 16, right: 25),
                                             child: Text(
-                                              category!.title,
+                                              category.title,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -161,7 +163,7 @@ class CategoryView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '${category!.description}',
+                                                  '${category.bookType}',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w200,
@@ -182,7 +184,7 @@ class CategoryView extends StatelessWidget {
                                                         size: 12,
                                                       ),
                                                       Text(
-                                                        '${category!.playCount}',
+                                                        '${category.playCount}',
                                                         textAlign:
                                                         TextAlign.left,
                                                         style: TextStyle(
@@ -212,7 +214,7 @@ class CategoryView extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 Text(
-                                                  category!.playTime,
+                                                  category.playTime,
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w600,
@@ -268,7 +270,7 @@ class CategoryView extends StatelessWidget {
                                   const BorderRadius.all(Radius.circular(16.0)),
                               child: AspectRatio(
                                   aspectRatio: 1.0,
-                                  child: Image.asset(category!.imagePath)),
+                                  child: Image.asset(category.imagePath)),
                             )
                           ],
                         ),

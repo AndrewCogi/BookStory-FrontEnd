@@ -1,7 +1,12 @@
+import 'package:book_story/list_view/models/category.dart';
 import 'package:book_story/theme/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 
 class BookInfoScreen extends StatefulWidget {
+  BookInfoScreen(this.category);
+
+  final Category category;
+
   @override
   _BookInfoScreenState createState() => _BookInfoScreenState();
 }
@@ -14,8 +19,12 @@ class _BookInfoScreenState extends State<BookInfoScreen>
   double opacity1 = 0.0;
   double opacity2 = 0.0;
   double opacity3 = 0.0;
+
+  late Category category;
+
   @override
   void initState() {
+    category = widget.category;
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
@@ -56,7 +65,7 @@ class _BookInfoScreenState extends State<BookInfoScreen>
               children: <Widget>[
                 AspectRatio(
                   aspectRatio: 1.2,
-                  child: Image.asset('assets/design_course/webInterFace.png'),
+                  child: Image.asset(category.imagePath),
                 ),
               ],
             ),
@@ -95,7 +104,7 @@ class _BookInfoScreenState extends State<BookInfoScreen>
                             padding: const EdgeInsets.only(
                                 top: 32.0, left: 18, right: 16),
                             child: Text(
-                              'Web Design\nCourse',
+                              category.title,
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -113,7 +122,7 @@ class _BookInfoScreenState extends State<BookInfoScreen>
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  '\$28.99',
+                                  '\$28.99', // TODO : 여기부터 book-info 페이지 맞춰 제작하기!!!
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w200,

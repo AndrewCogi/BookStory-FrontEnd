@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class PopularBookListView extends StatefulWidget {
   const PopularBookListView({Key? key, this.callBack}) : super(key: key);
 
-  final Function()? callBack;
+  final Function(Category)? callBack;
   @override
   _PopularBookListViewState createState() => _PopularBookListViewState();
 }
@@ -78,14 +78,14 @@ class _PopularBookListViewState extends State<PopularBookListView>
 class CategoryView extends StatelessWidget {
   const CategoryView(
       {Key? key,
-      this.category,
+      required this.category,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
 
-  final VoidCallback? callback;
-  final Category? category;
+  final void Function(Category)? callback;
+  final Category category;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
@@ -101,7 +101,9 @@ class CategoryView extends StatelessWidget {
                 0.0, 50 * (1.0 - animation!.value), 0.0),
             child: InkWell(
               splashColor: Colors.transparent,
-              onTap: callback,
+              onTap: (){
+                callback?.call(category);
+              },
               child: SizedBox(
                 child: Stack(
                   alignment: AlignmentDirectional.bottomCenter,
@@ -128,7 +130,7 @@ class CategoryView extends StatelessWidget {
                                             padding: const EdgeInsets.only(
                                                 top: 16, left: 16, right: 16),
                                             child: Text(
-                                              category!.title,
+                                              category.title,
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -141,7 +143,7 @@ class CategoryView extends StatelessWidget {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                top: 1,
+                                                top: 6,
                                                 left: 16,
                                                 right: 16,
                                                 bottom: 8),
@@ -153,7 +155,7 @@ class CategoryView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '${category!.description}',
+                                                  '${category.bookType}',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w200,
@@ -174,7 +176,7 @@ class CategoryView extends StatelessWidget {
                                                         size: 14,
                                                       ),
                                                       Text(
-                                                        '${category!.playCount}',
+                                                        '${category.playCount}',
                                                         textAlign:
                                                             TextAlign.left,
                                                         style: TextStyle(
@@ -232,7 +234,7 @@ class CategoryView extends StatelessWidget {
                                 const BorderRadius.all(Radius.circular(16.0)),
                             child: AspectRatio(
                                 aspectRatio: 1.28,
-                                child: Image.asset(category!.imagePath)),
+                                child: Image.asset(category.imagePath)),
                           ),
                         ),
                       ),

@@ -133,8 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 16,
         ),
         CategoryListView(
-          callBack: () {
-            moveTo();
+          callBack: (Category c) {
+            moveTo(c);
           },
         ),
       ],
@@ -162,8 +162,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Flexible(
             child: PopularBookListView(
-              callBack: () {
-                moveTo();
+              callBack: (Category c) {
+                moveTo(c);
               },
             ),
           )
@@ -172,11 +172,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void moveTo() {
+  void moveTo(Category category) {
+    print(category.title+' selected.');
     Navigator.push<dynamic>(
       context,
       MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => BookInfoScreen(),
+        builder: (BuildContext context) => BookInfoScreen(category),
       ),
     );
   }
@@ -216,10 +217,8 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () {
               print(txt+' clicked.');
               setState(() {
-                // Delete Animation
                 categoryType = categoryTypeData;
                 Category.setCategory(categoryType);
-                // Add Animation
               });
             },
             child: Padding(
