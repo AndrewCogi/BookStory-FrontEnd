@@ -39,6 +39,16 @@ class _HomeDrawerState extends State<HomeDrawer> {
         imageName: 'assets/icons/libraryIcon.png',
       ),
       DrawerList(
+        index: DrawerIndex.Favorite,
+        labelName: 'Favorite',
+        icon: Icon(Icons.favorite_border),
+      ),
+      DrawerList(
+        index: DrawerIndex.Voice,
+        labelName: 'Voice',
+        icon: Icon(Icons.record_voice_over_outlined),
+      ),
+      DrawerList(
         index: DrawerIndex.FeedBack,
         labelName: 'FeedBack',
         icon: Icon(Icons.help),
@@ -299,6 +309,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
 enum DrawerIndex {
   HOME,
   Library,
+  Favorite,
+  Voice,
   FeedBack,
   Rate,
   About,

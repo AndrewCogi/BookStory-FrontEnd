@@ -56,6 +56,16 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen>{
             // screenView = LibraryScreen();
           });
           break;
+        case DrawerIndex.Favorite:
+          setState(() {
+            // screenView = FavoriteScreen();
+          });
+          break;
+        case DrawerIndex.Voice:
+          setState(() {
+            // screenView = VoiceScreen();
+          });
+          break;
         case DrawerIndex.FeedBack:
           setState(() {
             screenView = FeedbackScreen();
