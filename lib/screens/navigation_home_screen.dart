@@ -1,4 +1,6 @@
 import 'package:book_story/screens/home_screen.dart';
+import 'package:book_story/screens/record_tips_screen.dart';
+import 'package:book_story/screens/voice_screen.dart';
 import 'package:book_story/theme/main_app_theme.dart';
 import 'package:book_story/custom_drawer/drawer_user_controller.dart';
 import 'package:book_story/custom_drawer/home_drawer.dart';
@@ -63,7 +65,10 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen>{
           break;
         case DrawerIndex.Voice:
           setState(() {
-            // screenView = VoiceScreen();
+            screenView = VoiceScreen();
+            showDialog(context: context, builder: (BuildContext context){
+              return RecordTipsScreen();
+            });
           });
           break;
         case DrawerIndex.FeedBack:
