@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:book_story/list_view/models/voice_sentence.dart';
 import 'package:book_story/utils/speech_to_text_utils.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:book_story/theme/book_story_app_theme.dart';
@@ -12,10 +15,12 @@ class VoiceScreen extends StatefulWidget {
   }
 }
 
-class _VoiceScreenState extends State<VoiceScreen> {
-  double _progressValue = 0.0;
-  String plainText = "당신은 사랑받기 위해 태어난 사람이에요";
+class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 & progress bar 진행되도록 하기
+  double progressValue = 0.0;
+  String progressText = "1 / 100";
+  String plainText = "";
   String speechText = "";
+  VoiceSentenceList voiceSentenceList = VoiceSentenceList();
   SpeechToTextUtils speechToTextUtils = SpeechToTextUtils();
 
   void recogniseSpeech(SpeechRecognitionResult result){
@@ -26,6 +31,7 @@ class _VoiceScreenState extends State<VoiceScreen> {
 
   @override
   void initState(){
+    plainText = voiceSentenceList.getSentence(0);
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await speechToTextUtils.initialize();
@@ -43,12 +49,15 @@ class _VoiceScreenState extends State<VoiceScreen> {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
 
-    void _updateProgress() {
+    void updateProgress() {
       setState(() {
-        _progressValue += 0.01;
-        if (_progressValue >= 1.0) {
-          _progressValue = 0.0;
+        progressValue += 0.01;
+        if (progressValue >= 1.0) {
+          progressValue = 0.0;
         }
+        plainText = voiceSentenceList.getSentence((progressValue*100).toInt());
+        speechText = "";
+        progressText = "${((progressValue+0.01)*100).toInt()} / 100";
       });
     }
 
@@ -76,7 +85,7 @@ class _VoiceScreenState extends State<VoiceScreen> {
                             SizedBox(
                               height: 10,
                               child: LinearProgressIndicator(
-                                value: _progressValue,
+                                value: progressValue,
                               ),
                             ),
                             // ElevatedButton( // TODO: 이 버튼 누르면 progressbar가 1%씩 올라감
@@ -86,11 +95,11 @@ class _VoiceScreenState extends State<VoiceScreen> {
                             // ),
                           ],
                         ),
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 20),
                         Align(
                           alignment: Alignment.center,
                           child: Text(
-                            '1 / 100',
+                            progressText,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 34.0,
@@ -102,7 +111,7 @@ class _VoiceScreenState extends State<VoiceScreen> {
                           ),
 
                         ),
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 20),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
                           child: Container(
@@ -136,22 +145,7 @@ class _VoiceScreenState extends State<VoiceScreen> {
                           ),
                         ),
                         const SizedBox(height: 25),
-                        speechToTextUtils.isListening() ?
-                          const Icon(
-                            Icons.more_horiz,
-                            color: BookStoryAppTheme.nearlyBlue,
-                            size: 50) :
-                          speechText.replaceAll(" ", "") == plainText.replaceAll(" ", "") ?
-                          const Icon(
-                              Icons.done_outlined,
-                              color: BookStoryAppTheme.nearlyBlue,
-                              size: 50
-                          ) :
-                          const Icon(
-                              Icons.more_horiz,
-                              color: Colors.transparent,
-                              size: 50
-                          ),
+                        setResultIcon(),
                         // const Icon( // TODO : 위 아래 텍스트가 같다면 체크표시하고 다음 단어로 넘어가기. 다르다면 계속 ... 나타내기
                         //   Icons.done_outlined,
                         //   // Icons.more_horiz,
@@ -188,17 +182,32 @@ class _VoiceScreenState extends State<VoiceScreen> {
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(fontSize: 24.0),
                               ),
-                            )
+                            ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.bottomRight,
+
+                                  child: (speechToTextUtils.isListening() == false)&&(speechText.replaceAll(" ", "") == plainText.replaceAll(" ", "")) ?
+                                  MaterialButton(
+                                    onPressed: () {
+                                      updateProgress();
+                                    },
+                                    child: const Icon(Icons.keyboard_tab, color: BookStoryAppTheme.nearlyBlue, size: 50)
+                                  ) : null
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
-
                   ),
                   floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
                   floatingActionButton: InkWell(
-
-
                     child: FloatingActionButton.large(
                       onPressed: () async {
                       String? text =
@@ -263,6 +272,26 @@ class _VoiceScreenState extends State<VoiceScreen> {
     );
   }
 
-  test() {}
-
+  Widget setResultIcon() {
+    if(speechToTextUtils.isListening()) {
+      return const Icon(
+          Icons.more_horiz,
+          color: BookStoryAppTheme.nearlyBlue,
+          size: 50);
+    } else {
+      if(speechText.replaceAll(" ", "") == plainText.replaceAll(" ", "")) {
+        return const Icon(
+            Icons.done_outlined,
+            color: BookStoryAppTheme.nearlyBlue,
+            size: 50
+        );
+      } else {
+        return const Icon(
+            Icons.more_horiz,
+            color: Colors.transparent,
+            size: 50
+        );
+      }
+    }
+  }
 }

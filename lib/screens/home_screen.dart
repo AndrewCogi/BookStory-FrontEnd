@@ -182,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget getButtonUI(CategoryType categoryTypeData, bool isSelected, double length_width) {
+  Widget getButtonUI(CategoryType categoryTypeData, bool isSelected, double lengthWidth) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     String txt = '';
@@ -202,7 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
       txt = 'natural/science';
     }
     return Container(
-        width: length_width,
+        width: lengthWidth,
         decoration: BoxDecoration(
             color: isSelected
                 ? (isLightMode ? BookStoryAppTheme.nearlyBlue : BookStoryAppTheme.grey)
@@ -215,7 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
             splashColor: Colors.white24,
             borderRadius: const BorderRadius.all(Radius.circular(24.0)),
             onTap: () {
-              print(txt+' clicked.');
+              print('$txt clicked.');
               setState(() {
                 categoryType = categoryTypeData;
                 Category.setCategory(categoryType);

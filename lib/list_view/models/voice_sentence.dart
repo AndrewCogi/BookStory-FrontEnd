@@ -1,18 +1,25 @@
 
-class VoiceSentence {
-  // VoiceSentence(
-  //   this.sentences,
-  //   this.numberOfSentence,
-  // );
+class VoiceSentenceList {
 
-  List<String> sentences=['안녕하세요','동해물과 백두산이','그대만이 내 사랑','배가 고픕니다','이렇게 하는건 어때?'];
-  int numberOfSentence=5;
+  static List<String> sentences=[
+    '동해물과 백두산이',
+    '마르고 닳도록',
+    '하느님이 보우하사',
+    '우리나라 만세',
+    '무궁화 삼천리',
+    '화려강산',
+    '대한사람 대한으로',
+    '길이 보전하세'
+  ];
 
   List<String> getSentences(){
     return sentences;
   }
+  int getSentencesLength(){
+    return sentences.length;
+  }
 
-  String getOneSentence(int idx){
+  String getSentence(int idx){
     return sentences.elementAt(idx);
   }
 }
