@@ -17,8 +17,8 @@ class RecordTipsScreen extends StatelessWidget {
               color: Colors.orange,
               size: 48.0,
             ),
-            SizedBox(height: 16.0),
-            Text(
+            const SizedBox(height: 16.0),
+            const Text(
               'Please record in a quiet place.',
               style: TextStyle(fontSize: 18.0),
               textAlign: TextAlign.center,

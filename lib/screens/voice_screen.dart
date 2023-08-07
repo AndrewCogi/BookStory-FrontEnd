@@ -1,5 +1,5 @@
-import 'dart:io';
-
+import 'package:book_story/utils/speech_to_text_utils.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:book_story/theme/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -7,29 +7,41 @@ class VoiceScreen extends StatefulWidget {
   const VoiceScreen({Key? key}) : super(key: key);
 
   @override
-  _VoiceScreenState createState() => _VoiceScreenState();
+  State<VoiceScreen> createState() { // Avoid using private types in public APIs.
+    return _VoiceScreenState();
+  }
 }
 
 class _VoiceScreenState extends State<VoiceScreen> {
   double _progressValue = 0.0;
+  String plainText = "당신은 사랑받기 위해 태어난 사람이에요";
+  String speechText = "";
+  SpeechToTextUtils speechToTextUtils = SpeechToTextUtils();
+
+  void recogniseSpeech(SpeechRecognitionResult result){
+    setState(() {
+      speechText = result.recognizedWords;
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await speechToTextUtils.initialize();
+    });
+  }
+
+  @override
+  void dispose() {
+    speechToTextUtils.stopListening();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
-
-    // for fixed web height
-    var screenHeight;
-    final webScreenHeight = 1000;
-    try{
-      if(Platform.isIOS || Platform.isAndroid){
-        screenHeight = MediaQuery.of(context).size.height*1;
-      } else{
-        screenHeight = webScreenHeight;
-      }
-    } catch(e){
-      screenHeight = webScreenHeight;
-    }
 
     void _updateProgress() {
       setState(() {
@@ -57,7 +69,7 @@ class _VoiceScreenState extends State<VoiceScreen> {
                   body: Center(
                     child: Column(
                       children: [
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -74,7 +86,7 @@ class _VoiceScreenState extends State<VoiceScreen> {
                             // ),
                           ],
                         ),
-                        SizedBox(height: 40),
+                        const SizedBox(height: 40),
                         Align(
                           alignment: Alignment.center,
                           child: Text(
@@ -90,12 +102,12 @@ class _VoiceScreenState extends State<VoiceScreen> {
                           ),
 
                         ),
-                        SizedBox(height: 40),
+                        const SizedBox(height: 40),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
                           child: Container(
                             height: 150,
-                            padding: EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(20.0),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               border: Border.all(
@@ -103,7 +115,7 @@ class _VoiceScreenState extends State<VoiceScreen> {
                                 width: 2.0,
                               ),
                               borderRadius: BorderRadius.circular(10.0),
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                   color: Colors.black26, // Add a shadow effect
                                   blurRadius: 10.0,
@@ -115,27 +127,44 @@ class _VoiceScreenState extends State<VoiceScreen> {
                             child: Align(
                               alignment: Alignment.center,
                                 child: Text(
-                                  '동해물과 백두산이 마르고 우리나라 길이 보전하세',
+                                  plainText,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 24.0),
+                                  style: const TextStyle(fontSize: 24.0),
                                 ),
                             )
 
                           ),
                         ),
-                        SizedBox(height: 25),
-                        Icon( // TODO : 위 아래 텍스트가 같다면 체크표시하고 다음 단어로 넘어가기. 다르다면 계속 ... 나타내기
-                          // Icons.done_outlined,
-                          Icons.more_horiz,
-                          color: BookStoryAppTheme.nearlyBlue,
-                          size: 50,
-                        ),
-                        SizedBox(height: 25),
+                        const SizedBox(height: 25),
+                        speechToTextUtils.isListening() ?
+                          const Icon(
+                            Icons.more_horiz,
+                            color: BookStoryAppTheme.nearlyBlue,
+                            size: 50) :
+                          speechText.replaceAll(" ", "") == plainText.replaceAll(" ", "") ?
+                          const Icon(
+                              Icons.done_outlined,
+                              color: BookStoryAppTheme.nearlyBlue,
+                              size: 50
+                          ) :
+                          const Icon(
+                              Icons.more_horiz,
+                              color: Colors.transparent,
+                              size: 50
+                          ),
+                        // const Icon( // TODO : 위 아래 텍스트가 같다면 체크표시하고 다음 단어로 넘어가기. 다르다면 계속 ... 나타내기
+                        //   Icons.done_outlined,
+                        //   // Icons.more_horiz,
+                        //   color: BookStoryAppTheme.nearlyBlue,
+                        //   // color: Colors.transparent,
+                        //   size: 50,
+                        // ),
+                        const SizedBox(height: 25),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
                           child: Container(
                             height: 150,
-                            padding: EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(20.0),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               border: Border.all(
@@ -143,7 +172,7 @@ class _VoiceScreenState extends State<VoiceScreen> {
                                 width: 2.0,
                               ),
                               borderRadius: BorderRadius.circular(10.0),
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                   color: Colors.black26, // Add a shadow effect
                                   blurRadius: 10.0,
@@ -155,36 +184,33 @@ class _VoiceScreenState extends State<VoiceScreen> {
                             child: Align(
                               alignment: Alignment.center,
                               child: Text(
-                                '동해물과 백두산이 마르하세',
+                                speechText,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 24.0),
+                                style: const TextStyle(fontSize: 24.0),
                               ),
                             )
                           ),
                         ),
-
                       ],
                     ),
 
                   ),
                   floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
                   floatingActionButton: InkWell(
-                    onTap: test(),
+
+
                     child: FloatingActionButton.large(
-                      onPressed: () {}, // to avoid conflict InkWell:onTap
-                      child: Icon(false ? Icons.stop : Icons.mic),
+                      onPressed: () async {
+                      String? text =
+                      await speechToTextUtils.startListening(recogniseSpeech);
+                      setState(() {
+                        speechText = text ?? "";
+                      });
+                    }, // to avoid conflict InkWell:onTap
+                      child: speechToTextUtils.isListening() ? const Icon(Icons.stop) : const Icon(Icons.mic),
                     ),
                   ),
                 ),
-
-                // Container(
-                //   height: screenHeight,
-                //   child: Column(
-                //     children: <Widget>[
-                //
-                //     ],
-                //   ),
-                // ),
               ),
             ],
           ),
@@ -199,7 +225,7 @@ class _VoiceScreenState extends State<VoiceScreen> {
       padding: const EdgeInsets.only(top: 50.0, left: 18, right: 18),
       child: Row(
         children: <Widget>[
-          Expanded(
+          const Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -227,7 +253,7 @@ class _VoiceScreenState extends State<VoiceScreen> {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             width: 60,
             height: 60,
             child: Image.asset('assets/images/userImage_default.png'),
@@ -239,27 +265,4 @@ class _VoiceScreenState extends State<VoiceScreen> {
 
   test() {}
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text('Linear Progress Indicator Example'),
-  //     ),
-  //     body: Center(
-  //       child: Column(
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         children: <Widget>[
-  //           LinearProgressIndicator(
-  //             value: _progressValue,
-  //           ),
-  //           SizedBox(height: 20),
-  //           ElevatedButton(
-  //             child: Text('Update Progress'),
-  //             onPressed: _updateProgress,
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 }
