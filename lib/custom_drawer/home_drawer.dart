@@ -14,10 +14,10 @@ class HomeDrawer extends StatefulWidget {
   final Function(DrawerIndex)? callBackIndex;
 
   @override
-  _HomeDrawerState createState() => _HomeDrawerState();
+  HomeDrawerState createState() => HomeDrawerState();
 }
 
-class _HomeDrawerState extends State<HomeDrawer> {
+class HomeDrawerState extends State<HomeDrawer> {
   List<DrawerList>? drawerList;
   @override
   void initState() {
@@ -28,40 +28,40 @@ class _HomeDrawerState extends State<HomeDrawer> {
   void setDrawerListArray() {
     drawerList = <DrawerList>[
       DrawerList(
-        index: DrawerIndex.HOME,
+        index: DrawerIndex.home,
         labelName: 'Home',
-        icon: Icon(Icons.home),
+        icon: const Icon(Icons.home),
       ),
       DrawerList(
-        index: DrawerIndex.Library,
+        index: DrawerIndex.library,
         labelName: 'Library',
         isAssetsImage: true,
         imageName: 'assets/icons/libraryIcon.png',
       ),
       DrawerList(
-        index: DrawerIndex.Favorite,
+        index: DrawerIndex.favorite,
         labelName: 'Favorite',
-        icon: Icon(Icons.favorite_border),
+        icon: const Icon(Icons.favorite_border),
       ),
       DrawerList(
-        index: DrawerIndex.Voice,
+        index: DrawerIndex.voice,
         labelName: 'Voice',
-        icon: Icon(Icons.record_voice_over_outlined),
+        icon: const Icon(Icons.record_voice_over_outlined),
       ),
       DrawerList(
-        index: DrawerIndex.FeedBack,
+        index: DrawerIndex.feedback,
         labelName: 'FeedBack',
-        icon: Icon(Icons.help),
+        icon: const Icon(Icons.help),
       ),
       DrawerList(
-        index: DrawerIndex.Rate,
+        index: DrawerIndex.rate,
         labelName: 'Rate this app',
-        icon: Icon(Icons.share),
+        icon: const Icon(Icons.share),
       ),
       DrawerList(
-        index: DrawerIndex.About,
+        index: DrawerIndex.about,
         labelName: 'About Us',
-        icon: Icon(Icons.info),
+        icon: const Icon(Icons.info),
       ),
     ];
   }
@@ -160,7 +160,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
           Column(
             children: <Widget>[
               ListTile(
-                title: Text(
+                title: const Text(
                   'Sign in / Sign up',
                   style: TextStyle(
                     fontFamily: AppTheme.fontName,
@@ -170,7 +170,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   ),
                   textAlign: TextAlign.left,
                 ),
-                trailing: Icon(
+                trailing: const Icon(
                   Icons.power_settings_new,
                   color: Colors.green,
                   // color: Colors.red,
@@ -221,7 +221,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       color: widget.screenIndex == listData.index
                           ? Colors.blue
                           : Colors.transparent,
-                      borderRadius: new BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(0),
                         topRight: Radius.circular(16),
                         bottomLeft: Radius.circular(0),
@@ -233,7 +233,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     padding: EdgeInsets.all(4.0),
                   ),
                   listData.isAssetsImage
-                      ? Container(
+                      ? SizedBox(
                     width: 24,
                     height: 24,
                     child: Image.asset(listData.imageName,
@@ -275,14 +275,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       0.0,
                       0.0),
                   child: Padding(
-                    padding: EdgeInsets.only(top: 8, bottom: 8),
+                    padding: const EdgeInsets.only(top: 8, bottom: 8),
                     child: Container(
                       width:
                       MediaQuery.of(context).size.width * 0.75 - 64,
                       height: 46,
                       decoration: BoxDecoration(
                         color: Colors.blue.withOpacity(0.2),
-                        borderRadius: new BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(0),
                           topRight: Radius.circular(28),
                           bottomLeft: Radius.circular(0),
@@ -307,13 +307,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
 }
 
 enum DrawerIndex {
-  HOME,
-  Library,
-  Favorite,
-  Voice,
-  FeedBack,
-  Rate,
-  About,
+  home,
+  library,
+  favorite,
+  voice,
+  feedback,
+  rate,
+  about,
 }
 
 class DrawerList {

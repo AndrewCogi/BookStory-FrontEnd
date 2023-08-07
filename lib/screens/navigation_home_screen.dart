@@ -8,18 +8,20 @@ import 'package:book_story/screens/feedback_screen.dart';
 import 'package:flutter/material.dart';
 
 class NavigationHomeScreen extends StatefulWidget{
+  const NavigationHomeScreen({super.key});
+
   @override
-  _NavigationHomeScreenState createState() => _NavigationHomeScreenState();
+  NavigationHomeScreenState createState() => NavigationHomeScreenState();
 }
 
-class _NavigationHomeScreenState extends State<NavigationHomeScreen>{
+class NavigationHomeScreenState extends State<NavigationHomeScreen>{
   Widget? screenView;
   DrawerIndex? drawerIndex;
 
   @override
   void initState(){
-    drawerIndex = DrawerIndex.HOME;
-    screenView = HomeScreen();
+    drawerIndex = DrawerIndex.home;
+    screenView = const HomeScreen();
     super.initState();
   }
   @override
@@ -48,40 +50,40 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen>{
     if(drawerIndex != drawerIndexData){
       drawerIndex = drawerIndexData;
       switch(drawerIndex){
-        case DrawerIndex.HOME:
+        case DrawerIndex.home:
           setState(() {
-            screenView = HomeScreen();
+            screenView = const HomeScreen();
           });
           break;
-        case DrawerIndex.Library:
+        case DrawerIndex.library:
           setState(() {
             // screenView = LibraryScreen();
           });
           break;
-        case DrawerIndex.Favorite:
+        case DrawerIndex.favorite:
           setState(() {
             // screenView = FavoriteScreen();
           });
           break;
-        case DrawerIndex.Voice:
+        case DrawerIndex.voice:
           setState(() {
-            screenView = VoiceScreen();
+            screenView = const VoiceScreen();
             showDialog(context: context, builder: (BuildContext context){
-              return RecordTipsScreen();
+              return const RecordTipsScreen();
             });
           });
           break;
-        case DrawerIndex.FeedBack:
+        case DrawerIndex.feedback:
           setState(() {
-            screenView = FeedbackScreen();
+            screenView = const FeedbackScreen();
           });
           break;
-        case DrawerIndex.Rate:
+        case DrawerIndex.rate:
           setState(() {
             // screenView = RateScreen();
           });
           break;
-        case DrawerIndex.About:
+        case DrawerIndex.about:
           setState(() {
             // screenView = AboutScreen();
           });

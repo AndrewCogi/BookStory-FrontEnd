@@ -8,10 +8,10 @@ class CategoryListView extends StatefulWidget {
 
   final Function(Category)? callBack;
   @override
-  _CategoryListViewState createState() => _CategoryListViewState();
+  CategoryListViewState createState() => CategoryListViewState();
 }
 
-class _CategoryListViewState extends State<CategoryListView>
+class CategoryListViewState extends State<CategoryListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
 
@@ -37,7 +37,7 @@ class _CategoryListViewState extends State<CategoryListView>
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 16),
-      child: Container(
+      child: SizedBox(
         height: 134,
         width: double.infinity,
         child: FutureBuilder<bool>(
@@ -112,168 +112,160 @@ class CategoryView extends StatelessWidget {
                 width: 280,
                 child: Stack(
                   children: <Widget>[
-                    Container(
-                      child: Row(
-                        children: <Widget>[
-                          const SizedBox(
-                            width: 48,
-                          ),
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: HexColor('#F8FAFB'),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(16.0)),
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  const SizedBox(
-                                    width: 60,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 16, right: 25),
-                                            child: Text(
-                                              category.title,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 16,
+                    Row(
+                      children: <Widget>[
+                        const SizedBox(
+                          width: 48,
+                        ),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: HexColor('#F8FAFB'),
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(16.0)),
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                const SizedBox(
+                                  width: 60,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 16, right: 25),
+                                        child: Text(
+                                          category.title,
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16,
+                                            letterSpacing: 0.27,
+                                            color: BookStoryAppTheme
+                                                .darkerText,
+                                          ),
+                                        ),
+                                      ),
+                                      const Expanded(
+                                        child: SizedBox(),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 16, bottom: 8),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              category.bookType,
+                                              textAlign: TextAlign.left,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w200,
+                                                fontSize: 12,
                                                 letterSpacing: 0.27,
                                                 color: BookStoryAppTheme
-                                                    .darkerText,
+                                                    .grey,
                                               ),
                                             ),
-                                          ),
-                                          const Expanded(
-                                            child: SizedBox(),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10, right: 16, bottom: 8),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
+                                            Row(
                                               children: <Widget>[
+                                                const Icon(
+                                                  Icons.play_circle,
+                                                  color:
+                                                      BookStoryAppTheme
+                                                          .nearlyBlue,
+                                                  size: 12,
+                                                ),
                                                 Text(
-                                                  '${category.bookType}',
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w200,
+                                                  '${category.playCount}',
+                                                  textAlign:
+                                                  TextAlign.left,
+                                                  style: const TextStyle(
+                                                    fontWeight:
+                                                    FontWeight.w200,
                                                     fontSize: 12,
                                                     letterSpacing: 0.27,
-                                                    color: BookStoryAppTheme
+                                                    color:
+                                                    BookStoryAppTheme
                                                         .grey,
                                                   ),
                                                 ),
-                                                Container(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Icon(
-                                                        Icons.play_circle,
-                                                        color:
-                                                            BookStoryAppTheme
-                                                                .nearlyBlue,
-                                                        size: 12,
-                                                      ),
-                                                      Text(
-                                                        '${category.playCount}',
-                                                        textAlign:
-                                                        TextAlign.left,
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                          FontWeight.w200,
-                                                          fontSize: 12,
-                                                          letterSpacing: 0.27,
-                                                          color:
-                                                          BookStoryAppTheme
-                                                              .grey,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )
                                               ],
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10, bottom: 16, right: 16),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  category.playTime,
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 18,
-                                                    letterSpacing: 0.27,
-                                                    color: BookStoryAppTheme
-                                                        .nearlyBlue,
-                                                  ),
-                                                ),
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                    color: BookStoryAppTheme
-                                                        .nearlyBlue,
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(
-                                                                8.0)),
-                                                  ),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            4.0),
-                                                    child: Icon(
-                                                      Icons.add,
-                                                      color:
-                                                          BookStoryAppTheme
-                                                              .nearlyWhite,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, bottom: 16, right: 16),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              category.playTime,
+                                              textAlign: TextAlign.left,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 18,
+                                                letterSpacing: 0.27,
+                                                color: BookStoryAppTheme
+                                                    .nearlyBlue,
+                                              ),
+                                            ),
+                                            Container(
+                                              decoration: const BoxDecoration(
+                                                color: BookStoryAppTheme
+                                                    .nearlyBlue,
+                                                borderRadius:
+                                                    BorderRadius.all(
+                                                        Radius.circular(
+                                                            8.0)),
+                                              ),
+                                              child: const Padding(
+                                                padding:
+                                                    EdgeInsets.all(
+                                                        4.0),
+                                                child: Icon(
+                                                  Icons.add,
+                                                  color:
+                                                      BookStoryAppTheme
+                                                          .nearlyWhite,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 24, bottom: 24, left: 16),
+                      child: Row(
+                        children: <Widget>[
+                          ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(16.0)),
+                            child: AspectRatio(
+                                aspectRatio: 1.0,
+                                child: Image.asset(category.imagePath)),
                           )
                         ],
-                      ),
-                    ),
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 24, bottom: 24, left: 16),
-                        child: Row(
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(16.0)),
-                              child: AspectRatio(
-                                  aspectRatio: 1.0,
-                                  child: Image.asset(category.imagePath)),
-                            )
-                          ],
-                        ),
                       ),
                     ),
                   ],

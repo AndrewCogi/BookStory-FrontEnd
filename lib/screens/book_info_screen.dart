@@ -3,15 +3,15 @@ import 'package:book_story/theme/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 
 class BookInfoScreen extends StatefulWidget {
-  BookInfoScreen(this.category);
+  const BookInfoScreen(this.category, {super.key});
 
   final Category category;
 
   @override
-  _BookInfoScreenState createState() => _BookInfoScreenState();
+  BookInfoScreenState createState() => BookInfoScreenState();
 }
 
-class _BookInfoScreenState extends State<BookInfoScreen>
+class BookInfoScreenState extends State<BookInfoScreen>
     with TickerProviderStateMixin {
   final double infoHeight = 364.0;
   AnimationController? animationController;
@@ -29,7 +29,7 @@ class _BookInfoScreenState extends State<BookInfoScreen>
         duration: const Duration(milliseconds: 1000), vsync: this);
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
         parent: animationController!,
-        curve: Interval(0, 1.0, curve: Curves.fastOutSlowIn)));
+        curve: const Interval(0, 1.0, curve: Curves.fastOutSlowIn)));
     setData();
     super.initState();
   }
@@ -106,7 +106,7 @@ class _BookInfoScreenState extends State<BookInfoScreen>
                             child: Text(
                               category.title,
                               textAlign: TextAlign.left,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 22,
                                 letterSpacing: 0.27,
@@ -114,8 +114,8 @@ class _BookInfoScreenState extends State<BookInfoScreen>
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
+                          const Padding(
+                            padding: EdgeInsets.only(
                                 left: 16, right: 16, bottom: 8, top: 16),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -131,26 +131,24 @@ class _BookInfoScreenState extends State<BookInfoScreen>
                                     color: BookStoryAppTheme.nearlyBlue,
                                   ),
                                 ),
-                                Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        '4.3',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w200,
-                                          fontSize: 22,
-                                          letterSpacing: 0.27,
-                                          color: BookStoryAppTheme.grey,
-                                        ),
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      '4.3',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w200,
+                                        fontSize: 22,
+                                        letterSpacing: 0.27,
+                                        color: BookStoryAppTheme.grey,
                                       ),
-                                      Icon(
-                                        Icons.star,
-                                        color: BookStoryAppTheme.nearlyBlue,
-                                        size: 24,
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      color: BookStoryAppTheme.nearlyBlue,
+                                      size: 24,
+                                    ),
+                                  ],
                                 )
                               ],
                             ),
@@ -173,8 +171,8 @@ class _BookInfoScreenState extends State<BookInfoScreen>
                             child: AnimatedOpacity(
                               duration: const Duration(milliseconds: 500),
                               opacity: opacity2,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
+                              child: const Padding(
+                                padding: EdgeInsets.only(
                                     left: 16, right: 16, top: 8, bottom: 8),
                                 child: Text(
                                   'Lorem ipsum is simply dummy text of printing & typesetting industry, Lorem ipsum is simply dummy text of printing & typesetting industry.',
@@ -202,7 +200,7 @@ class _BookInfoScreenState extends State<BookInfoScreen>
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   InkWell(
-                                    child: Container(
+                                    child: SizedBox(
                                     width: 48,
                                     height: 48,
                                     child: Container(
@@ -215,7 +213,7 @@ class _BookInfoScreenState extends State<BookInfoScreen>
                                               color: BookStoryAppTheme.grey
                                                   .withOpacity(0.2)),
                                         ),
-                                        child: Icon(
+                                        child: const Icon(
                                           Icons.record_voice_over,
                                           color: BookStoryAppTheme.nearlyBlue,
                                           size: 28,
@@ -247,7 +245,7 @@ class _BookInfoScreenState extends State<BookInfoScreen>
                                                 blurRadius: 10.0),
                                           ],
                                         ),
-                                        child: Center(
+                                        child: const Center(
                                           child: Text(
                                             'Jumping into Story',
                                             textAlign: TextAlign.left,
@@ -294,7 +292,11 @@ class _BookInfoScreenState extends State<BookInfoScreen>
                       borderRadius: BorderRadius.circular(50.0)),
                   elevation: 10.0,
                   child: InkWell(
-                    child: Container(
+                    borderRadius: BorderRadius.circular(50),
+                    onTap: (){
+                      print('Favorite!');
+                    },
+                    child: const SizedBox(
                       width: 60,
                       height: 60,
                       child: Center(
@@ -305,10 +307,6 @@ class _BookInfoScreenState extends State<BookInfoScreen>
                         ),
                       ),
                     ),
-                    borderRadius: BorderRadius.circular(50),
-                    onTap: (){
-                      print('Favorite!');
-                    },
                   ),
                 ),
               ),
@@ -323,7 +321,7 @@ class _BookInfoScreenState extends State<BookInfoScreen>
                   child: InkWell(
                     borderRadius:
                         BorderRadius.circular(AppBar().preferredSize.height),
-                    child: Icon(
+                    child: const Icon(
                       Icons.arrow_back_ios,
                       color: BookStoryAppTheme.nearlyBlack,
                     ),
@@ -364,7 +362,7 @@ class _BookInfoScreenState extends State<BookInfoScreen>
               Text(
                 text1,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
                   letterSpacing: 0.27,
@@ -374,7 +372,7 @@ class _BookInfoScreenState extends State<BookInfoScreen>
               Text(
                 txt2,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w200,
                   fontSize: 14,
                   letterSpacing: 0.27,

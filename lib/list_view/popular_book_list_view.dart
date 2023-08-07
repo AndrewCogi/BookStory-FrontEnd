@@ -8,10 +8,10 @@ class PopularBookListView extends StatefulWidget {
 
   final Function(Category)? callBack;
   @override
-  _PopularBookListViewState createState() => _PopularBookListViewState();
+  PopularBookListViewState createState() => PopularBookListViewState();
 }
 
-class _PopularBookListViewState extends State<PopularBookListView>
+class PopularBookListViewState extends State<PopularBookListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   @override
@@ -40,6 +40,12 @@ class _PopularBookListViewState extends State<PopularBookListView>
               padding: const EdgeInsets.all(8),
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 12.0,
+                crossAxisSpacing: 12.0,
+                childAspectRatio: 1.0,
+              ),
               children: List<Widget>.generate(
                 Category.popularBookList.length,
                 (int index) {
@@ -60,12 +66,6 @@ class _PopularBookListViewState extends State<PopularBookListView>
                     animationController: animationController,
                   );
                 },
-              ),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 12.0,
-                crossAxisSpacing: 12.0,
-                childAspectRatio: 1.0,
               ),
             );
           }
@@ -108,134 +108,126 @@ class CategoryView extends StatelessWidget {
                 child: Stack(
                   alignment: AlignmentDirectional.bottomCenter,
                   children: <Widget>[
-                    Container(
-                      child: Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: HexColor('#F8FAFB'),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(16.0)),
-                                // border: new Border.all(
-                                //     color: BookStoryAppTheme.notWhite),
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Container(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 16, left: 16, right: 16),
-                                            child: Text(
-                                              category.title,
+                    Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: HexColor('#F8FAFB'),
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(16.0)),
+                              // border: new Border.all(
+                              //     color: BookStoryAppTheme.notWhite),
+                            ),
+                            child: Column(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 16, left: 16, right: 16),
+                                        child: Text(
+                                          category.title,
+                                          textAlign: TextAlign.left,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16,
+                                            letterSpacing: 0.27,
+                                            color: BookStoryAppTheme
+                                                .darkerText,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 6,
+                                            left: 16,
+                                            right: 16,
+                                            bottom: 8),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              category.bookType,
                                               textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 16,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w200,
+                                                fontSize: 10,
                                                 letterSpacing: 0.27,
                                                 color: BookStoryAppTheme
-                                                    .darkerText,
+                                                    .grey,
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 6,
-                                                left: 16,
-                                                right: 16,
-                                                bottom: 8),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
+                                            Row(
                                               children: <Widget>[
+                                                const Icon(
+                                                  Icons.recommend_outlined,
+                                                  color:
+                                                  BookStoryAppTheme
+                                                      .nearlyBlue,
+                                                  size: 14,
+                                                ),
                                                 Text(
-                                                  '${category.bookType}',
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w200,
-                                                    fontSize: 10,
+                                                  '${category.playCount}',
+                                                  textAlign:
+                                                      TextAlign.left,
+                                                  style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w200,
+                                                    fontSize: 12,
                                                     letterSpacing: 0.27,
-                                                    color: BookStoryAppTheme
-                                                        .grey,
+                                                    color:
+                                                        BookStoryAppTheme
+                                                            .grey,
                                                   ),
                                                 ),
-                                                Container(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Icon(
-                                                        Icons.recommend_outlined,
-                                                        color:
-                                                        BookStoryAppTheme
-                                                            .nearlyBlue,
-                                                        size: 14,
-                                                      ),
-                                                      Text(
-                                                        '${category.playCount}',
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w200,
-                                                          fontSize: 12,
-                                                          letterSpacing: 0.27,
-                                                          color:
-                                                              BookStoryAppTheme
-                                                                  .grey,
-                                                        ),
-                                                      ),
 
-                                                    ],
-                                                  ),
-                                                )
                                               ],
-                                            ),
-                                          ),
-                                        ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                  const SizedBox(
-                                    width: 48,
-                                  ),
-                                ],
-                              ),
+                                ),
+                                const SizedBox(
+                                  width: 48,
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 48,
-                          ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          height: 48,
+                        ),
+                      ],
                     ),
-                    Container(
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(top: 24, right: 16, left: 16),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(16.0)),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                  color: BookStoryAppTheme.grey
-                                      .withOpacity(0.08),
-                                  offset: const Offset(0.0, 0.0),
-                                  blurRadius: 6.0),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(16.0)),
-                            child: AspectRatio(
-                                aspectRatio: 1.28,
-                                child: Image.asset(category.imagePath)),
-                          ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 24, right: 16, left: 16),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16.0)),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: BookStoryAppTheme.grey
+                                    .withOpacity(0.08),
+                                offset: const Offset(0.0, 0.0),
+                                blurRadius: 6.0),
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16.0)),
+                          child: AspectRatio(
+                              aspectRatio: 1.28,
+                              child: Image.asset(category.imagePath)),
                         ),
                       ),
                     ),

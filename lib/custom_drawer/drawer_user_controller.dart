@@ -23,10 +23,10 @@ class DrawerUserController extends StatefulWidget {
   final DrawerIndex? screenIndex;
 
   @override
-  _DrawerUserControllerState createState() => _DrawerUserControllerState();
+  DrawerUserControllerState createState() => DrawerUserControllerState();
 }
 
-class _DrawerUserControllerState extends State<DrawerUserController>
+class DrawerUserControllerState extends State<DrawerUserController>
     with TickerProviderStateMixin {
   ScrollController? scrollController;
   AnimationController? iconAnimationController;
@@ -41,13 +41,13 @@ class _DrawerUserControllerState extends State<DrawerUserController>
     iconAnimationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 0));
     iconAnimationController
-      ?..animateTo(1.0,
+      ?.animateTo(1.0,
           duration: const Duration(milliseconds: 0),
           curve: Curves.fastOutSlowIn);
     scrollController =
         ScrollController(initialScrollOffset: widget.drawerWidth);
     scrollController!
-      ..addListener(() {
+      .addListener(() {
         if (scrollController!.offset <= 0) {
           if (scrolloffset != 1.0) {
             setState(() {
@@ -119,15 +119,11 @@ class _DrawerUserControllerState extends State<DrawerUserController>
                       transform: Matrix4.translationValues(
                           scrollController!.offset, 0.0, 0.0),
                       child: HomeDrawer(
-                        screenIndex: widget.screenIndex == null
-                            ? DrawerIndex.HOME
-                            : widget.screenIndex,
+                        screenIndex: widget.screenIndex ?? DrawerIndex.home,
                         iconAnimationController: iconAnimationController,
                         callBackIndex: (DrawerIndex indexType) {
                           onDrawerClick();
-                          try {
-                            widget.onDrawerCall!(indexType);
-                          } catch (e) {}
+                          widget.onDrawerCall!(indexType);
                         },
                       ),
                     );
@@ -176,9 +172,7 @@ class _DrawerUserControllerState extends State<DrawerUserController>
                                   AppBar().preferredSize.height),
                               child: Center(
                                 // if you use your own menu view UI you add form initialization
-                                child: widget.menuView != null
-                                    ? widget.menuView
-                                    : AnimatedIcon(
+                                child: widget.menuView ?? AnimatedIcon(
                                     color: isLightMode
                                         ? AppTheme.darkGrey
                                         : AppTheme.white,

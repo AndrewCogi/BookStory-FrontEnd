@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:book_story/list_view/models/voice_sentence.dart';
 import 'package:book_story/utils/speech_to_text_utils.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';

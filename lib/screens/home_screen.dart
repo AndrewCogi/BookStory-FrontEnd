@@ -8,12 +8,14 @@ import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  CategoryType categoryType = CategoryType.age_4_plus;
+class HomeScreenState extends State<HomeScreen> {
+  CategoryType categoryType = CategoryType.age4plus;
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
     bool isLightMode = brightness == Brightness.light;
 
     // for fixed web height
-    var screenHeight;
-    final webScreenHeight = 1000;
+    double screenHeight;
+    const double webScreenHeight = 1000.0;
     try{
       if(Platform.isIOS || Platform.isAndroid){
         screenHeight = MediaQuery.of(context).size.height*1;
@@ -46,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
             getAppBarUI(),
             Expanded(
               child: SingleChildScrollView(
-                child: Container(
+                child: SizedBox(
                   height: screenHeight,
                   child: Column(
                     children: <Widget>[
@@ -95,11 +97,11 @@ class _HomeScreenState extends State<HomeScreen> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: <Widget>[
-                getButtonUI(CategoryType.age_4_plus, categoryType == CategoryType.age_4_plus, 120),
+                getButtonUI(CategoryType.age4plus, categoryType == CategoryType.age4plus, 120),
                 const SizedBox(
                   width: 16,
                 ),
-                getButtonUI(CategoryType.age_6_plus, categoryType == CategoryType.age_6_plus, 120),
+                getButtonUI(CategoryType.age6plus, categoryType == CategoryType.age6plus, 120),
                 const SizedBox(
                   width: 16,
                 ),
@@ -114,17 +116,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 16,
                 ),
                 getButtonUI(
-                    CategoryType.culture_art, categoryType == CategoryType.culture_art, 130),
+                    CategoryType.cultureArt, categoryType == CategoryType.cultureArt, 130),
                 const SizedBox(
                   width: 16,
                 ),
                 getButtonUI(
-                    CategoryType.society_history, categoryType == CategoryType.society_history, 160),
+                    CategoryType.societyHistory, categoryType == CategoryType.societyHistory, 160),
                 const SizedBox(
                   width: 16,
                 ),
                 getButtonUI(
-                    CategoryType.natural_science, categoryType == CategoryType.natural_science, 160),
+                    CategoryType.naturalScience, categoryType == CategoryType.naturalScience, 160),
               ],
             ),
           )
@@ -186,19 +188,19 @@ class _HomeScreenState extends State<HomeScreen> {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     String txt = '';
-    if (CategoryType.age_4_plus == categoryTypeData) {
+    if (CategoryType.age4plus == categoryTypeData) {
       txt = '4+ story';
-    } else if (CategoryType.age_6_plus == categoryTypeData) {
+    } else if (CategoryType.age6plus == categoryTypeData) {
       txt = '6+ story';
     } else if (CategoryType.creative == categoryTypeData) {
       txt = 'creative';
     } else if (CategoryType.learning == categoryTypeData) {
       txt = 'learning';
-    } else if (CategoryType.culture_art == categoryTypeData) {
+    } else if (CategoryType.cultureArt == categoryTypeData) {
       txt = 'culture/art';
-    } else if (CategoryType.society_history == categoryTypeData) {
+    } else if (CategoryType.societyHistory == categoryTypeData) {
       txt = 'society/history';
-    } else if (CategoryType.natural_science == categoryTypeData) {
+    } else if (CategoryType.naturalScience == categoryTypeData) {
       txt = 'natural/science';
     }
     return Container(
@@ -251,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width - 20,
             height: 64,
             child: Padding(
@@ -272,7 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Container(
                         padding: const EdgeInsets.only(left: 16, right: 16),
                         child: TextFormField(
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: 'WorkSans',
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -321,7 +323,7 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.only(top: 50.0, left: 18, right: 18),
       child: Row(
         children: <Widget>[
-          Expanded(
+          const Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -349,7 +351,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             width: 60,
             height: 60,
             child: Image.asset('assets/images/userImage_default.png'),
@@ -361,12 +363,12 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 enum CategoryType {
-  age_4_plus,
-  age_6_plus,
+  age4plus,
+  age6plus,
   creative,
   living,
   learning,
-  culture_art,
-  society_history,
-  natural_science
+  cultureArt,
+  societyHistory,
+  naturalScience
 }

@@ -129,7 +129,7 @@ class Category {
 
 
   static void setCategory(CategoryType categoryTypeData){
-    if(categoryTypeData == CategoryType.age_4_plus){
+    if(categoryTypeData == CategoryType.age4plus){
       categoryList = <Category>[
         Category(
           imagePath: 'assets/books/age_4_plus/book1.png',
@@ -167,7 +167,7 @@ class Category {
           playCount: 10244,
         ),
       ];
-    } else if(categoryTypeData == CategoryType.age_6_plus){
+    } else if(categoryTypeData == CategoryType.age6plus){
       categoryList = <Category>[
         Category(
           imagePath: 'assets/books/age_6_plus/book1.png',
@@ -209,11 +209,11 @@ class Category {
 
     } else if(categoryTypeData == CategoryType.learning){
 
-    } else if(categoryTypeData == CategoryType.culture_art){
+    } else if(categoryTypeData == CategoryType.cultureArt){
 
-    } else if(categoryTypeData == CategoryType.society_history){
+    } else if(categoryTypeData == CategoryType.societyHistory){
 
-    } else if(categoryTypeData == CategoryType.natural_science){
+    } else if(categoryTypeData == CategoryType.naturalScience){
 
     }
   }
