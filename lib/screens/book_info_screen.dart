@@ -1,11 +1,11 @@
-import 'package:book_story/list_view/models/category.dart';
+import 'package:book_story/list_view/data/category.dart';
 import 'package:book_story/theme/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 
 class BookInfoScreen extends StatefulWidget {
   const BookInfoScreen(this.category, {super.key});
 
-  final Category category;
+  final CategoryBook category;
 
   @override
   BookInfoScreenState createState() => BookInfoScreenState();
@@ -20,7 +20,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
   double opacity2 = 0.0;
   double opacity3 = 0.0;
 
-  late Category category;
+  late CategoryBook category;
 
   @override
   void initState() {

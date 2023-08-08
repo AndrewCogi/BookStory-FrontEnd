@@ -1,3 +1,4 @@
+import 'package:book_story/screens/login_screen.dart';
 import 'package:book_story/theme/main_app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -190,13 +191,12 @@ class HomeDrawerState extends State<HomeDrawer> {
   }
 
   void onTapped() {
-    print('Doing Something');
-    // Navigator.push<dynamic>(
-    //   context,
-    //   MaterialPageRoute<dynamic>(
-    //     builder: (BuildContext context) => LoginScreen(),
-    //   ),
-    // );// Print to console.
+    Navigator.push<dynamic>(
+      context,
+      MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => const LoginScreen(),
+      ),
+    );
   }
 
   Widget inkwell(DrawerList listData) {
@@ -314,6 +314,7 @@ enum DrawerIndex {
   feedback,
   rate,
   about,
+  login,
 }
 
 class DrawerList {

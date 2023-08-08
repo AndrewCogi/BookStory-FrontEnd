@@ -1,4 +1,4 @@
-import 'package:book_story/list_view/models/category.dart';
+import 'package:book_story/list_view/data/category.dart';
 import 'package:book_story/main.dart';
 import 'package:book_story/theme/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class CategoryListView extends StatefulWidget {
   const CategoryListView({Key? key, this.callBack}) : super(key: key);
 
-  final Function(Category)? callBack;
+  final Function(CategoryBook)? callBack;
   @override
   CategoryListViewState createState() => CategoryListViewState();
 }
@@ -49,12 +49,12 @@ class CategoryListViewState extends State<CategoryListView>
               return ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: Category.categoryList.length,
+                itemCount: CategoryBook.categoryList.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  final int count = Category.categoryList.length > 10
+                  final int count = CategoryBook.categoryList.length > 10
                       ? 10
-                      : Category.categoryList.length;
+                      : CategoryBook.categoryList.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -64,7 +64,7 @@ class CategoryListViewState extends State<CategoryListView>
                   animationController?.forward();
 
                   return CategoryView(
-                    category: Category.categoryList[index],
+                    category: CategoryBook.categoryList[index],
                     animation: animation,
                     animationController: animationController,
                     callback: widget.callBack,
@@ -88,8 +88,8 @@ class CategoryView extends StatelessWidget {
       this.callback})
       : super(key: key);
 
-  final void Function(Category)? callback;
-  final Category category;
+  final void Function(CategoryBook)? callback;
+  final CategoryBook category;
   final AnimationController? animationController;
   final Animation<double>? animation;
 

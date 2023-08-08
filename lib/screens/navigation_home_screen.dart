@@ -1,3 +1,6 @@
+import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:book_story/screens/home_screen.dart';
 import 'package:book_story/screens/record_tips_screen.dart';
 import 'package:book_story/screens/voice_screen.dart';
@@ -6,6 +9,7 @@ import 'package:book_story/custom_drawer/drawer_user_controller.dart';
 import 'package:book_story/custom_drawer/home_drawer.dart';
 import 'package:book_story/screens/feedback_screen.dart';
 import 'package:flutter/material.dart';
+import '../amplifyconfiguration.dart';
 
 class NavigationHomeScreen extends StatefulWidget{
   const NavigationHomeScreen({super.key});
@@ -23,7 +27,28 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
     drawerIndex = DrawerIndex.home;
     screenView = const HomeScreen();
     super.initState();
+    _configureAmplify();
   }
+
+  void _configureAmplify() async {
+    bool configured = false;
+    final auth = AmplifyAuthCognito();
+    final analytics = AmplifyAnalyticsPinpoint();
+
+    try{
+      Amplify.addPlugins([auth, analytics]);
+      await Amplify.configure(amplifyconfig);
+      configured = true;
+    } catch(e) {
+      print(e);
+    }
+
+    if(configured){
+      print('Successfully configured Amplify');
+    }
+  }
+
+
   @override
   Widget build(BuildContext context){
     return Container(

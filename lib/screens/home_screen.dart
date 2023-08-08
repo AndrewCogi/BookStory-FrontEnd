@@ -1,5 +1,5 @@
 import 'package:book_story/list_view/category_list_view.dart';
-import 'package:book_story/list_view/models/category.dart';
+import 'package:book_story/list_view/data/category.dart';
 import 'package:book_story/list_view/popular_book_list_view.dart';
 import 'package:book_story/main.dart';
 import 'package:book_story/screens/book_info_screen.dart';
@@ -135,7 +135,7 @@ class HomeScreenState extends State<HomeScreen> {
           height: 16,
         ),
         CategoryListView(
-          callBack: (Category c) {
+          callBack: (CategoryBook c) {
             moveTo(c);
           },
         ),
@@ -164,7 +164,7 @@ class HomeScreenState extends State<HomeScreen> {
           ),
           Flexible(
             child: PopularBookListView(
-              callBack: (Category c) {
+              callBack: (CategoryBook c) {
                 moveTo(c);
               },
             ),
@@ -174,8 +174,8 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void moveTo(Category category) {
-    print(category.title+' selected.');
+  void moveTo(CategoryBook category) {
+    print('${category.title} selected.');
     Navigator.push<dynamic>(
       context,
       MaterialPageRoute<dynamic>(
@@ -220,7 +220,7 @@ class HomeScreenState extends State<HomeScreen> {
               print('$txt clicked.');
               setState(() {
                 categoryType = categoryTypeData;
-                Category.setCategory(categoryType);
+                CategoryBook.setCategory(categoryType);
               });
             },
             child: Padding(
