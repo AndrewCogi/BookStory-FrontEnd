@@ -1,5 +1,6 @@
 import 'package:book_story/screens/login_screen.dart';
 import 'package:book_story/theme/main_app_theme.dart';
+import 'package:book_story/utils/internet_check_service.dart';
 import 'package:flutter/material.dart';
 
 class HomeDrawer extends StatefulWidget {
@@ -176,8 +177,12 @@ class HomeDrawerState extends State<HomeDrawer> {
                   color: Colors.green,
                   // color: Colors.red,
                 ),
-                onTap: () {
-                  onTapped();
+                onTap: () async {
+                  if (await InternetConnectivity.check()) {
+                    onTapped();
+                  } else {
+                    InternetConnectivity.showNoInternetDialog(context);
+                  }
                 },
               ),
               SizedBox(

@@ -1,6 +1,6 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
-import '../list_view/data/auth_data.dart';
+import '../utils/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,31 +11,22 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen> {
   bool isObscure = true;
+  late AuthService loginData;
   final FocusNode _secondTextFieldFocus = FocusNode();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  void _signUp() {
-    String name = _nameController.text;
-    String password = _passwordController.text;
-
-    // You can now use the LoginData class to store the entered data.
-    LoginData loginData = LoginData(name: name, password: password);
-
-    // Replace this with the logic for checking the login credentials.
-    // For this example, let's just print the entered data.
-    print('Name: ${loginData.name}, Password: ${loginData.password}');
-    Amplify.Auth.signUp(username: name, password: password);
-  }
-
   @override
   void initState(){
+    loginData = AuthService(name: _nameController.text, password: _passwordController.text);
     super.initState();
   }
 
   @override
   void dispose(){
     _secondTextFieldFocus.dispose();
+    _nameController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -76,6 +67,7 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 20.0),
                 TextFormField(
+                  controller: _nameController,
                   onFieldSubmitted: (_) {
                     FocusScope.of(context).requestFocus(_secondTextFieldFocus);
                   },
@@ -86,6 +78,7 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 10.0),
                 TextFormField(
+                  controller: _passwordController,
                   focusNode: _secondTextFieldFocus,
                   obscureText: isObscure,
                   decoration: InputDecoration(
@@ -121,7 +114,10 @@ class LoginScreenState extends State<LoginScreen> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        // TODO : _signUp() -> 로그인 예외처리 & 로그인 후 email verification 창 만들기
+                        print('name: '+_nameController.text+", pw: "+_passwordController.text);
+                        AuthService authService = AuthService(name: _nameController.text, password: _passwordController.text);
+                        Future<String> result = onSignUp(authService);
+                        // TODO : _signUp() / _login() -> 로그인 예외처리 & 로그인 후 email verification 창 만들기
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(

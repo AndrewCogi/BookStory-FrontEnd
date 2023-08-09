@@ -1,4 +1,5 @@
 import 'package:book_story/list_view/data/voice_sentence.dart';
+import 'package:book_story/utils/internet_check_service.dart';
 import 'package:book_story/utils/speech_to_text_utils.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:book_story/theme/book_story_app_theme.dart';
@@ -88,11 +89,6 @@ class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 
                                   value: progressValue,
                                 ),
                               ),
-                              // ElevatedButton( // TODO: 이 버튼 누르면 progressbar가 1%씩 올라감
-                              //   child: Text('Processing...'),
-                              //   onPressed: null,
-                              //   // onPressed: _updateProgress,
-                              // ),
                             ],
                           ),
                           const SizedBox(height: 20),
@@ -146,13 +142,6 @@ class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 
                           ),
                           const SizedBox(height: 25),
                           setResultIcon(),
-                          // const Icon( // TODO : 위 아래 텍스트가 같다면 체크표시하고 다음 단어로 넘어가기. 다르다면 계속 ... 나타내기
-                          //   Icons.done_outlined,
-                          //   // Icons.more_horiz,
-                          //   color: BookStoryAppTheme.nearlyBlue,
-                          //   // color: Colors.transparent,
-                          //   size: 50,
-                          // ),
                           const SizedBox(height: 25),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
@@ -210,11 +199,15 @@ class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 
                     floatingActionButton: InkWell(
                       child: FloatingActionButton.large(
                         onPressed: () async {
-                          String? text =
-                          await speechToTextUtils.startListening(recogniseSpeech);
-                          setState(() {
-                            speechText = text ?? "";
-                          });
+                          if (await InternetConnectivity.check()) {
+                            String? text =
+                            await speechToTextUtils.startListening(recogniseSpeech);
+                            setState(() {
+                              speechText = text ?? "";
+                            });
+                          } else {
+                            InternetConnectivity.showNoInternetDialog(context);
+                          }
                         }, // to avoid conflict InkWell:onTap
                         child: speechToTextUtils.isListening() ? const Icon(Icons.stop) : const Icon(Icons.mic),
                       ),

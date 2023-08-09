@@ -2,7 +2,7 @@ import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:book_story/screens/home_screen.dart';
-import 'package:book_story/screens/record_tips_screen.dart';
+import 'package:book_story/popup/record_tips_popup.dart';
 import 'package:book_story/screens/voice_screen.dart';
 import 'package:book_story/theme/main_app_theme.dart';
 import 'package:book_story/custom_drawer/drawer_user_controller.dart';
@@ -94,7 +94,7 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
           setState(() {
             screenView = const VoiceScreen();
             showDialog(context: context, builder: (BuildContext context){
-              return const RecordTipsScreen();
+              return const RecordTipsPopup();
             });
           });
           break;

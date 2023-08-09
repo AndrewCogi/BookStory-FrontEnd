@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class RecordTipsScreen extends StatelessWidget {
-  const RecordTipsScreen({super.key});
+class RecordTipsPopup extends StatelessWidget {
+  const RecordTipsPopup({super.key});
 
   @override
   Widget build(BuildContext context) {
