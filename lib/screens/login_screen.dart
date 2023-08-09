@@ -216,54 +216,66 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   void _signUpProcess() async {
+    // onSignUp()을 실시해도 되는지를 저장
+    bool isValid = false;
     // internet connection valid
     if (await InternetConnectivity.check()) {
-      // clear errorMessage
+      // get input (email + password)
+      print('INPUT CHECK - name: '+_emailController.text+", pw: "+_passwordController.text);
+      AuthService authService = AuthService(email: _emailController.text, password: _passwordController.text);
       setState(() {
+        // clear errorMessage
         errorMessageEmail = "";
         errorMessagePassword = "";
+        // 형식 체크
+        String isPasswordValidResult = isPasswordValid(authService.password);
+        if(isEmailValid(authService.email) == false || isPasswordValidResult != ""){
+          // 이메일 형식 체크
+          if(isEmailValid(authService.email) == false){
+            errorMessageEmail = "Check your email format.";
+          }
+          // 비번 형식 체크
+          if(isPasswordValidResult != ""){
+            errorMessagePassword = isPasswordValidResult;
+          }
+        }
+        else{
+          // go!
+          isValid = true;
+        }
       });
-      print('name: '+_emailController.text+", pw: "+_passwordController.text);
-      AuthService authService = AuthService(email: _emailController.text, password: _passwordController.text);
-      String result = await onSignUp(authService);
 
-      // TODO: 사용 가능한 아이디와 비밀번호라면, Verification code 입력창으로 이동
-      if(result == '') {
+      if(isValid){
+        print('AUTH!');
+        String result = await onSignUp(authService);
 
-      }
-      // 어딘가 잘못됨
-      else {
-        setState(() {
-          // 이미 존재하는 아이디
-          if(result.startsWith("Username already exists in the system")){
-            errorMessageEmail = "Username already exists in the system.";
-          }
-          // 아이디 or 비번의 입력값이 잘못됨.
-          else if(result.startsWith("One or more parameters are incorrect")){
-            // 아이디 필드 비어있는지 확인
-            if(_emailController.text == "" || _passwordController.text == ""){
-              // ID field empty
-              if(_emailController.text == ""){
-                errorMessageEmail = "Enter Email.";
-              }
-              // PW field empty
-              if(_passwordController.text == ""){
-                errorMessagePassword = "Enter Password.";
+        // TODO: 사용 가능한 아이디와 비밀번호라면, Verification code 입력창으로 이동
+        if(result == '') {
+
+        }
+        // signUp()함수에서 어딘가 잘못됨
+        else {
+          setState(() {
+            // 이미 존재하는 아이디
+            if(result.startsWith("Username already exists in the system")){
+              errorMessageEmail = "This user already exists in the system.";
+            }
+            // 아이디 or 비번의 입력값이 잘못됨.
+            if(result.startsWith("One or more parameters are incorrect")){
+              // 아이디 필드 비어있는지 확인
+              if(_emailController.text == "" || _passwordController.text == ""){
+                // ID field empty
+                if(_emailController.text == ""){
+                  errorMessageEmail = "Enter Email.";
+                }
+                // PW field empty
+                if(_passwordController.text == ""){
+                  errorMessagePassword = "Enter Password.";
+                }
               }
             }
-            else{
-              // 이메일 형식 확인
-              if(!isEmailValid(authService.email)){
-                errorMessageEmail = "Check your email format.";
-              }
-            }
-          }
-          // 비번의 형식이 잘못됨
-          else if(result.startsWith("The password given is invalid")){
-            // 암호 형식 확인
-            errorMessagePassword = isPasswordValid(authService.password);
-          }
-        });
+          });
+        }
       }
     }
     // internet connection invalid
