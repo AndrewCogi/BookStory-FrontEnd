@@ -177,12 +177,8 @@ class HomeDrawerState extends State<HomeDrawer> {
                   color: Colors.green,
                   // color: Colors.red,
                 ),
-                onTap: () async {
-                  if (await InternetConnectivity.check()) {
-                    onTapped();
-                  } else {
-                    InternetConnectivity.showNoInternetDialog(context);
-                  }
+                onTap: () {
+                  onTapped();
                 },
               ),
               SizedBox(

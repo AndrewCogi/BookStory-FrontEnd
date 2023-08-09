@@ -1,4 +1,4 @@
-import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:book_story/utils/internet_check_service.dart';
 import 'package:flutter/material.dart';
 import '../utils/auth_service.dart';
 
@@ -12,20 +12,22 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   bool isObscure = true;
   late AuthService loginData;
+  String errorMessageEmail = "";
+  String errorMessagePassword = "";
   final FocusNode _secondTextFieldFocus = FocusNode();
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState(){
-    loginData = AuthService(name: _nameController.text, password: _passwordController.text);
+    loginData = AuthService(email: _emailController.text, password: _passwordController.text);
     super.initState();
   }
 
   @override
   void dispose(){
     _secondTextFieldFocus.dispose();
-    _nameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -34,8 +36,9 @@ class LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
+        backgroundColor: Colors.blue,
         title: const Text('Welcome!'),
       ),
       body: Padding(
@@ -58,16 +61,25 @@ class LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  'Authenticate',
-                  style: TextStyle(
-                    fontSize: 24.0,
+                // const Text(
+                //   "Authenticate",
+                //   style: TextStyle(
+                //     fontSize: 24.0,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
+                const Icon(Icons.local_library, color: Colors.blue, size: 150),
+                const SizedBox(height: 20.0),
+                Text(
+                  errorMessageEmail,
+                  style: const TextStyle(
+                    color: Colors.redAccent,
+                    fontSize: 12.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 20.0),
                 TextFormField(
-                  controller: _nameController,
+                  controller: _emailController,
                   onFieldSubmitted: (_) {
                     FocusScope.of(context).requestFocus(_secondTextFieldFocus);
                   },
@@ -77,6 +89,14 @@ class LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 10.0),
+                Text(
+                  errorMessagePassword,
+                  style: const TextStyle(
+                    color: Colors.redAccent,
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 TextFormField(
                   controller: _passwordController,
                   focusNode: _secondTextFieldFocus,
@@ -113,11 +133,15 @@ class LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        print('name: '+_nameController.text+", pw: "+_passwordController.text);
-                        AuthService authService = AuthService(name: _nameController.text, password: _passwordController.text);
-                        Future<String> result = onSignUp(authService);
-                        // TODO : _signUp() / _login() -> 로그인 예외처리 & 로그인 후 email verification 창 만들기
+                      onPressed: () async {
+                        if (await InternetConnectivity.check()) {
+                          print('name: '+_emailController.text+", pw: "+_passwordController.text);
+                          AuthService authService = AuthService(email: _emailController.text, password: _passwordController.text);
+                          onLogin(authService);
+                          // TODO : _signUp() / _login() -> 로그인 예외처리 & 로그인 후 email verification 창 만들기
+                        } else {
+                          InternetConnectivity.showNoInternetDialog(context);
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -129,7 +153,7 @@ class LoginScreenState extends State<LoginScreen> {
                     const SizedBox(width: 20.0),
                     ElevatedButton(
                       onPressed: () {
-                        // Navigate to sign up screen
+                        _signUpProcess();
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -156,8 +180,12 @@ class LoginScreenState extends State<LoginScreen> {
                 Padding(
                   padding: const EdgeInsets.only(left: 50, right: 50),
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Perform Google sign-in action
+                    onPressed: () async {
+                      if (await InternetConnectivity.check()) {
+                        // TODO : 구글로그인으로 이동
+                      } else {
+                        InternetConnectivity.showNoInternetDialog(context);
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -185,6 +213,88 @@ class LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void _signUpProcess() async {
+    // internet connection valid
+    if (await InternetConnectivity.check()) {
+      // clear errorMessage
+      setState(() {
+        errorMessageEmail = "";
+        errorMessagePassword = "";
+      });
+      print('name: '+_emailController.text+", pw: "+_passwordController.text);
+      AuthService authService = AuthService(email: _emailController.text, password: _passwordController.text);
+      String result = await onSignUp(authService);
+
+      // TODO: 사용 가능한 아이디와 비밀번호라면, Verification code 입력창으로 이동
+      if(result == '') {
+
+      }
+      // 어딘가 잘못됨
+      else {
+        setState(() {
+          // 이미 존재하는 아이디
+          if(result.startsWith("Username already exists in the system")){
+            errorMessageEmail = "Username already exists in the system.";
+          }
+          // 아이디 or 비번의 입력값이 잘못됨.
+          else if(result.startsWith("One or more parameters are incorrect")){
+            // 아이디 필드 비어있는지 확인
+            if(_emailController.text == "" || _passwordController.text == ""){
+              // ID field empty
+              if(_emailController.text == ""){
+                errorMessageEmail = "Enter Email.";
+              }
+              // PW field empty
+              if(_passwordController.text == ""){
+                errorMessagePassword = "Enter Password.";
+              }
+            }
+            else{
+              // 이메일 형식 확인
+              if(!isEmailValid(authService.email)){
+                errorMessageEmail = "Check your email format.";
+              }
+            }
+          }
+          // 비번의 형식이 잘못됨
+          else if(result.startsWith("The password given is invalid")){
+            // 암호 형식 확인
+            errorMessagePassword = isPasswordValid(authService.password);
+          }
+        });
+      }
+    }
+    // internet connection invalid
+    else {
+      InternetConnectivity.showNoInternetDialog(context);
+    }
+  }
+
+  bool isEmailValid(String email) {
+    // Regular expression for email validation
+    final emailRegExp = RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$');
+    return emailRegExp.hasMatch(email);
+  }
+
+  String isPasswordValid(String password) {
+    if (password.length < 8) {
+      return "Password must be at least 8 characters long.";
+    }
+    if (!password.contains(RegExp(r'[0-9]'))) {
+      return "Password must contain at least 1 number.";
+    }
+    if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+      return "Password must contain at least 1 special character.";
+    }
+    if (!password.contains(RegExp(r'[A-Z]'))) {
+      return "Password must contain at least 1 uppercase letter.";
+    }
+    if (!password.contains(RegExp(r'[a-z]'))) {
+      return "Password must contain at least 1 lowercase letter.";
+    }
+    return ""; // Password is valid
   }
 }
 
