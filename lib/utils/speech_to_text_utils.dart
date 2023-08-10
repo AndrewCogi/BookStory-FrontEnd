@@ -1,3 +1,4 @@
+import 'package:amplify_core/amplify_core.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -15,7 +16,7 @@ class SpeechToTextUtils {
     try {
       _isSTTEnabled = await _speechToText.initialize();
     } catch (e) {
-      print("STT Failed!");
+      safePrint("STT Failed!");
     }
   }
 

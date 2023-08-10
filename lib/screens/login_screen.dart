@@ -1,3 +1,5 @@
+import 'package:amplify_core/amplify_core.dart';
+import 'package:book_story/screens/verification_screen.dart';
 import 'package:book_story/utils/internet_check_service.dart';
 import 'package:flutter/material.dart';
 import '../utils/auth_service.dart';
@@ -11,7 +13,6 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen> {
   bool isObscure = true;
-  late AuthService loginData;
   String errorMessageEmail = "";
   String errorMessagePassword = "";
   final FocusNode _secondTextFieldFocus = FocusNode();
@@ -20,7 +21,6 @@ class LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState(){
-    loginData = AuthService(email: _emailController.text, password: _passwordController.text);
     super.initState();
   }
 
@@ -61,13 +61,6 @@ class LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // const Text(
-                //   "Authenticate",
-                //   style: TextStyle(
-                //     fontSize: 24.0,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
                 const Icon(Icons.local_library, color: Colors.blue, size: 150),
                 const SizedBox(height: 20.0),
                 Text(
@@ -135,11 +128,11 @@ class LoginScreenState extends State<LoginScreen> {
                     ElevatedButton(
                       onPressed: () async {
                         if (await InternetConnectivity.check()) {
-                          print('name: '+_emailController.text+", pw: "+_passwordController.text);
+                          safePrint('name: '+_emailController.text+", pw: "+_passwordController.text);
                           AuthService authService = AuthService(email: _emailController.text, password: _passwordController.text);
                           onLogin(authService);
-                          // TODO : _signUp() / _login() -> 로그인 예외처리 & 로그인 후 email verification 창 만들기
                         } else {
+                          // ignore: use_build_context_synchronously
                           InternetConnectivity.showNoInternetDialog(context);
                         }
                       },
@@ -184,6 +177,7 @@ class LoginScreenState extends State<LoginScreen> {
                       if (await InternetConnectivity.check()) {
                         // TODO : 구글로그인으로 이동
                       } else {
+                        // ignore: use_build_context_synchronously
                         InternetConnectivity.showNoInternetDialog(context);
                       }
                     },
@@ -221,7 +215,7 @@ class LoginScreenState extends State<LoginScreen> {
     // internet connection valid
     if (await InternetConnectivity.check()) {
       // get input (email + password)
-      print('INPUT CHECK - name: '+_emailController.text+", pw: "+_passwordController.text);
+      safePrint('INPUT CHECK - email: '+_emailController.text+", pw: "+_passwordController.text);
       AuthService authService = AuthService(email: _emailController.text, password: _passwordController.text);
       setState(() {
         // clear errorMessage
@@ -244,14 +238,20 @@ class LoginScreenState extends State<LoginScreen> {
           isValid = true;
         }
       });
-
+      
+      // Authenticate 실시해도 되는가?
       if(isValid){
-        print('AUTH!');
+        safePrint('AUTH!');
         String result = await onSignUp(authService);
-
-        // TODO: 사용 가능한 아이디와 비밀번호라면, Verification code 입력창으로 이동
+        // Authenticate 성공!
         if(result == '') {
-
+          // ignore: use_build_context_synchronously
+          Navigator.push<dynamic>(
+            context,
+            MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => VerificationScreen(authService),
+            ),
+          );
         }
         // signUp()함수에서 어딘가 잘못됨
         else {
@@ -280,6 +280,7 @@ class LoginScreenState extends State<LoginScreen> {
     }
     // internet connection invalid
     else {
+      // ignore: use_build_context_synchronously
       InternetConnectivity.showNoInternetDialog(context);
     }
   }

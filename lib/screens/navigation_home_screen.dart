@@ -8,6 +8,7 @@ import 'package:book_story/theme/main_app_theme.dart';
 import 'package:book_story/custom_drawer/drawer_user_controller.dart';
 import 'package:book_story/custom_drawer/home_drawer.dart';
 import 'package:book_story/screens/feedback_screen.dart';
+import 'package:book_story/utils/auth_service.dart';
 import 'package:flutter/material.dart';
 import '../amplifyconfiguration.dart';
 
@@ -21,6 +22,7 @@ class NavigationHomeScreen extends StatefulWidget{
 class NavigationHomeScreenState extends State<NavigationHomeScreen>{
   Widget? screenView;
   DrawerIndex? drawerIndex;
+  bool? isLogin;
 
   @override
   void initState(){
@@ -40,11 +42,13 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
       await Amplify.configure(amplifyconfig);
       configured = true;
     } catch(e) {
-      print(e);
+      safePrint(e);
     }
 
     if(configured){
-      print('Successfully configured Amplify');
+      safePrint('Successfully configured Amplify!');
+      safePrint('Check auth state...');
+      HomeDrawer.isLogin = await checkAuthState();
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/theme/main_app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -80,7 +81,7 @@ class FeedbackScreenState extends State<FeedbackScreen> {
                           child: InkWell(
                             onTap: () {
                               FocusScope.of(context).requestFocus(FocusNode());
-                              print('Feedback Action.');
+                              safePrint('Feedback Action.');
                             },
                             child: Center(
                               child: Padding(

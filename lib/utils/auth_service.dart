@@ -8,6 +8,7 @@ class AuthService{
   AuthService({required this.email, required this.password});
 }
 
+// 회원가입 요청
 Future<String> onSignUp(AuthService data) async {
   AuthService loginData = data;
   try{
@@ -18,18 +19,19 @@ Future<String> onSignUp(AuthService data) async {
     );
     return '';
   } on AuthException catch(e){
-    print(e);
+    safePrint(e);
     return '${e.message}\n${e.recoverySuggestion}';
   }
 }
 
+// 로그인 요청
 Future<String> onLogin(AuthService loginData) async {
   try {
     SignInResult res = await Amplify.Auth.signIn(
         username: loginData.email, password: loginData.password);
 
     bool isSignedIn = res.isSignedIn;
-    print('Login? : $isSignedIn');
+    safePrint('Login? : $isSignedIn');
   } on AuthException catch (e) {
     if (e.message.contains('already a user which is signed in')) {
       await Amplify.Auth.signOut();
@@ -39,5 +41,42 @@ Future<String> onLogin(AuthService loginData) async {
     return '${e.message} - ${e.recoverySuggestion}';
   }
   return '';
+}
+
+// 이메일 인증 요청
+Future<String> verifyCode(AuthService data, String code) async {
+  safePrint('email: ${data.email}, code: "+$code');
+  String result = "Unknown Error. Try again.";
+  try {
+    SignUpResult res = await Amplify.Auth.confirmSignUp(
+        username: data.email, confirmationCode: code);
+
+    if (res.isSignUpComplete) {
+      // 회원 가입 성공!!
+      safePrint('SIGNUP SUCCESS!');
+      result = '';
+    }
+  } on AuthException catch (e) {
+    // 에러 핸들링
+    result = '$e.message';
+  }
+  return result;
+}
+
+// 현재 로그인 상태 요청
+Future<bool> checkAuthState() async {
+  bool isLogin = false;
+  try {
+    AuthSession session = await Amplify.Auth.fetchAuthSession();
+    if (session.isSignedIn) {
+      safePrint('User is signed in');
+      isLogin = true;
+    } else {
+      safePrint('User is not signed in');
+    }
+  } catch (e) {
+    safePrint('Error checking auth state: $e');
+  }
+  return isLogin;
 }
 

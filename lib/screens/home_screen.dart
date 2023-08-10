@@ -1,3 +1,4 @@
+import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/list_view/category_list_view.dart';
 import 'package:book_story/list_view/data/category.dart';
 import 'package:book_story/list_view/popular_book_list_view.dart';
@@ -175,7 +176,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void moveTo(CategoryBook category) {
-    print('${category.title} selected.');
+    safePrint('${category.title} selected.');
     Navigator.push<dynamic>(
       context,
       MaterialPageRoute<dynamic>(
@@ -217,7 +218,7 @@ class HomeScreenState extends State<HomeScreen> {
             splashColor: Colors.white24,
             borderRadius: const BorderRadius.all(Radius.circular(24.0)),
             onTap: () {
-              print('$txt clicked.');
+              safePrint('$txt clicked.');
               setState(() {
                 categoryType = categoryTypeData;
                 CategoryBook.setCategory(categoryType);
@@ -296,7 +297,7 @@ class HomeScreenState extends State<HomeScreen> {
                               color: HexColor('#B9BABC'),
                             ),
                           ),
-                          onEditingComplete: () {print('Searching...');},
+                          onEditingComplete: () {safePrint('Searching...');},
                         ),
                       ),
                     ),

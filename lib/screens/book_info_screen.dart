@@ -1,3 +1,4 @@
+import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/list_view/data/category.dart';
 import 'package:book_story/theme/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
@@ -221,7 +222,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                       ),
                                     ),
                                     onTap: (){
-                                      print('Your Voice on!');
+                                      safePrint('Your Voice on!');
                                     },
                                   ),
                                   const SizedBox(
@@ -260,7 +261,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                         ),
                                       ),
                                       onTap: (){
-                                        print('Play Story');
+                                        safePrint('Play Story');
                                       },
                                     ),
 
@@ -294,7 +295,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                   child: InkWell(
                     borderRadius: BorderRadius.circular(50),
                     onTap: (){
-                      print('Favorite!');
+                      safePrint('Favorite!');
                     },
                     child: const SizedBox(
                       width: 60,

@@ -1,6 +1,5 @@
 import 'package:book_story/screens/login_screen.dart';
 import 'package:book_story/theme/main_app_theme.dart';
-import 'package:book_story/utils/internet_check_service.dart';
 import 'package:flutter/material.dart';
 
 class HomeDrawer extends StatefulWidget {
@@ -14,6 +13,7 @@ class HomeDrawer extends StatefulWidget {
   final AnimationController? iconAnimationController;
   final DrawerIndex? screenIndex;
   final Function(DrawerIndex)? callBackIndex;
+  static bool? isLogin;
 
   @override
   HomeDrawerState createState() => HomeDrawerState();
@@ -21,6 +21,7 @@ class HomeDrawer extends StatefulWidget {
 
 class HomeDrawerState extends State<HomeDrawer> {
   List<DrawerList>? drawerList;
+
   @override
   void initState() {
     setDrawerListArray();
@@ -161,26 +162,7 @@ class HomeDrawerState extends State<HomeDrawer> {
           ),
           Column(
             children: <Widget>[
-              ListTile(
-                title: const Text(
-                  'Sign in / Sign up',
-                  style: TextStyle(
-                    fontFamily: AppTheme.fontName,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                    color: AppTheme.darkText,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                trailing: const Icon(
-                  Icons.power_settings_new,
-                  color: Colors.green,
-                  // color: Colors.red,
-                ),
-                onTap: () {
-                  onTapped();
-                },
-              ),
+              makeSignButton(),
               SizedBox(
                 height: MediaQuery.of(context).padding.bottom,
               )
@@ -191,13 +173,85 @@ class HomeDrawerState extends State<HomeDrawer> {
     );
   }
 
-  void onTapped() {
+  void onTappedLogin() {
     Navigator.push<dynamic>(
       context,
       MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => const LoginScreen(),
       ),
     );
+  }
+  void onTappedLogout(){
+
+  }
+
+  Widget makeSignButton() {
+    if(HomeDrawer.isLogin == null){
+      return ListTile(
+        title: const Text(
+          'Check Authentication...',
+          style: TextStyle(
+            fontFamily: AppTheme.fontName,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            color: AppTheme.darkText,
+          ),
+          textAlign: TextAlign.left,
+        ),
+        trailing: const Icon(
+          Icons.power_settings_new,
+          color: Colors.yellow,
+          // color: Colors.red,
+        ),
+        onTap: () {
+          // nothing...
+        },
+      );
+    }
+    else if(HomeDrawer.isLogin == false) {
+      return ListTile(
+        title: const Text(
+          'Sign in / Sign up',
+          style: TextStyle(
+            fontFamily: AppTheme.fontName,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            color: AppTheme.darkText,
+          ),
+          textAlign: TextAlign.left,
+        ),
+        trailing: const Icon(
+          Icons.power_settings_new,
+          color: Colors.green,
+          // color: Colors.red,
+        ),
+        onTap: () {
+          onTappedLogin();
+        },
+      );
+    }
+    else{
+      return ListTile(
+        title: const Text(
+          'Sign out',
+          style: TextStyle(
+            fontFamily: AppTheme.fontName,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            color: AppTheme.darkText,
+          ),
+          textAlign: TextAlign.left,
+        ),
+        trailing: const Icon(
+          Icons.power_settings_new,
+          color: Colors.red,
+          // color: Colors.red,
+        ),
+        onTap: () {
+          onTappedLogout();
+        },
+      );
+    }
   }
 
   Widget inkwell(DrawerList listData) {
