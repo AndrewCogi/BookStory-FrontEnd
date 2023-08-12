@@ -1,5 +1,7 @@
+import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/screens/login_screen.dart';
 import 'package:book_story/theme/main_app_theme.dart';
+import 'package:book_story/utils/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class HomeDrawer extends StatefulWidget {
@@ -181,8 +183,11 @@ class HomeDrawerState extends State<HomeDrawer> {
       ),
     );
   }
-  void onTappedLogout(){
-
+  void onTappedLogout() async {
+    bool result = await onLogout();
+    setState(() {
+      HomeDrawer.isLogin = result;
+    }); // TODO : refresh가 안된다..
   }
 
   Widget makeSignButton() {

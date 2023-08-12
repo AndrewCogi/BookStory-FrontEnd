@@ -1,4 +1,5 @@
 import 'package:amplify_core/amplify_core.dart';
+import 'package:book_story/custom_drawer/home_drawer.dart';
 import 'package:book_story/screens/verification_screen.dart';
 import 'package:book_story/utils/internet_check_service.dart';
 import 'package:flutter/material.dart';
@@ -127,14 +128,7 @@ class LoginScreenState extends State<LoginScreen> {
                   children: [
                     ElevatedButton(
                       onPressed: () async {
-                        if (await InternetConnectivity.check()) {
-                          safePrint('name: '+_emailController.text+", pw: "+_passwordController.text);
-                          AuthService authService = AuthService(email: _emailController.text, password: _passwordController.text);
-                          onLogin(authService);
-                        } else {
-                          // ignore: use_build_context_synchronously
-                          InternetConnectivity.showNoInternetDialog(context);
-                        }
+                        _loginProcess();
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -209,6 +203,79 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  void _loginProcess() async {
+    // onLogin()을 실시해도 되는지를 저장
+    bool isValid = false;
+    // internet connection valid
+    if (await InternetConnectivity.check()) {
+      safePrint("name: ${_emailController.text}, pw: ${_passwordController.text}");
+      AuthService authService = AuthService(email: _emailController.text, password: _passwordController.text);
+      setState(() {
+        // clear errorMessage
+        errorMessageEmail = "";
+        errorMessagePassword = "";
+        // 형식 체크
+        String isPasswordValidResult = isPasswordValid(authService.password);
+        if(isEmailValid(authService.email) == false || isPasswordValidResult != ""){
+          // 이메일 형식 체크
+          if(isEmailValid(authService.email) == false){
+            errorMessageEmail = "Check your email format.";
+          }
+          // 비번 형식 체크
+          if(isPasswordValidResult != ""){
+            errorMessagePassword = isPasswordValidResult;
+          }
+        }
+        else{
+          // go!
+          isValid = true;
+        }
+      });
+
+      // Login 실시해도 되는가?
+      if(isValid){
+        safePrint('LOGIN!');
+        String result = await onLogin(authService);
+        // Login 성공!
+        if(result == '') {
+          // ignore: use_build_context_synchronously
+          Navigator.pop(context);
+          setState(() {
+            HomeDrawer.isLogin = true;
+          });
+        }
+        // onLogin()함수에서 어딘가 잘못됨
+        else {
+          setState(() {
+            // 이미 접속중인 아이디
+            if(result.startsWith("There is already a user signed in")){
+              errorMessageEmail = "There is already a user signed in.";
+            }
+            // 아이디 or 비번의 입력값이 잘못됨.
+            if(result.startsWith("One or more parameters are incorrect")){
+              // 아이디 필드 비어있는지 확인
+              if(_emailController.text == "" || _passwordController.text == ""){
+                // ID field empty
+                if(_emailController.text == ""){
+                  errorMessageEmail = "Enter Email.";
+                }
+                // PW field empty
+                if(_passwordController.text == ""){
+                  errorMessagePassword = "Enter Password.";
+                }
+              }
+            }
+          });
+        }
+      }
+    }
+    // internet connection invalid
+    else {
+      // ignore: use_build_context_synchronously
+      InternetConnectivity.showNoInternetDialog(context);
+    }
+  }
+
   void _signUpProcess() async {
     // onSignUp()을 실시해도 되는지를 저장
     bool isValid = false;
@@ -238,7 +305,7 @@ class LoginScreenState extends State<LoginScreen> {
           isValid = true;
         }
       });
-      
+
       // Authenticate 실시해도 되는가?
       if(isValid){
         safePrint('AUTH!');
@@ -253,7 +320,7 @@ class LoginScreenState extends State<LoginScreen> {
             ),
           );
         }
-        // signUp()함수에서 어딘가 잘못됨
+        // onSignUp()함수에서 어딘가 잘못됨
         else {
           setState(() {
             // 이미 존재하는 아이디
@@ -287,7 +354,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   bool isEmailValid(String email) {
     // Regular expression for email validation
-    final emailRegExp = RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$');
+    final emailRegExp = RegExp(r'^[\w.-]+@[\w\.-]+\.\w+$');
     return emailRegExp.hasMatch(email);
   }
 

@@ -1,5 +1,6 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:book_story/custom_drawer/home_drawer.dart';
 
 class AuthService{
   final String email;
@@ -7,6 +8,13 @@ class AuthService{
 
   AuthService({required this.email, required this.password});
 }
+
+// TODO : Analytics에 로그 찍는 방법..?!
+// void _recordEvent(AuthService data) async{
+//   AnalyticsEvent event = AnalyticsEvent("test");
+//   event.properties.addStringProperty(data.email, "logined");
+//   Amplify.Analytics.recordEvent(event: event);
+// }
 
 // 회원가입 요청
 Future<String> onSignUp(AuthService data) async {
@@ -33,14 +41,19 @@ Future<String> onLogin(AuthService loginData) async {
     bool isSignedIn = res.isSignedIn;
     safePrint('Login? : $isSignedIn');
   } on AuthException catch (e) {
-    if (e.message.contains('already a user which is signed in')) {
-      await Amplify.Auth.signOut();
-      return 'Problem logging in. Please try again.';
-    }
-
-    return '${e.message} - ${e.recoverySuggestion}';
+    return e.message;
   }
   return '';
+}
+
+// 로그아웃 요청
+Future<bool> onLogout() async{
+  HomeDrawer.isLogin = null;
+  Amplify.Auth.signOut().then((_) {
+    HomeDrawer.isLogin = false;
+    return true;
+  });
+  return false;
 }
 
 // 이메일 인증 요청
