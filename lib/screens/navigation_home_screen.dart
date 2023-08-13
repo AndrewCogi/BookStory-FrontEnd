@@ -49,6 +49,7 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
       safePrint('Successfully configured Amplify!');
       safePrint('Check auth state...');
       HomeDrawer.isLogin = await checkAuthState();
+      safePrint("HomeDrawer.isLogin : ${HomeDrawer.isLogin}");
     }
   }
 

@@ -1,4 +1,3 @@
-import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/screens/login_screen.dart';
 import 'package:book_story/theme/main_app_theme.dart';
 import 'package:book_story/utils/auth_service.dart';
@@ -16,6 +15,7 @@ class HomeDrawer extends StatefulWidget {
   final DrawerIndex? screenIndex;
   final Function(DrawerIndex)? callBackIndex;
   static bool? isLogin;
+  static String userEmail="";
 
   @override
   HomeDrawerState createState() => HomeDrawerState();
@@ -184,7 +184,7 @@ class HomeDrawerState extends State<HomeDrawer> {
     );
   }
   void onTappedLogout() async {
-    bool result = await onLogout();
+    bool result = await onLogout(HomeDrawer.userEmail);
     setState(() {
       HomeDrawer.isLogin = result;
     }); // TODO : refresh가 안된다..

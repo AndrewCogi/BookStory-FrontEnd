@@ -242,12 +242,13 @@ class LoginScreenState extends State<LoginScreen> {
           Navigator.pop(context);
           setState(() {
             HomeDrawer.isLogin = true;
+            HomeDrawer.userEmail = authService.email;
           });
         }
         // onLogin()함수에서 어딘가 잘못됨
         else {
           setState(() {
-            // 이미 접속중인 아이디
+            // 이미 접속중인 아이디 TODO:stateless connection인데 이게 왜 떴지?.. 중복로그인이 가능하도록 하는게 좋을듯. (한 계정으로 엄마아빠 같이쓰기. 아이가 여럿일수도 있고!)
             if(result.startsWith("There is already a user signed in")){
               errorMessageEmail = "There is already a user signed in.";
             }
@@ -264,6 +265,18 @@ class LoginScreenState extends State<LoginScreen> {
                   errorMessagePassword = "Enter Password.";
                 }
               }
+            }
+            // 비밀번호가 틀렸음
+            if(result.startsWith("Failed since user is not authorized")){
+              errorMessageEmail = "Wrong password - Try Again.";
+            }
+            // 등록된 아이디가 아님
+            if(result.startsWith("User not found in the system")){
+              errorMessageEmail = "This account is not registered. Sign up!";
+            }
+            // 이메일 인증이 안됨
+            if(result.startsWith("User not confirmed in the system")){
+              errorMessageEmail = "This account is not verification.";
             }
           });
         }
