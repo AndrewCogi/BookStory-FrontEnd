@@ -1,3 +1,4 @@
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -8,30 +9,35 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginPage(),
+      home: LoadingScreen(),
     );
   }
 }
 
-class LoginPage extends StatefulWidget {
+class LoadingScreen extends StatefulWidget {
+  static bool isComplete = false;
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoadingScreenState createState() => _LoadingScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  bool isLoading = false;
+class _LoadingScreenState extends State<LoadingScreen> {
 
   void _loginButtonPressed() {
     // Show loading screen and deactivate the main content
     setState(() {
-      isLoading = true;
+      LoadingScreen.isComplete = true;
+    });
+
+    safePrint("processing...");
+    setState(() {
+      LoadingScreen.isComplete = false;
     });
 
     // Simulate login process
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 5), () {
       // Once login is complete, hide loading screen and activate main content
       setState(() {
-        isLoading = false;
+        LoadingScreen.isComplete = false;
       });
     });
   }
@@ -68,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           // Loading screen
-          if (isLoading)
+          if (LoadingScreen.isComplete)
             Container(
               color: Colors.black.withOpacity(0.3),
               child: Center(

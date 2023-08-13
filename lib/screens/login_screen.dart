@@ -13,6 +13,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
+  bool isComplete = false;
   bool isObscure = true;
   String errorMessageEmail = "";
   String errorMessagePassword = "";
@@ -42,165 +43,213 @@ class LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.blue,
         title: const Text('Welcome!'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(0),
-        child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius:
-              const BorderRadius.all(Radius.circular(0.0)),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.6),
-                    offset: const Offset(4, 4),
-                    blurRadius: 8.0),
-              ],
-            ),
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Icon(Icons.local_library, color: Colors.blue, size: 150),
-                const SizedBox(height: 20.0),
-                Text(
-                  errorMessageEmail,
-                  style: const TextStyle(
-                    color: Colors.redAccent,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(0),
+            child: Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius:
+                  const BorderRadius.all(Radius.circular(0.0)),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.6),
+                        offset: const Offset(4, 4),
+                        blurRadius: 8.0),
+                  ],
                 ),
-                TextFormField(
-                  controller: _emailController,
-                  onFieldSubmitted: (_) {
-                    FocusScope.of(context).requestFocus(_secondTextFieldFocus);
-                  },
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.email),
-                    hintText: 'Email',
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                Text(
-                  errorMessagePassword,
-                  style: const TextStyle(
-                    color: Colors.redAccent,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                TextFormField(
-                  controller: _passwordController,
-                  focusNode: _secondTextFieldFocus,
-                  obscureText: isObscure,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.lock),
-                    hintText: 'Password',
-                    suffixIcon: IconButton(
-                      icon: isObscure ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
-                      onPressed: () {
-                        setState(() {
-                          if(isObscure==true) {
-                            isObscure=false;
-                          } else {isObscure=true;}
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20.0),
-                GestureDetector(
-                  onTap: () {
-                    // Navigate to the forgot password screen
-                  },
-                  child: const Text(
-                    'Forgot Password?',
-                    style: TextStyle(
-                      color: Colors.blue,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20.0),
-                Row(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ElevatedButton(
-                      onPressed: () async {
-                        _loginProcess();
+                    const Icon(Icons.local_library, color: Colors.blue, size: 150),
+                    const SizedBox(height: 20.0),
+                    Text(
+                      errorMessageEmail,
+                      style: const TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _emailController,
+                      onFieldSubmitted: (_) {
+                        FocusScope.of(context).requestFocus(_secondTextFieldFocus);
                       },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.email),
+                        hintText: 'Email',
+                      ),
+                    ),
+                    const SizedBox(height: 10.0),
+                    Text(
+                      errorMessagePassword,
+                      style: const TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _passwordController,
+                      focusNode: _secondTextFieldFocus,
+                      obscureText: isObscure,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock),
+                        hintText: 'Password',
+                        suffixIcon: IconButton(
+                          icon: isObscure ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
+                          onPressed: () {
+                            setState(() {
+                              if(isObscure==true) {
+                                isObscure=false;
+                              } else {isObscure=true;}
+                            });
+                          },
                         ),
                       ),
-                      child: const Text('Login'),
                     ),
-                    const SizedBox(width: 20.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        _signUpProcess();
+                    const SizedBox(height: 20.0),
+                    GestureDetector(
+                      onTap: () {
+                        // Navigate to the forgot password screen
                       },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
+                      child: const Text(
+                        'Forgot Password?',
+                        style: TextStyle(
+                          color: Colors.blue,
                         ),
                       ),
-                      child: const Text('Sign Up'),
                     ),
-                  ],
-                ),
-
-                const SizedBox(height: 80.0),
-                const Row(
-                  children: [
-                    Expanded(child: Divider(thickness: 2.0)),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text('Or login with'),
-                    ),
-                    Expanded(child: Divider(thickness: 2.0)),
-                  ],
-                ),
-                const SizedBox(height: 20.0),
-                Padding(
-                  padding: const EdgeInsets.only(left: 50, right: 50),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      if (await InternetConnectivity.check()) {
-                        // TODO : 구글로그인으로 이동
-                      } else {
-                        // ignore: use_build_context_synchronously
-                        InternetConnectivity.showNoInternetDialog(context);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      backgroundColor: Colors.lightGreen,
-                    ),
-                    child: const Row(
+                    const SizedBox(height: 20.0),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.circle),
-                        SizedBox(width: 10.0),
-                        Text('Sign in with Google',
-                          style: TextStyle(
-                            fontSize: 15,
+                        ElevatedButton(
+                          onPressed: () {
+                            _loginButtonPressed();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
                           ),
+                          child: const Text('Login'),
+                        ),
+                        const SizedBox(width: 20.0),
+                        ElevatedButton(
+                          onPressed: () {
+                            _signUpButtonPressed();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                          ),
+                          child: const Text('Sign Up'),
                         ),
                       ],
                     ),
-                  ),
+
+                    const SizedBox(height: 80.0),
+                    const Row(
+                      children: [
+                        Expanded(child: Divider(thickness: 2.0)),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Text('Or login with'),
+                        ),
+                        Expanded(child: Divider(thickness: 2.0)),
+                      ],
+                    ),
+                    const SizedBox(height: 20.0),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 50, right: 50),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (await InternetConnectivity.check()) {
+                            // TODO : 구글로그인으로 이동
+                          } else {
+                            // ignore: use_build_context_synchronously
+                            InternetConnectivity.showNoInternetDialog(context);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          backgroundColor: Colors.lightGreen,
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.circle),
+                            SizedBox(width: 10.0),
+                            Text('Sign in with Google',
+                              style: TextStyle(
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+          if(isComplete)
+            Container(
+              color: Colors.black.withOpacity(0.3),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+        ],
       ),
+
     );
+  }
+
+  void _loginButtonPressed() {
+    // Show loading screen and deactivate the main content
+    setState(() {
+      isComplete = true;
+    });
+
+    // Login process... (if done, automatically activate the main content)
+    _loginProcess();
+
+    // Simulate login process
+    Future.delayed(Duration(seconds: 5), () {
+      // Once login is complete, hide loading screen and activate main content
+      setState(() {
+        isComplete = false;
+      });
+    });
+  }
+
+  void _signUpButtonPressed() async{
+    // Show loading screen and deactivate the main content
+    setState(() {
+      isComplete = true;
+    });
+
+    // SignUp process... (if done, automatically activate the main content)
+    _signUpProcess();
+
+    // Simulate login process
+    Future.delayed(Duration(seconds: 5), () {
+      // Once login is complete, hide loading screen and activate main content
+      setState(() {
+        isComplete = false;
+      });
+    });
   }
 
   void _loginProcess() async {
@@ -287,6 +336,10 @@ class LoginScreenState extends State<LoginScreen> {
       // ignore: use_build_context_synchronously
       InternetConnectivity.showNoInternetDialog(context);
     }
+    // 모든 절차가 완료되면 content active하게 변경
+    setState(() {
+      isComplete = false;
+    });
   }
 
   void _signUpProcess() async {
@@ -363,6 +416,10 @@ class LoginScreenState extends State<LoginScreen> {
       // ignore: use_build_context_synchronously
       InternetConnectivity.showNoInternetDialog(context);
     }
+    // 모든 절차가 완료되면 content active하게 변경
+    setState(() {
+      isComplete = false;
+    });
   }
 
   bool isEmailValid(String email) {
