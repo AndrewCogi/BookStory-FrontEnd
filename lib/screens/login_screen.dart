@@ -205,7 +205,7 @@ class LoginScreenState extends State<LoginScreen> {
           ),
           if(isComplete)
             Container(
-              color: Colors.black.withOpacity(0.3),
+              color: Colors.black.withOpacity(0.1),
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -225,7 +225,7 @@ class LoginScreenState extends State<LoginScreen> {
     // Login process... (if done, automatically activate the main content)
     _loginProcess();
 
-    // Simulate login process
+    // Waiting login process
     Future.delayed(Duration(seconds: 5), () {
       // Once login is complete, hide loading screen and activate main content
       setState(() {
@@ -243,7 +243,7 @@ class LoginScreenState extends State<LoginScreen> {
     // SignUp process... (if done, automatically activate the main content)
     _signUpProcess();
 
-    // Simulate login process
+    // Waiting signUp process
     Future.delayed(Duration(seconds: 5), () {
       // Once login is complete, hide loading screen and activate main content
       setState(() {
@@ -447,5 +447,3 @@ class LoginScreenState extends State<LoginScreen> {
     return ""; // Password is valid
   }
 }
-
-
