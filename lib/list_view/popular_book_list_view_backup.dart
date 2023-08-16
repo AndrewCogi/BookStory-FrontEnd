@@ -8,10 +8,10 @@ class PopularBookListView extends StatefulWidget {
 
   final Function()? callBack;
   @override
-  _PopularBookListViewState createState() => _PopularBookListViewState();
+  PopularBookListViewState createState() => PopularBookListViewState();
 }
 
-class _PopularBookListViewState extends State<PopularBookListView>
+class PopularBookListViewState extends State<PopularBookListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   @override
@@ -40,6 +40,12 @@ class _PopularBookListViewState extends State<PopularBookListView>
               padding: const EdgeInsets.all(8),
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 12.0,
+                crossAxisSpacing: 12.0,
+                childAspectRatio: 1.0,
+              ),
               children: List<Widget>.generate(
                 CategoryBook.popularBookList.length,
                 (int index) {
@@ -60,12 +66,6 @@ class _PopularBookListViewState extends State<PopularBookListView>
                     animationController: animationController,
                   );
                 },
-              ),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 12.0,
-                crossAxisSpacing: 12.0,
-                childAspectRatio: 1.0,
               ),
             );
           }

@@ -127,15 +127,17 @@ class CategoryView extends StatelessWidget {
                                       Padding(
                                         padding: const EdgeInsets.only(
                                             top: 16, left: 16, right: 16),
-                                        child: Text(
-                                          category.title,
-                                          textAlign: TextAlign.left,
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 16,
-                                            letterSpacing: 0.27,
-                                            color: BookStoryAppTheme
-                                                .darkerText,
+                                        child: FittedBox(
+                                          child: Text(
+                                            category.title,
+                                            textAlign: TextAlign.left,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
+                                              letterSpacing: 0.27,
+                                              color: BookStoryAppTheme
+                                                  .darkerText,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -145,52 +147,51 @@ class CategoryView extends StatelessWidget {
                                             left: 16,
                                             right: 16,
                                             bottom: 8),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Text(
-                                              category.bookType,
-                                              textAlign: TextAlign.left,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.w200,
-                                                fontSize: 10,
-                                                letterSpacing: 0.27,
-                                                color: BookStoryAppTheme
-                                                    .grey,
+                                        child: FittedBox(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment
+                                                .center,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(
+                                                category.bookType,
+                                                textAlign: TextAlign.left,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 9,
+                                                  letterSpacing: 0.27,
+                                                  color: BookStoryAppTheme
+                                                      .grey,
+                                                ),
                                               ),
-                                            ),
-                                            Row(
-                                              children: <Widget>[
-                                                const Icon(
-                                                  Icons.recommend_outlined,
+                                              const SizedBox(width: 23),
+                                              const Icon(
+                                                Icons.recommend_outlined,
+                                                color:
+                                                BookStoryAppTheme
+                                                    .nearlyBlue,
+                                                size: 12,
+                                              ),
+                                              Text(
+                                                '${category.playCount}',
+                                                textAlign:
+                                                TextAlign.left,
+                                                style: const TextStyle(
+                                                  fontWeight:
+                                                  FontWeight.w600,
+                                                  fontSize: 10,
+                                                  letterSpacing: 0.27,
                                                   color:
                                                   BookStoryAppTheme
-                                                      .nearlyBlue,
-                                                  size: 14,
+                                                      .grey,
                                                 ),
-                                                Text(
-                                                  '${category.playCount}',
-                                                  textAlign:
-                                                      TextAlign.left,
-                                                  style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.w200,
-                                                    fontSize: 12,
-                                                    letterSpacing: 0.27,
-                                                    color:
-                                                        BookStoryAppTheme
-                                                            .grey,
-                                                  ),
-                                                ),
-
-                                              ],
-                                            )
-                                          ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
+
                                       ),
                                     ],
                                   ),

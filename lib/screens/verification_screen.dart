@@ -36,7 +36,7 @@ class VerificationScreenState extends State<VerificationScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.blue,
-        title: const Text('Email Verification'),
+        title: const Text('Email Verification',),
       ),
       body: Stack(
         children: [
@@ -102,7 +102,7 @@ class VerificationScreenState extends State<VerificationScreen> {
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                           ),
-                          child: const Text('Verify'),
+                          child: const Text('Verify',),
                         ),
                       ],
                     ),
@@ -115,7 +115,7 @@ class VerificationScreenState extends State<VerificationScreen> {
           if(isComplete)
             Container(
               color: Colors.black.withOpacity(0.1),
-              child: Center(
+              child: const Center(
                 child: CircularProgressIndicator(),
               ),
             ),
@@ -133,7 +133,7 @@ class VerificationScreenState extends State<VerificationScreen> {
     _verificationProcess();
 
     // Waiting verification process
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () {
       // Once verification is complete, hide loading screen and activate main content
       setState(() {
         isComplete = false;

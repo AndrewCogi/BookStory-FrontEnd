@@ -135,15 +135,17 @@ class CategoryView extends StatelessWidget {
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(top: 16, right: 25),
-                                        child: Text(
-                                          category.title,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 16,
-                                            letterSpacing: 0.27,
-                                            color: BookStoryAppTheme
-                                                .darkerText,
+                                        child: FittedBox(
+                                          child: Text(
+                                            category.title,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
+                                              letterSpacing: 0.27,
+                                              color: BookStoryAppTheme
+                                                  .darkerText,
+                                            ),
                                           ),
                                         ),
                                       ),

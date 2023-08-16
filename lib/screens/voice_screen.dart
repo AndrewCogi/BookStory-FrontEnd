@@ -206,6 +206,7 @@ class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 
                               speechText = text ?? "";
                             });
                           } else {
+                            // ignore: use_build_context_synchronously
                             InternetConnectivity.showNoInternetDialog(context);
                           }
                         }, // to avoid conflict InkWell:onTap

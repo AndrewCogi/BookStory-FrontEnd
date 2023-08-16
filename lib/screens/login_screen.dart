@@ -41,7 +41,7 @@ class LoginScreenState extends State<LoginScreen> {
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: const Text('Welcome!'),
+        title: const Text('Welcome!',),
       ),
       body: Stack(
         children: [
@@ -138,7 +138,7 @@ class LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                           ),
-                          child: const Text('Login'),
+                          child: const Text('Login', ),
                         ),
                         const SizedBox(width: 20.0),
                         ElevatedButton(
@@ -150,7 +150,7 @@ class LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                           ),
-                          child: const Text('Sign Up'),
+                          child: const Text('Sign Up',),
                         ),
                       ],
                     ),
@@ -161,7 +161,7 @@ class LoginScreenState extends State<LoginScreen> {
                         Expanded(child: Divider(thickness: 2.0)),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Text('Or login with'),
+                          child: Text('Or login with',),
                         ),
                         Expanded(child: Divider(thickness: 2.0)),
                       ],
@@ -206,7 +206,7 @@ class LoginScreenState extends State<LoginScreen> {
           if(isComplete)
             Container(
               color: Colors.black.withOpacity(0.1),
-              child: Center(
+              child: const Center(
                 child: CircularProgressIndicator(),
               ),
             ),
@@ -226,7 +226,7 @@ class LoginScreenState extends State<LoginScreen> {
     _loginProcess();
 
     // Waiting login process
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () {
       // Once login is complete, hide loading screen and activate main content
       setState(() {
         isComplete = false;
@@ -244,7 +244,7 @@ class LoginScreenState extends State<LoginScreen> {
     _signUpProcess();
 
     // Waiting signUp process
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () {
       // Once login is complete, hide loading screen and activate main content
       setState(() {
         isComplete = false;

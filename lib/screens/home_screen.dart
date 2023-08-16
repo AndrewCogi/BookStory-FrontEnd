@@ -98,36 +98,36 @@ class HomeScreenState extends State<HomeScreen> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: <Widget>[
-                getButtonUI(CategoryType.age4plus, categoryType == CategoryType.age4plus, 120),
+                getButtonUI(CategoryType.age4plus, categoryType == CategoryType.age4plus),
                 const SizedBox(
                   width: 16,
                 ),
-                getButtonUI(CategoryType.age6plus, categoryType == CategoryType.age6plus, 120),
-                const SizedBox(
-                  width: 16,
-                ),
-                getButtonUI(
-                    CategoryType.creative, categoryType == CategoryType.creative, 120),
+                getButtonUI(CategoryType.age6plus, categoryType == CategoryType.age6plus),
                 const SizedBox(
                   width: 16,
                 ),
                 getButtonUI(
-                    CategoryType.learning, categoryType == CategoryType.learning, 120),
+                    CategoryType.creative, categoryType == CategoryType.creative),
                 const SizedBox(
                   width: 16,
                 ),
                 getButtonUI(
-                    CategoryType.cultureArt, categoryType == CategoryType.cultureArt, 130),
+                    CategoryType.learning, categoryType == CategoryType.learning),
                 const SizedBox(
                   width: 16,
                 ),
                 getButtonUI(
-                    CategoryType.societyHistory, categoryType == CategoryType.societyHistory, 160),
+                    CategoryType.cultureArt, categoryType == CategoryType.cultureArt),
                 const SizedBox(
                   width: 16,
                 ),
                 getButtonUI(
-                    CategoryType.naturalScience, categoryType == CategoryType.naturalScience, 160),
+                    CategoryType.societyHistory, categoryType == CategoryType.societyHistory),
+                const SizedBox(
+                  width: 16,
+                ),
+                getButtonUI(
+                    CategoryType.naturalScience, categoryType == CategoryType.naturalScience),
               ],
             ),
           )
@@ -185,27 +185,27 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget getButtonUI(CategoryType categoryTypeData, bool isSelected, double lengthWidth) {
+  Widget getButtonUI(CategoryType categoryTypeData, bool isSelected) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     String txt = '';
     if (CategoryType.age4plus == categoryTypeData) {
-      txt = '4+ story';
+      txt = '4세 이상';
     } else if (CategoryType.age6plus == categoryTypeData) {
-      txt = '6+ story';
+      txt = '6세 이상';
     } else if (CategoryType.creative == categoryTypeData) {
-      txt = 'creative';
+      txt = '창작';
     } else if (CategoryType.learning == categoryTypeData) {
-      txt = 'learning';
+      txt = '학습';
     } else if (CategoryType.cultureArt == categoryTypeData) {
-      txt = 'culture/art';
+      txt = '문화/예술';
     } else if (CategoryType.societyHistory == categoryTypeData) {
-      txt = 'society/history';
+      txt = '사회/역사';
     } else if (CategoryType.naturalScience == categoryTypeData) {
-      txt = 'natural/science';
+      txt = '자연/과학';
     }
     return Container(
-        width: lengthWidth,
+        width: 110,
         decoration: BoxDecoration(
             color: isSelected
                 ? (isLightMode ? BookStoryAppTheme.nearlyBlue : BookStoryAppTheme.grey)

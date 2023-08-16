@@ -2,13 +2,15 @@ import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: LoadingScreen(),
     );
   }
@@ -16,11 +18,13 @@ class MyApp extends StatelessWidget {
 
 class LoadingScreen extends StatefulWidget {
   static bool isComplete = false;
+
+  const LoadingScreen({super.key});
   @override
-  _LoadingScreenState createState() => _LoadingScreenState();
+  LoadingScreenState createState() => LoadingScreenState();
 }
 
-class _LoadingScreenState extends State<LoadingScreen> {
+class LoadingScreenState extends State<LoadingScreen> {
 
   void _loginButtonPressed() {
     // Show loading screen and deactivate the main content
@@ -34,7 +38,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     });
 
     // Simulate login process
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () {
       // Once login is complete, hide loading screen and activate main content
       setState(() {
         LoadingScreen.isComplete = false;
@@ -46,29 +50,29 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login Page'),
+        title: const Text('Login Page'),
       ),
       body: Stack(
         children: [
           // Main content
           Container(
-            padding: EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                TextField(
+                const TextField(
                   decoration: InputDecoration(labelText: 'Username'),
                 ),
-                SizedBox(height: 10),
-                TextField(
+                const SizedBox(height: 10),
+                const TextField(
                   decoration: InputDecoration(labelText: 'Password'),
                   obscureText: true,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _loginButtonPressed,
-                  child: Text('Login'),
+                  child: const Text('Login'),
                 ),
               ],
             ),
@@ -77,7 +81,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           if (LoadingScreen.isComplete)
             Container(
               color: Colors.black.withOpacity(0.3),
-              child: Center(
+              child: const Center(
                 child: CircularProgressIndicator(),
               ),
             ),
