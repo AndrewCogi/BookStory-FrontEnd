@@ -4,9 +4,9 @@ import 'package:book_story/theme/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 
 class BookInfoScreen extends StatefulWidget {
-  const BookInfoScreen(this.category, {super.key});
+  const BookInfoScreen(this.book, {super.key});
 
-  final CategoryBook category;
+  final CategoryBook book;
 
   @override
   BookInfoScreenState createState() => BookInfoScreenState();
@@ -21,11 +21,8 @@ class BookInfoScreenState extends State<BookInfoScreen>
   double opacity2 = 0.0;
   double opacity3 = 0.0;
 
-  late CategoryBook category;
-
   @override
   void initState() {
-    category = widget.category;
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
@@ -66,7 +63,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
               children: <Widget>[
                 AspectRatio(
                   aspectRatio: 1.2,
-                  child: Image.asset(category.imagePath),
+                  child: Image.asset(widget.book.imagePath),
                 ),
               ],
             ),
@@ -105,7 +102,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                             padding: const EdgeInsets.only(
                                 top: 32.0, left: 18, right: 16),
                             child: Text(
-                              category.title,
+                              widget.book.title,
                               textAlign: TextAlign.left,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -115,18 +112,18 @@ class BookInfoScreenState extends State<BookInfoScreen>
                               ),
                             ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(
+                          Padding(
+                            padding: const EdgeInsets.only(
                                 left: 16, right: 16, bottom: 8, top: 16),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  '\$28.99', // TODO : 여기부터 book-info 페이지 맞춰 제작하기!!!
+                                  widget.book.playTime,
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w200,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
                                     fontSize: 22,
                                     letterSpacing: 0.27,
                                     color: BookStoryAppTheme.nearlyBlue,
@@ -135,16 +132,16 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                 Row(
                                   children: <Widget>[
                                     Text(
-                                      '4.3',
+                                      '${widget.book.rate}',
                                       textAlign: TextAlign.left,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.w200,
                                         fontSize: 22,
                                         letterSpacing: 0.27,
                                         color: BookStoryAppTheme.grey,
                                       ),
                                     ),
-                                    Icon(
+                                    const Icon(
                                       Icons.star,
                                       color: BookStoryAppTheme.nearlyBlue,
                                       size: 24,
@@ -159,34 +156,41 @@ class BookInfoScreenState extends State<BookInfoScreen>
                             opacity: opacity1,
                             child: Padding(
                               padding: const EdgeInsets.all(8),
-                              child: Row(
-                                children: <Widget>[
-                                  getTimeBoxUI('24', 'Classes'),
-                                  getTimeBoxUI('2hours', 'Time'),
-                                  getTimeBoxUI('24', 'Seat'),
-                                ],
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: <Widget>[
+                                    getTimeBoxUI(widget.book.bookType, 'Book Info'),
+                                    widget.book.writer == widget.book.drawer ?
+                                      getTimeBoxUI(widget.book.writer, 'Writer/Drawer') :
+                                      getTimeBoxUI('${widget.book.writer}, ${widget.book.drawer}', 'Writer/Drawer'),
+                                    getTimeBoxUI('${widget.book.playCount}', 'Played'),
+                                  ],
+                                ),
                               ),
+
                             ),
                           ),
                           Expanded(
                             child: AnimatedOpacity(
                               duration: const Duration(milliseconds: 500),
                               opacity: opacity2,
-                              child: const Padding(
-                                padding: EdgeInsets.only(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
                                     left: 16, right: 16, top: 8, bottom: 8),
-                                child: Text(
-                                  'Lorem ipsum is simply dummy text of printing & typesetting industry, Lorem ipsum is simply dummy text of printing & typesetting industry.',
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w200,
-                                    fontSize: 14,
-                                    letterSpacing: 0.27,
-                                    color: BookStoryAppTheme.grey,
-                                  ),
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                                child:
+                                    Text(
+                                      widget.book.description,
+                                      textAlign: TextAlign.justify,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w200,
+                                        fontSize: 14,
+                                        letterSpacing: 0.27,
+                                        color: BookStoryAppTheme.grey,
+                                      ),
+                                      maxLines: 10,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                               ),
                             ),
                           ),

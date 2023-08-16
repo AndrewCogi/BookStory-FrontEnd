@@ -1,5 +1,4 @@
 import 'package:book_story/screens/login_screen.dart';
-import 'package:book_story/theme/book_story_app_theme.dart';
 import 'package:book_story/theme/main_app_theme.dart';
 import 'package:book_story/utils/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +46,7 @@ class HomeDrawerState extends State<HomeDrawer> {
       ),
       DrawerList(
         index: DrawerIndex.favorite,
-        labelName: 'Favorite',
+        labelName: 'My Favorite',
         icon: const Icon(Icons.favorite_border),
       ),
       DrawerList(
