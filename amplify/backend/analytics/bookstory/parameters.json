@@ -1,0 +1,21 @@
+{
+    "appName": "bookstory",
+    "roleName": "pinpointLambdaRole55941c7e",
+    "cloudformationPolicyName": "cloudformationPolicy55941c7e",
+    "cloudWatchPolicyName": "cloudWatchPolicy55941c7e",
+    "pinpointPolicyName": "pinpointPolicy55941c7e",
+    "authPolicyName": "pinpoint_amplify_55941c7e",
+    "unauthPolicyName": "pinpoint_amplify_55941c7e",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

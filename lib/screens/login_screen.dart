@@ -3,6 +3,7 @@ import 'package:book_story/custom_drawer/home_drawer.dart';
 import 'package:book_story/screens/verification_screen.dart';
 import 'package:book_story/utils/internet_check_service.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../utils/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -287,6 +288,15 @@ class LoginScreenState extends State<LoginScreen> {
         String result = await onLogin(authService);
         // Login 성공!
         if(result == '') {
+          Fluttertoast.showToast(
+            msg: "Login Complete",
+            toastLength: Toast.LENGTH_SHORT, // Duration of the toast
+            gravity: ToastGravity.BOTTOM,   // Position of the toast
+            timeInSecForIosWeb: 1,          // iOS-specific options
+            backgroundColor: Colors.grey,    // Background color of the toast
+            textColor: Colors.white,         // Text color of the toast
+            fontSize: 16.0,                 // Font size of the message
+          );
           // ignore: use_build_context_synchronously
           Navigator.pop(context);
           setState(() {

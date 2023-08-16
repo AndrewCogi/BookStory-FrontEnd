@@ -1,7 +1,9 @@
 import 'package:book_story/screens/login_screen.dart';
+import 'package:book_story/theme/book_story_app_theme.dart';
 import 'package:book_story/theme/main_app_theme.dart';
 import 'package:book_story/utils/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class HomeDrawer extends StatefulWidget {
   const HomeDrawer(
@@ -185,9 +187,18 @@ class HomeDrawerState extends State<HomeDrawer> {
   }
   void onTappedLogout() async {
     bool result = await onLogout(HomeDrawer.userEmail);
+    Fluttertoast.showToast(
+      msg: "Logout Complete",
+      toastLength: Toast.LENGTH_SHORT, // Duration of the toast
+      gravity: ToastGravity.BOTTOM,   // Position of the toast
+      timeInSecForIosWeb: 1,          // iOS-specific options
+      backgroundColor: Colors.grey,    // Background color of the toast
+      textColor: Colors.white,         // Text color of the toast
+      fontSize: 16.0,                 // Font size of the message
+    );
     setState(() {
       HomeDrawer.isLogin = result;
-    }); // TODO : refresh가 안된다..
+    });
   }
 
   Widget makeSignButton() {

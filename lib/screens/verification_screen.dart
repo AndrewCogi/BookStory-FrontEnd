@@ -1,5 +1,6 @@
 import 'package:book_story/utils/internet_check_service.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../utils/auth_service.dart';
 
 class VerificationScreen extends StatefulWidget {
@@ -164,6 +165,15 @@ class VerificationScreenState extends State<VerificationScreen> {
       }
       // success!
       else{
+        Fluttertoast.showToast(
+          msg: "Sign Up Complete",
+          toastLength: Toast.LENGTH_SHORT, // Duration of the toast
+          gravity: ToastGravity.BOTTOM,   // Position of the toast
+          timeInSecForIosWeb: 1,          // iOS-specific options
+          backgroundColor: Colors.grey,    // Background color of the toast
+          textColor: Colors.white,         // Text color of the toast
+          fontSize: 16.0,                 // Font size of the message
+        );
         // ignore: use_build_context_synchronously
         Navigator.pop(context);
       }

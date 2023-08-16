@@ -12,36 +12,45 @@ class AuthService{
 
 // 로그인 로그 저장
 Future<void> _recordLogin(String userEmail) async {
-  // Perform login process using Amplify Auth
-  AnalyticsEvent event = AnalyticsEvent("UserLoggedIn");
+  AnalyticsEvent event = AnalyticsEvent("UserLogin");
   event.properties.addStringProperty(userEmail, TimeService.getKoreanDateTime());
   // Log login event to analytics
   try{
     await Amplify.Analytics.recordEvent(event: event);
     Amplify.Analytics.flushEvents();
-    safePrint("[LOGGED]: LogggedIn - $userEmail");
+    safePrint("[LOG]: Login - $userEmail");
   } on AuthException catch(e){
-    safePrint("MESSAGE"+e.message);
+    safePrint("MESSAGE: ${e.message}");
   }
 }
 
 // 로그아웃 로그 저장
-Future<void> _recordLogout(String userEmail) async {
-  // Perform logout process using Amplify Auth
-  AnalyticsEvent event = AnalyticsEvent("UserLoggedOut");
+// Future<void> _recordLogout(String userEmail) async {
+//   AnalyticsEvent event = AnalyticsEvent("UserLogout");
+//   event.properties.addStringProperty(userEmail, TimeService.getKoreanDateTime());
+//   // Log logout event to analytics
+//   try{
+//     await Amplify.Analytics.recordEvent(event: event);
+//     Amplify.Analytics.flushEvents();
+//     safePrint("[LOG]: Logout - $userEmail");
+//   } on AuthException catch(e){
+//     safePrint("MESSAGE: ${e.message}");
+//   }
+// }
+
+// 회원가입 로그 저장
+Future<void> _recordSignUp(String userEmail) async {
+  AnalyticsEvent event = AnalyticsEvent("UserSignUp");
   event.properties.addStringProperty(userEmail, TimeService.getKoreanDateTime());
-  // Log logout event to analytics
+  // Log signup event to analytics
   try{
     await Amplify.Analytics.recordEvent(event: event);
     Amplify.Analytics.flushEvents();
-    safePrint("[LOGGED]: LogggedOut - $userEmail");
+    safePrint("[LOG]: SignUp - $userEmail");
   } on AuthException catch(e){
-    safePrint("MESSAGE"+e.message);
+    safePrint("MESSAGE: ${e.message}");
   }
 }
-
-// TODO : 회원가입 로그 저장
-// TODO : 로그인 실패 로그 저장?
 
 // 회원가입 요청
 Future<String> onSignUp(AuthService data) async {
@@ -52,6 +61,7 @@ Future<String> onSignUp(AuthService data) async {
       password: loginData.password,
       options: CognitoSignUpOptions(userAttributes: {CognitoUserAttributeKey.email: loginData.email})
     );
+    await _recordSignUp(loginData.email);
     return '';
   } on AuthException catch(e){
     safePrint(e);
@@ -76,9 +86,9 @@ Future<String> onLogin(AuthService loginData) async {
 }
 
 // 로그아웃 요청
-Future<bool> onLogout(String userEmail) async{
+Future<bool> onLogout(String userEmail) async {
   HomeDrawer.isLogin = null;
-  await _recordLogout(userEmail);
+  // await _recordLogout(userEmail);
   Amplify.Auth.signOut().then((_) {
     HomeDrawer.isLogin = false;
     HomeDrawer.userEmail = "";
