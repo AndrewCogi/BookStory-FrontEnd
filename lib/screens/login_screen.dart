@@ -1,9 +1,8 @@
 import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/custom_drawer/home_drawer.dart';
 import 'package:book_story/screens/verification_screen.dart';
-import 'package:book_story/utils/internet_check_service.dart';
+import 'package:book_story/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import '../utils/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -139,7 +138,7 @@ class LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                           ),
-                          child: const Text('Login', ),
+                          child: const Text('Login'),
                         ),
                         const SizedBox(width: 20.0),
                         ElevatedButton(
@@ -172,11 +171,11 @@ class LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.only(left: 50, right: 50),
                       child: ElevatedButton(
                         onPressed: () async {
-                          if (await InternetConnectivity.check()) {
+                          if (await HelperFunctions.internetConnectionCheck()) {
                             // TODO : 구글로그인으로 이동
                           } else {
                             // ignore: use_build_context_synchronously
-                            InternetConnectivity.showNoInternetDialog(context);
+                            HelperFunctions.showNoInternetDialog(context);
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -227,7 +226,7 @@ class LoginScreenState extends State<LoginScreen> {
     _loginProcess();
 
     // Waiting login process
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 10), () {
       // Once login is complete, hide loading screen and activate main content
       setState(() {
         isComplete = false;
@@ -245,7 +244,7 @@ class LoginScreenState extends State<LoginScreen> {
     _signUpProcess();
 
     // Waiting signUp process
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 10), () {
       // Once login is complete, hide loading screen and activate main content
       setState(() {
         isComplete = false;
@@ -257,7 +256,7 @@ class LoginScreenState extends State<LoginScreen> {
     // onLogin()을 실시해도 되는지를 저장
     bool isValid = false;
     // internet connection valid
-    if (await InternetConnectivity.check()) {
+    if (await HelperFunctions.internetConnectionCheck()) {
       safePrint("name: ${_emailController.text}, pw: ${_passwordController.text}");
       AuthService authService = AuthService(email: _emailController.text, password: _passwordController.text);
       setState(() {
@@ -288,15 +287,8 @@ class LoginScreenState extends State<LoginScreen> {
         String result = await onLogin(authService);
         // Login 성공!
         if(result == '') {
-          Fluttertoast.showToast(
-            msg: "Login Complete",
-            toastLength: Toast.LENGTH_SHORT, // Duration of the toast
-            gravity: ToastGravity.BOTTOM,   // Position of the toast
-            timeInSecForIosWeb: 1,          // iOS-specific options
-            backgroundColor: Colors.grey,    // Background color of the toast
-            textColor: Colors.white,         // Text color of the toast
-            fontSize: 16.0,                 // Font size of the message
-          );
+          // ignore: use_build_context_synchronously
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Login Complete')));
           // ignore: use_build_context_synchronously
           Navigator.pop(context);
           setState(() {
@@ -307,22 +299,19 @@ class LoginScreenState extends State<LoginScreen> {
         // onLogin()함수에서 어딘가 잘못됨
         else {
           setState(() {
-            // 이미 접속중인 아이디 TODO:stateless connection인데 이게 왜 떴지?.. 중복로그인이 가능하도록 하는게 좋을듯. (한 계정으로 엄마아빠 같이쓰기. 아이가 여럿일수도 있고!)
+            // 이미 접속중인 아이디 TODO: stateless connection인데 이게 왜 떴지?.. 중복로그인이 가능하도록 하는게 좋을듯. (한 계정으로 엄마아빠 같이쓰기. 아이가 여럿일수도 있고!)
             if(result.startsWith("There is already a user signed in")){
               errorMessageEmail = "There is already a user signed in.";
             }
-            // 아이디 or 비번의 입력값이 잘못됨.
+            // 아이디 or 비번의 입력값이 잘못됨. 어딘가 비어있음.
             if(result.startsWith("One or more parameters are incorrect")){
-              // 아이디 필드 비어있는지 확인
-              if(_emailController.text == "" || _passwordController.text == ""){
-                // ID field empty
-                if(_emailController.text == ""){
-                  errorMessageEmail = "Enter Email.";
-                }
-                // PW field empty
-                if(_passwordController.text == ""){
-                  errorMessagePassword = "Enter Password.";
-                }
+              // ID field empty
+              if(_emailController.text == ""){
+                errorMessageEmail = "Enter Email.";
+              }
+              // PW field empty
+              if(_passwordController.text == ""){
+                errorMessagePassword = "Enter Password.";
               }
             }
             // 비밀번호가 틀렸음
@@ -344,7 +333,7 @@ class LoginScreenState extends State<LoginScreen> {
     // internet connection invalid
     else {
       // ignore: use_build_context_synchronously
-      InternetConnectivity.showNoInternetDialog(context);
+      HelperFunctions.showNoInternetDialog(context);
     }
     // 모든 절차가 완료되면 content active하게 변경
     setState(() {
@@ -356,9 +345,9 @@ class LoginScreenState extends State<LoginScreen> {
     // onSignUp()을 실시해도 되는지를 저장
     bool isValid = false;
     // internet connection valid
-    if (await InternetConnectivity.check()) {
+    if (await HelperFunctions.internetConnectionCheck()) {
       // get input (email + password)
-      safePrint('INPUT CHECK - email: '+_emailController.text+", pw: "+_passwordController.text);
+      safePrint('INPUT CHECK - email: ${_emailController.text}, pw: ${_passwordController.text}');
       AuthService authService = AuthService(email: _emailController.text, password: _passwordController.text);
       setState(() {
         // clear errorMessage
@@ -403,18 +392,15 @@ class LoginScreenState extends State<LoginScreen> {
             if(result.startsWith("Username already exists in the system")){
               errorMessageEmail = "This user already exists in the system.";
             }
-            // 아이디 or 비번의 입력값이 잘못됨.
+            // 아이디 or 비번의 입력값이 잘못됨. 어딘가 비어있음
             if(result.startsWith("One or more parameters are incorrect")){
-              // 아이디 필드 비어있는지 확인
-              if(_emailController.text == "" || _passwordController.text == ""){
-                // ID field empty
-                if(_emailController.text == ""){
-                  errorMessageEmail = "Enter Email.";
-                }
-                // PW field empty
-                if(_passwordController.text == ""){
-                  errorMessagePassword = "Enter Password.";
-                }
+              // ID field empty
+              if(_emailController.text == ""){
+                errorMessageEmail = "Enter Email.";
+              }
+              // PW field empty
+              if(_passwordController.text == ""){
+                errorMessagePassword = "Enter Password.";
               }
             }
           });
@@ -424,7 +410,7 @@ class LoginScreenState extends State<LoginScreen> {
     // internet connection invalid
     else {
       // ignore: use_build_context_synchronously
-      InternetConnectivity.showNoInternetDialog(context);
+      HelperFunctions.showNoInternetDialog(context);
     }
     // 모든 절차가 완료되면 content active하게 변경
     setState(() {
@@ -434,7 +420,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   bool isEmailValid(String email) {
     // Regular expression for email validation
-    final emailRegExp = RegExp(r'^[\w.-]+@[\w\.-]+\.\w+$');
+    final emailRegExp = RegExp(r'^[\w.-]+@[\w.-]+\.\w+$');
     return emailRegExp.hasMatch(email);
   }
 

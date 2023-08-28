@@ -1,7 +1,8 @@
 import 'package:book_story/screens/home_screen.dart';
 
-class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주기!
-  CategoryBook({
+class Book { // TODO : field 변수들 책들한테 모두 추가해주기!
+  Book({
+    this.id = -1,
     this.title = '',
     this.drawer = '',
     this.writer = '',
@@ -14,6 +15,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
     this.description = '',
   });
 
+  int id;
   String title;
   String drawer;
   String writer;
@@ -26,8 +28,8 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
   String description;
 
 
-  static List<CategoryBook> categoryList = <CategoryBook>[
-    CategoryBook(
+  static List<Book> categoryList = <Book>[
+    Book(
       imagePath: 'assets/books/age_4_plus/book1.png',
       title: '곰곰아, 괜찮아?',
       drawer: '김정민',
@@ -41,7 +43,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
           '씽씽이를 타고 가던 콩콩이가 곰곰이에게 괜찮냐고 물어요. 그런데 곰곰이는 아무 말도 하지 않아요. 곰곰이는 정말 '
           '괜찮을까요? 책을 좋아하는 곰곰이와 곰곰이를 걱정하는 착한 친구들의 이야기를 담은 그림책, 『곰곰아, 괜찮아?』입니다.',
     ),
-    CategoryBook(
+    Book(
       imagePath: 'assets/books/age_4_plus/book2.png',
       title: '나 아기 안할래',
       drawer: '김동영',
@@ -55,7 +57,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
           '엄마는 동생만 사랑하는 게 아닐까? 동생에게 엄마의 사랑을 빼앗겨 버렸다고 생각하는 양정이. 양정이는 동생 양양이처럼 기저귀를 '
           '차고, 유모차를 타고, 장난감이랑 책도 여기저기 마구 어질러 놓습니다. 과연 양정이는 어떤 마음일까요?',
     ),
-    CategoryBook(
+    Book(
       imagePath: 'assets/books/age_4_plus/book3.png',
       title: '파란 물고기',
       drawer: '김릴리',
@@ -69,7 +71,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
           '만날 수 있을까요? 콜라주로 표현한 화려한 그림과 상징들을 통해 마음의 평온함을 느껴 보고 파란 물고기가 소통할 수 있는 '
           '친구를 만날 수 있는지 함께 떠나 볼까요?',
     ),
-    CategoryBook(
+    Book(
       imagePath: 'assets/books/age_4_plus/book4.png',
       title: '생각하는 ㄱㄴㄷ',
       drawer: 'Iwona Chmielewska',
@@ -83,7 +85,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
           '글자그림책 ㄱA1 시리즈는 ‘한글’과 ‘알파벳’과 ‘숫자’의 각 글자 형태와 의미에 사물을 연결시켜 풀어내는 '
           '독특한 상상력의 그림책입니다.'
     ),
-    CategoryBook(
+    Book(
       imagePath: 'assets/books/age_4_plus/book5.png',
       title: '허수아비의 비밀',
       drawer: '이초혜',
@@ -99,8 +101,8 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
     ),
   ];
 
-  static List<CategoryBook> popularBookList = <CategoryBook>[
-    CategoryBook(
+  static List<Book> popularBookList = <Book>[
+    Book(
       imagePath: 'assets/books/popular/book1.png',
       title: '깨끗 공주와 깔끔 왕자',
       bookType: '~6 | 생활/습관 | 28p',
@@ -109,7 +111,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
       rate: 4.5,
       playCount: 6342,
     ),
-    CategoryBook(
+    Book(
       imagePath: 'assets/books/popular/book2.png',
       title: '고요한 나라를 찾아서',
       bookType: '4+ | 동화/창작 | 40p',
@@ -118,7 +120,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
       rate: 4.5,
       playCount: 5847,
     ),
-    CategoryBook(
+    Book(
       imagePath: 'assets/books/popular/book3.png',
       title: '도시락 도둑',
       bookType: '8+ | 동화/창작 | 40p',
@@ -127,7 +129,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
       rate: 4.5,
       playCount: 5512,
     ),
-    CategoryBook(
+    Book(
       imagePath: 'assets/books/popular/book4.png',
       title: '치과의사 치카뿡',
       bookType: '4+ | 자연/과학 | 26p',
@@ -136,7 +138,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
       rate: 4.5,
       playCount: 5294,
     ),
-    CategoryBook(
+    Book(
       imagePath: 'assets/books/popular/book5.png',
       title: '인절미 시집가는 날',
       bookType: '4+ | 사회/문화 | 40p',
@@ -145,7 +147,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
       rate: 4.5,
       playCount: 4754,
     ),
-    CategoryBook(
+    Book(
       imagePath: 'assets/books/popular/book6.png',
       title: '고마워, 기역도깨비야',
       bookType: '~6 | 교양/학습 | 34p',
@@ -154,7 +156,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
       rate: 4.5,
       playCount: 4567,
     ),
-    CategoryBook(
+    Book(
       imagePath: 'assets/books/popular/book7.png',
       title: '올리와 바람',
       bookType: '~6 | 동화/창작 | 40p',
@@ -163,7 +165,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
       rate: 4.5,
       playCount: 4212,
     ),
-    CategoryBook(
+    Book(
       imagePath: 'assets/books/popular/book8.png',
       title: '틀린게 아니라 다른거야',
       bookType: '8+ | 사회/문화 | 38p',
@@ -172,7 +174,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
       rate: 4.5,
       playCount: 4000,
     ),
-    CategoryBook(
+    Book(
       imagePath: 'assets/books/popular/book9.png',
       title: '공주양말',
       bookType: '4+ | 생활/습관 | 28p',
@@ -181,7 +183,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
       rate: 4.5,
       playCount: 3410,
     ),
-    CategoryBook(
+    Book(
       imagePath: 'assets/books/popular/book10.png',
       title: '피가 붉다고?',
       bookType: '4+ | 자연/과학 | 26p',
@@ -195,8 +197,8 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
 
   static void setCategory(CategoryType categoryTypeData){
     if(categoryTypeData == CategoryType.age4plus){
-      categoryList = <CategoryBook>[
-        CategoryBook(
+      categoryList = <Book>[
+        Book(
           imagePath: 'assets/books/age_4_plus/book1.png',
           title: '곰곰아, 괜찮아?',
           drawer: '김정민',
@@ -210,7 +212,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
               '씽씽이를 타고 가던 콩콩이가 곰곰이에게 괜찮냐고 물어요. 그런데 곰곰이는 아무 말도 하지 않아요. 곰곰이는 정말 '
               '괜찮을까요? 책을 좋아하는 곰곰이와 곰곰이를 걱정하는 착한 친구들의 이야기를 담은 그림책, 『곰곰아, 괜찮아?』입니다.',
         ),
-        CategoryBook(
+        Book(
           imagePath: 'assets/books/age_4_plus/book2.png',
           title: '나 아기 안할래',
           drawer: '김동영',
@@ -224,7 +226,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
               '엄마는 동생만 사랑하는 게 아닐까? 동생에게 엄마의 사랑을 빼앗겨 버렸다고 생각하는 양정이. 양정이는 동생 양양이처럼 기저귀를 '
               '차고, 유모차를 타고, 장난감이랑 책도 여기저기 마구 어질러 놓습니다. 과연 양정이는 어떤 마음일까요?',
         ),
-        CategoryBook(
+        Book(
           imagePath: 'assets/books/age_4_plus/book3.png',
           title: '파란 물고기',
           drawer: '김릴리',
@@ -238,7 +240,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
               '만날 수 있을까요? 콜라주로 표현한 화려한 그림과 상징들을 통해 마음의 평온함을 느껴 보고 파란 물고기가 소통할 수 있는 '
               '친구를 만날 수 있는지 함께 떠나 볼까요?',
         ),
-        CategoryBook(
+        Book(
             imagePath: 'assets/books/age_4_plus/book4.png',
             title: '생각하는 ㄱㄴㄷ',
             drawer: 'Iwona Chmielewska',
@@ -252,7 +254,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
                 '글자그림책 ㄱA1 시리즈는 ‘한글’과 ‘알파벳’과 ‘숫자’의 각 글자 형태와 의미에 사물을 연결시켜 풀어내는 '
                 '독특한 상상력의 그림책입니다.'
         ),
-        CategoryBook(
+        Book(
           imagePath: 'assets/books/age_4_plus/book5.png',
           title: '허수아비의 비밀',
           drawer: '이초혜',
@@ -268,8 +270,8 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
         ),
       ];
     } else if(categoryTypeData == CategoryType.age6plus){
-      categoryList = <CategoryBook>[
-        CategoryBook(
+      categoryList = <Book>[
+        Book(
           imagePath: 'assets/books/age_6_plus/book1.png',
           title: '내 마음대로',
           bookType: '6+ | 창작 | 36p',
@@ -278,7 +280,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
           rate: 4.5,
           playCount: 43700,
         ),
-        CategoryBook(
+        Book(
           imagePath: 'assets/books/age_6_plus/book2.png',
           title: '보송이의 작은 모험',
           bookType: '6+ | 창작 | 36p',
@@ -287,7 +289,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
           rate: 4.5,
           playCount: 33861,
         ),
-        CategoryBook(
+        Book(
           imagePath: 'assets/books/age_6_plus/book3.png',
           title: '별나라에서 온 공주',
           bookType: '6+ | 창작 | 36p',
@@ -296,7 +298,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
           rate: 4.5,
           playCount: 32338,
         ),
-        CategoryBook(
+        Book(
           imagePath: 'assets/books/age_6_plus/book4.png',
           title: '아빠 쉬는 날',
           bookType: '6+ | 창작 | 36p',
@@ -305,7 +307,7 @@ class CategoryBook { // TODO : field 변수들 책들한테 모두 추가해주�
           rate: 4.5,
           playCount: 25078,
         ),
-        CategoryBook(
+        Book(
           imagePath: 'assets/books/age_6_plus/book5.png',
           title: '솔비가 태어났어요',
           bookType: '6+ | 문화 | 36p',

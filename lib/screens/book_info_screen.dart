@@ -1,12 +1,12 @@
 import 'package:amplify_core/amplify_core.dart';
-import 'package:book_story/list_view/data/category.dart';
+import 'package:book_story/data/book.dart';
 import 'package:book_story/theme/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 
 class BookInfoScreen extends StatefulWidget {
   const BookInfoScreen(this.book, {super.key});
 
-  final CategoryBook book;
+  final Book book;
 
   @override
   BookInfoScreenState createState() => BookInfoScreenState();

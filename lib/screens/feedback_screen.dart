@@ -51,7 +51,7 @@ class FeedbackScreenState extends State<FeedbackScreen> {
                   Container(
                     padding: const EdgeInsets.only(top: 16),
                     child: Text(
-                      'Give your best time for this moment.',
+                      'Your feedback helps us improve. Thank you!',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 16,

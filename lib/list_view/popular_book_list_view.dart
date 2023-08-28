@@ -1,4 +1,4 @@
-import 'package:book_story/list_view/data/category.dart';
+import 'package:book_story/data/book.dart';
 import 'package:book_story/main.dart';
 import 'package:book_story/theme/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class PopularBookListView extends StatefulWidget {
   const PopularBookListView({Key? key, this.callBack}) : super(key: key);
 
-  final Function(CategoryBook)? callBack;
+  final Function(Book)? callBack;
   @override
   PopularBookListViewState createState() => PopularBookListViewState();
 }
@@ -47,9 +47,9 @@ class PopularBookListViewState extends State<PopularBookListView>
                 childAspectRatio: 1.0,
               ),
               children: List<Widget>.generate(
-                CategoryBook.popularBookList.length,
+                Book.popularBookList.length,
                 (int index) {
-                  final int count = CategoryBook.popularBookList.length;
+                  final int count = Book.popularBookList.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                     CurvedAnimation(
@@ -61,7 +61,7 @@ class PopularBookListViewState extends State<PopularBookListView>
                   animationController?.forward();
                   return CategoryView(
                     callback: widget.callBack,
-                    category: CategoryBook.popularBookList[index],
+                    category: Book.popularBookList[index],
                     animation: animation,
                     animationController: animationController,
                   );
@@ -84,8 +84,8 @@ class CategoryView extends StatelessWidget {
       this.callback})
       : super(key: key);
 
-  final void Function(CategoryBook)? callback;
-  final CategoryBook category;
+  final void Function(Book)? callback;
+  final Book category;
   final AnimationController? animationController;
   final Animation<double>? animation;
 

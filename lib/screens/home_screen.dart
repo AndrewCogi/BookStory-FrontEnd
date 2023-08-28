@@ -1,6 +1,6 @@
 import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/list_view/category_list_view.dart';
-import 'package:book_story/list_view/data/category.dart';
+import 'package:book_story/data/book.dart';
 import 'package:book_story/list_view/popular_book_list_view.dart';
 import 'package:book_story/main.dart';
 import 'package:book_story/screens/book_info_screen.dart';
@@ -136,7 +136,7 @@ class HomeScreenState extends State<HomeScreen> {
           height: 16,
         ),
         CategoryListView(
-          callBack: (CategoryBook c) {
+          callBack: (Book c) {
             moveTo(c);
           },
         ),
@@ -165,7 +165,7 @@ class HomeScreenState extends State<HomeScreen> {
           ),
           Flexible(
             child: PopularBookListView(
-              callBack: (CategoryBook c) {
+              callBack: (Book c) {
                 moveTo(c);
               },
             ),
@@ -175,7 +175,7 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void moveTo(CategoryBook category) {
+  void moveTo(Book category) {
     safePrint('${category.title} selected.');
     Navigator.push<dynamic>(
       context,
@@ -221,7 +221,7 @@ class HomeScreenState extends State<HomeScreen> {
               safePrint('$txt clicked.');
               setState(() {
                 categoryType = categoryTypeData;
-                CategoryBook.setCategory(categoryType);
+                Book.setCategory(categoryType);
               });
             },
             child: Padding(

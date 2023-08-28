@@ -1,7 +1,7 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:book_story/custom_drawer/home_drawer.dart';
-import 'package:book_story/utils/time_service.dart';
+import 'package:book_story/utils/helper_functions.dart';
 
 class AuthService{
   final String email;
@@ -13,7 +13,7 @@ class AuthService{
 // 로그인 로그 저장
 Future<void> _recordLogin(String userEmail) async {
   AnalyticsEvent event = AnalyticsEvent("UserLogin");
-  event.properties.addStringProperty(userEmail, TimeService.getKoreanDateTime());
+  event.properties.addStringProperty(userEmail, HelperFunctions.getKoreanDateTime());
   // Log login event to analytics
   try{
     await Amplify.Analytics.recordEvent(event: event);
@@ -41,7 +41,7 @@ Future<void> _recordLogin(String userEmail) async {
 // 회원가입 로그 저장
 Future<void> _recordSignUp(String userEmail) async {
   AnalyticsEvent event = AnalyticsEvent("UserSignUp");
-  event.properties.addStringProperty(userEmail, TimeService.getKoreanDateTime());
+  event.properties.addStringProperty(userEmail, HelperFunctions.getKoreanDateTime());
   // Log signup event to analytics
   try{
     await Amplify.Analytics.recordEvent(event: event);

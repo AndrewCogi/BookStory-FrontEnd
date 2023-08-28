@@ -38,7 +38,7 @@ class LoadingScreenState extends State<LoadingScreen> {
     });
 
     // Simulate login process
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 10), () {
       // Once login is complete, hide loading screen and activate main content
       setState(() {
         LoadingScreen.isComplete = false;

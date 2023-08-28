@@ -31,6 +31,16 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
+        // snackbar 테마 설정
+        snackBarTheme: const SnackBarThemeData(
+          backgroundColor: Colors.blueGrey,
+          actionTextColor: Colors.white,
+          disabledActionTextColor: Colors.grey,
+
+          contentTextStyle: TextStyle(fontSize: 16),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+          behavior: SnackBarBehavior.floating,
+        ),
       ),
       builder: (context, child) {
         return MediaQuery(

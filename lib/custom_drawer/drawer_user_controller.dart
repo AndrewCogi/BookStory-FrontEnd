@@ -3,7 +3,7 @@ import 'package:book_story/custom_drawer/home_drawer.dart';
 import 'package:flutter/material.dart';
 
 class DrawerUserController extends StatefulWidget {
-  const DrawerUserController({
+  DrawerUserController({
     Key? key,
     this.drawerWidth = 250,
     this.onDrawerCall,
@@ -21,6 +21,7 @@ class DrawerUserController extends StatefulWidget {
   final AnimatedIconData? animatedIconData;
   final Widget? menuView;
   final DrawerIndex? screenIndex;
+  bool firstTime = true;
 
   @override
   DrawerUserControllerState createState() => DrawerUserControllerState();
@@ -95,6 +96,17 @@ class DrawerUserControllerState extends State<DrawerUserController>
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
+
+    // profile, release mode로 실행했을 때, 자꾸 열려있는 네비게이션 메뉴 닫아줌 (최초 1회만 실행)
+    if(widget.firstTime){
+      scrollController?.animateTo(
+        widget.drawerWidth,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.fastOutSlowIn,
+      );
+      widget.firstTime = false;
+    }
+
     return Scaffold(
       backgroundColor: isLightMode ? AppTheme.white : AppTheme.nearlyBlack,
       body: SingleChildScrollView(

@@ -1,5 +1,5 @@
-import 'package:book_story/list_view/data/voice_sentence.dart';
-import 'package:book_story/utils/internet_check_service.dart';
+import 'package:book_story/data/voice_sentence.dart';
+import 'package:book_story/utils/helper_functions.dart';
 import 'package:book_story/utils/speech_to_text_utils.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:book_story/theme/book_story_app_theme.dart';
@@ -199,7 +199,7 @@ class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 
                     floatingActionButton: InkWell(
                       child: FloatingActionButton.large(
                         onPressed: () async {
-                          if (await InternetConnectivity.check()) {
+                          if (await HelperFunctions.internetConnectionCheck()) {
                             String? text =
                             await speechToTextUtils.startListening(recogniseSpeech);
                             setState(() {
@@ -207,7 +207,7 @@ class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 
                             });
                           } else {
                             // ignore: use_build_context_synchronously
-                            InternetConnectivity.showNoInternetDialog(context);
+                            HelperFunctions.showNoInternetDialog(context);
                           }
                         }, // to avoid conflict InkWell:onTap
                         child: speechToTextUtils.isListening() ? const Icon(Icons.stop) : const Icon(Icons.mic),
