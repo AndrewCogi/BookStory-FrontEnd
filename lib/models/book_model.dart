@@ -1,11 +1,12 @@
-import 'package:book_story/pages/screens/home_screen.dart';
+import 'package:book_story/enums/category_type.dart';
 
 class Book {
   int? id;
   String title;
   String drawer;
   String writer;
-  String bookType;
+  int bookPage;
+  CategoryType categoryAge;
   List<CategoryType> categoryType;
   String playTime;
   int favorite;
@@ -16,16 +17,17 @@ class Book {
 
   Book({
     this.id,
-    this.title = '',
-    this.drawer = '',
-    this.writer = '',
-    this.imagePath = '',
-    this.bookType = '',
-    this.categoryType = const [CategoryType.none],
-    this.playTime = '0',
-    this.favorite = 0,
-    this.rate = 0.0,
-    this.playCount = 0,
-    this.description = '',
+    required this.title,
+    required this.drawer,
+    required this.writer,
+    required this.imagePath,
+    required this.bookPage,
+    required this.categoryAge,
+    required this.categoryType,
+    required this.playTime,
+    required this.favorite,
+    required this.rate,
+    required this.playCount,
+    required this.description,
   });
 }

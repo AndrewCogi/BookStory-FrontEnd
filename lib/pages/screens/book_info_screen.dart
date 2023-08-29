@@ -1,6 +1,8 @@
 import 'package:amplify_core/amplify_core.dart';
+import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
+import 'package:book_story/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 
 class BookInfoScreen extends StatefulWidget {
@@ -160,11 +162,12 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: <Widget>[
-                                    getBookInfoBoxUI(widget.book.bookType, 'Book Info'),
+                                    getBookInfoBoxUI(categoryDescriptionsAge[widget.book.categoryAge]!, 'Target Age'),
+                                    getBookInfoBoxUI(HelperFunctions.makeBookCategoryToString(widget.book.categoryType, widget.book.categoryType.length), 'Category'),
                                     widget.book.writer == widget.book.drawer ?
                                       getBookInfoBoxUI(widget.book.writer, 'Writer/Drawer') :
                                       getBookInfoBoxUI('${widget.book.writer}, ${widget.book.drawer}', 'Writer/Drawer'),
-                                    getBookInfoBoxUI('${widget.book.playCount}', 'Played'),
+                                    getBookInfoBoxUI('${widget.book.bookPage}', 'Page'),
                                   ],
                                 ),
                               ),

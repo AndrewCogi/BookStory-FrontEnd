@@ -1,4 +1,5 @@
 import 'package:amplify_core/amplify_core.dart';
+import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/pages/list_views/category_list_view.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/pages/list_views/popular_book_list_view.dart';
@@ -119,7 +120,7 @@ class HomeScreenState extends State<HomeScreen> {
                 ),
                 // 생활
                 getButtonUI(
-                    CategoryType.living, HomeScreen.categoryType == CategoryType.living),
+                    CategoryType.lifeStyle, HomeScreen.categoryType == CategoryType.lifeStyle),
                 const SizedBox(
                   width: 16,
                 ),
@@ -211,7 +212,7 @@ class HomeScreenState extends State<HomeScreen> {
       txt = '6세 이상';
     } else if (CategoryType.creative == categoryTypeData) {
       txt = '창작';
-    } else if (CategoryType.living == categoryTypeData) {
+    } else if (CategoryType.lifeStyle == categoryTypeData) {
       txt = '생활';
     } else if (CategoryType.learning == categoryTypeData) {
       txt = '학습';
@@ -384,22 +385,4 @@ class HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
-
-enum CategoryType {
-  age4plus, // 4세 이상
-  age6plus, // 6세 이상
-  age8plus, // 8세 이상
-  upto4age, // 4세 까지
-  upto6age, // 6세 까지
-  creative, // 창작
-  living,   // 생활
-  learning, // 학습
-  culture,  // 문화
-  art,      // 예술
-  society,  // 사회
-  history,  // 역사
-  natural,  // 자연
-  science,  // 과학
-  none,     // unknown
 }

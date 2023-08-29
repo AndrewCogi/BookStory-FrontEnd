@@ -1,3 +1,4 @@
+import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/datasource/data_source.dart';
 import 'package:book_story/datasource/dummy_data_source.dart';
 import 'package:book_story/datasource/temp_db.dart';
@@ -7,6 +8,7 @@ import 'package:book_story/pages/screens/home_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:book_story/utils/constants.dart';
+import 'package:book_story/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,6 +58,7 @@ class CategoryListViewState extends State<CategoryListView>
               return const SizedBox();
             } else {
               List<Book> bookList = snapshot.data!;
+              safePrint(bookList);
               return ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
@@ -172,7 +175,7 @@ class CategoryView extends StatelessWidget {
                                               CrossAxisAlignment.center,
                                           children: <Widget>[
                                             Text(
-                                              category.bookType,
+                                              HelperFunctions.makeBookInfo(category.categoryAge,category.categoryType,1,category.bookPage),
                                               textAlign: TextAlign.left,
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.w200,

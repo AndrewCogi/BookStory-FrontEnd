@@ -1,5 +1,5 @@
+import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/pages/popups/internet_check_popup.dart';
-import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -29,5 +29,18 @@ class HelperFunctions {
         return const InternetCheckPopup();
       },
     );
+  }
+
+  // 책 카테고리를 받아서 하나의 문자열로 만들어 줌
+  static String makeBookCategoryToString(List<CategoryType> categoryType, int takeCount){
+    List<String> typeList = categoryType.map((type) => categoryDescriptions[type] ?? '').take(takeCount).toList();
+    String typeString = typeList.join('/');
+    return typeString;
+  }
+
+  // 책 추천 나이, 카테고리, 페이지를 받아서 하나의 문자열로 만들어 줌
+  // ex : '4+ | 동화/창작 | 32p'
+  static String makeBookInfo(CategoryType categoryAge, List<CategoryType> categoryType, int takeCount, int page){
+    return "${categoryDescriptions[categoryAge]} | ${makeBookCategoryToString(categoryType, takeCount)} | ${page}p";
   }
 }

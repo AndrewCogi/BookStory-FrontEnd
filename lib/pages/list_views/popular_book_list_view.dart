@@ -2,6 +2,7 @@ import 'package:book_story/datasource/temp_db.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/main.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
+import 'package:book_story/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 
 class PopularBookListView extends StatefulWidget {
@@ -68,7 +69,7 @@ class PopularBookListViewState extends State<PopularBookListView>
                   animationController?.forward();
                   return CategoryView(
                     callback: widget.callBack,
-                    category: TempDB.popularBookList[index],
+                    book: TempDB.popularBookList[index],
                     animation: animation,
                     animationController: animationController,
                   );
@@ -85,14 +86,14 @@ class PopularBookListViewState extends State<PopularBookListView>
 class CategoryView extends StatelessWidget {
   const CategoryView(
       {Key? key,
-      required this.category,
+      required this.book,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
 
   final void Function(Book)? callback;
-  final Book category;
+  final Book book;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
@@ -109,7 +110,7 @@ class CategoryView extends StatelessWidget {
             child: InkWell(
               splashColor: Colors.transparent,
               onTap: (){
-                callback?.call(category);
+                callback?.call(book);
               },
               child: SizedBox(
                 child: Stack(
@@ -136,7 +137,7 @@ class CategoryView extends StatelessWidget {
                                             top: 16, left: 16, right: 16),
                                         child: FittedBox(
                                           child: Text(
-                                            category.title,
+                                            book.title,
                                             textAlign: TextAlign.left,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w600,
@@ -163,7 +164,7 @@ class CategoryView extends StatelessWidget {
                                             CrossAxisAlignment.center,
                                             children: <Widget>[
                                               Text(
-                                                category.bookType,
+                                          HelperFunctions.makeBookInfo(book.categoryAge,book.categoryType,2,book.bookPage),
                                                 textAlign: TextAlign.left,
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.w600,
@@ -182,7 +183,7 @@ class CategoryView extends StatelessWidget {
                                                 size: 12,
                                               ),
                                               Text(
-                                                '${category.playCount}',
+                                                '${book.playCount}',
                                                 textAlign:
                                                 TextAlign.left,
                                                 style: const TextStyle(
@@ -235,7 +236,7 @@ class CategoryView extends StatelessWidget {
                               const BorderRadius.all(Radius.circular(16.0)),
                           child: AspectRatio(
                               aspectRatio: 1.28,
-                              child: Image.asset(category.imagePath)),
+                              child: Image.asset(book.imagePath)),
                         ),
                       ),
                     ),

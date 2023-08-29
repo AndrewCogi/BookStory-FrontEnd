@@ -1,8 +1,7 @@
-import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/datasource/data_source.dart';
 import 'package:book_story/datasource/temp_db.dart';
+import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/models/book_model.dart';
-import 'package:book_story/pages/screens/home_screen.dart';
 import 'package:book_story/utils/constants.dart';
 
 class DummyDataSource implements DataSource {
@@ -13,7 +12,7 @@ class DummyDataSource implements DataSource {
     try {
       // 해당 카테고리에 있는 책 검색
       categoryList = TempDB.bookList.where((book) {
-        return book.categoryType.contains(categoryType);
+        return book.categoryType.contains(categoryType) || book.categoryAge==categoryType;
       }).toList();
       // playCount 순으로 정렬
       categoryList.sort((a, b) => b.playCount.compareTo(a.playCount));
