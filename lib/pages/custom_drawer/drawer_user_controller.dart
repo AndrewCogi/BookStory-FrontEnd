@@ -97,15 +97,15 @@ class DrawerUserControllerState extends State<DrawerUserController>
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
 
-    // profile, release mode로 실행했을 때, 자꾸 열려있는 네비게이션 메뉴 닫아줌 (최초 1회만 실행)
-    if(widget.firstTime){
-      scrollController?.animateTo(
-        widget.drawerWidth,
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.fastOutSlowIn,
-      );
-      widget.firstTime = false;
-    }
+    // // profile, release mode로 실행했을 때, 자꾸 열려있는 네비게이션 메뉴 닫아줌 (최초 1회만 실행)
+    // if(widget.firstTime){
+    //   scrollController?.animateTo(
+    //     widget.drawerWidth,
+    //     duration: const Duration(milliseconds: 0),
+    //     curve: Curves.fastOutSlowIn,
+    //   );
+    //   widget.firstTime = false;
+    // }
 
     return Scaffold(
       backgroundColor: isLightMode ? AppTheme.white : AppTheme.nearlyBlack,

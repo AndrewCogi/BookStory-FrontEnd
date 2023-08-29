@@ -1,8 +1,14 @@
-import 'package:book_story/datasource/book_data.dart';
+import 'package:book_story/datasource/data_source.dart';
+import 'package:book_story/datasource/dummy_data_source.dart';
+import 'package:book_story/datasource/temp_db.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/main.dart';
+import 'package:book_story/pages/screens/home_screen.dart';
+import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
+import 'package:book_story/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CategoryListView extends StatefulWidget {
   const CategoryListView({Key? key, this.callBack}) : super(key: key);
@@ -15,6 +21,7 @@ class CategoryListView extends StatefulWidget {
 class CategoryListViewState extends State<CategoryListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
+  final DataSource _dataSource = DummyDataSource();
 
   @override
   void initState() {
@@ -41,21 +48,23 @@ class CategoryListViewState extends State<CategoryListView>
       child: SizedBox(
         height: 134,
         width: double.infinity,
-        child: FutureBuilder<bool>(
-          future: getData(),
-          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        child: FutureBuilder<List<Book>?>(
+          future: Provider.of<AppDataProvider>(context, listen: false)
+              .getBooksByCategory(HomeScreen.categoryType),
+          builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
             if (!snapshot.hasData) {
               return const SizedBox();
             } else {
+              List<Book> bookList = snapshot.data!;
               return ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: BookData.categoryList.length,
+                itemCount: getBooksByCategoryItemCount,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  final int count = BookData.categoryList.length > 10
+                  const int count = getBooksByCategoryItemCount > 10
                       ? 10
-                      : BookData.categoryList.length;
+                      : getBooksByCategoryItemCount;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -63,9 +72,8 @@ class CategoryListViewState extends State<CategoryListView>
                               curve: Interval((1 / count) * index, 1.0,
                                   curve: Curves.fastOutSlowIn)));
                   animationController?.forward();
-
                   return CategoryView(
-                    category: BookData.categoryList[index],
+                    category: bookList[index],
                     animation: animation,
                     animationController: animationController,
                     callback: widget.callBack,

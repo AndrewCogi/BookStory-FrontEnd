@@ -1,14 +1,18 @@
 import 'package:book_story/pages/screens/navigation_home_screen.dart';
+import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/main_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]).then((_) => runApp(const MyApp()));
+  ]).then((_) => runApp(ChangeNotifierProvider(
+      create: (context) => AppDataProvider(),
+      child: const MyApp())));
 }
 
 class MyApp extends StatelessWidget {

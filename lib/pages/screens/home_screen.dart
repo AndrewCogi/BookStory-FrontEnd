@@ -1,15 +1,18 @@
 import 'package:amplify_core/amplify_core.dart';
-import 'package:book_story/datasource/book_data.dart';
 import 'package:book_story/pages/list_views/category_list_view.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/pages/list_views/popular_book_list_view.dart';
 import 'package:book_story/main.dart';
 import 'package:book_story/pages/screens/book_info_screen.dart';
+import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
+import 'package:provider/provider.dart';
+
 class HomeScreen extends StatefulWidget {
+  static CategoryType categoryType = CategoryType.age4plus;
   const HomeScreen({super.key});
 
   @override
@@ -17,7 +20,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  CategoryType categoryType = CategoryType.age4plus;
 
   @override
   Widget build(BuildContext context) {
@@ -99,36 +101,49 @@ class HomeScreenState extends State<HomeScreen> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: <Widget>[
-                getButtonUI(CategoryType.age4plus, categoryType == CategoryType.age4plus),
+                // 4세 이상
+                getButtonUI(CategoryType.age4plus, HomeScreen.categoryType == CategoryType.age4plus),
                 const SizedBox(
                   width: 16,
                 ),
-                getButtonUI(CategoryType.age6plus, categoryType == CategoryType.age6plus),
+                // 6세 이상
+                getButtonUI(CategoryType.age6plus, HomeScreen.categoryType == CategoryType.age6plus),
                 const SizedBox(
                   width: 16,
                 ),
+                // 창작
                 getButtonUI(
-                    CategoryType.creative, categoryType == CategoryType.creative),
+                    CategoryType.creative, HomeScreen.categoryType == CategoryType.creative),
                 const SizedBox(
                   width: 16,
                 ),
+                // 생활
                 getButtonUI(
-                    CategoryType.learning, categoryType == CategoryType.learning),
+                    CategoryType.living, HomeScreen.categoryType == CategoryType.living),
                 const SizedBox(
                   width: 16,
                 ),
+                // 학습
                 getButtonUI(
-                    CategoryType.cultureArt, categoryType == CategoryType.cultureArt),
+                    CategoryType.learning, HomeScreen.categoryType == CategoryType.learning),
                 const SizedBox(
                   width: 16,
                 ),
+                // 문화/예술
                 getButtonUI(
-                    CategoryType.societyHistory, categoryType == CategoryType.societyHistory),
+                    CategoryType.culture, HomeScreen.categoryType == CategoryType.culture),
                 const SizedBox(
                   width: 16,
                 ),
+                // 사회/역사
                 getButtonUI(
-                    CategoryType.naturalScience, categoryType == CategoryType.naturalScience),
+                    CategoryType.society, HomeScreen.categoryType == CategoryType.society),
+                const SizedBox(
+                  width: 16,
+                ),
+                // 자연/과학
+                getButtonUI(
+                    CategoryType.natural, HomeScreen.categoryType == CategoryType.natural),
               ],
             ),
           )
@@ -196,13 +211,15 @@ class HomeScreenState extends State<HomeScreen> {
       txt = '6세 이상';
     } else if (CategoryType.creative == categoryTypeData) {
       txt = '창작';
+    } else if (CategoryType.living == categoryTypeData) {
+      txt = '생활';
     } else if (CategoryType.learning == categoryTypeData) {
       txt = '학습';
-    } else if (CategoryType.cultureArt == categoryTypeData) {
+    } else if (CategoryType.culture == categoryTypeData || CategoryType.art == categoryTypeData) {
       txt = '문화/예술';
-    } else if (CategoryType.societyHistory == categoryTypeData) {
+    } else if (CategoryType.society == categoryTypeData || CategoryType.history == categoryTypeData) {
       txt = '사회/역사';
-    } else if (CategoryType.naturalScience == categoryTypeData) {
+    } else if (CategoryType.natural == categoryTypeData || CategoryType.science == categoryTypeData) {
       txt = '자연/과학';
     }
     return Container(
@@ -220,9 +237,14 @@ class HomeScreenState extends State<HomeScreen> {
             borderRadius: const BorderRadius.all(Radius.circular(24.0)),
             onTap: () {
               safePrint('$txt clicked.');
-              setState(() {
-                categoryType = categoryTypeData;
-                BookData.setCategory(categoryType);
+              // TempDB.setCategory(categoryType);
+              Provider.of<AppDataProvider>(context, listen: false)
+                  .getBooksByCategory(categoryTypeData)
+                  .then((bookList) {
+                    safePrint('query result: ${bookList!.map((book) => book.title).toList()}');
+                    setState(() {
+                      HomeScreen.categoryType = categoryTypeData;
+                    });
               });
             },
             child: Padding(
@@ -365,12 +387,19 @@ class HomeScreenState extends State<HomeScreen> {
 }
 
 enum CategoryType {
-  age4plus,
-  age6plus,
-  creative,
-  living,
-  learning,
-  cultureArt,
-  societyHistory,
-  naturalScience
+  age4plus, // 4세 이상
+  age6plus, // 6세 이상
+  age8plus, // 8세 이상
+  upto4age, // 4세 까지
+  upto6age, // 6세 까지
+  creative, // 창작
+  living,   // 생활
+  learning, // 학습
+  culture,  // 문화
+  art,      // 예술
+  society,  // 사회
+  history,  // 역사
+  natural,  // 자연
+  science,  // 과학
+  none,     // unknown
 }

@@ -1,4 +1,4 @@
-import 'package:book_story/datasource/book_data.dart';
+import 'package:book_story/datasource/temp_db.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/main.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
@@ -54,9 +54,9 @@ class PopularBookListViewState extends State<PopularBookListView>
                 childAspectRatio: 1.0,
               ),
               children: List<Widget>.generate(
-                BookData.popularBookList.length,
+                TempDB.popularBookList.length,
                 (int index) {
-                  final int count = BookData.popularBookList.length;
+                  final int count = TempDB.popularBookList.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                     CurvedAnimation(
@@ -68,7 +68,7 @@ class PopularBookListViewState extends State<PopularBookListView>
                   animationController?.forward();
                   return CategoryView(
                     callback: widget.callBack,
-                    category: BookData.popularBookList[index],
+                    category: TempDB.popularBookList[index],
                     animation: animation,
                     animationController: animationController,
                   );
