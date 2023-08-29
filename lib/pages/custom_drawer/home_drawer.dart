@@ -1,6 +1,8 @@
-import 'package:book_story/screens/login_screen.dart';
-import 'package:book_story/theme/main_app_theme.dart';
-import 'package:book_story/utils/auth_service.dart';
+import 'package:book_story/controllers/impl/auth_controller_impl.dart';
+import 'package:book_story/models/drawer_menu_model.dart';
+import 'package:book_story/pages/screens/login_screen.dart';
+import 'package:book_story/utils/main_app_theme.dart';
+import 'package:book_story/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 
 class HomeDrawer extends StatefulWidget {
@@ -22,7 +24,8 @@ class HomeDrawer extends StatefulWidget {
 }
 
 class HomeDrawerState extends State<HomeDrawer> {
-  List<DrawerList>? drawerList;
+  final AuthController _authController = AuthControllerImpl();
+  List<DrawerMenu>? drawerList;
 
   @override
   void initState() {
@@ -31,39 +34,39 @@ class HomeDrawerState extends State<HomeDrawer> {
   }
 
   void setDrawerListArray() {
-    drawerList = <DrawerList>[
-      DrawerList(
+    drawerList = <DrawerMenu>[
+      DrawerMenu(
         index: DrawerIndex.home,
         labelName: 'Home',
         icon: const Icon(Icons.home),
       ),
-      DrawerList(
+      DrawerMenu(
         index: DrawerIndex.library,
         labelName: 'Library',
         isAssetsImage: true,
         imageName: 'assets/icons/libraryIcon.png',
       ),
-      DrawerList(
+      DrawerMenu(
         index: DrawerIndex.favorite,
         labelName: 'My Favorite',
         icon: const Icon(Icons.favorite_border),
       ),
-      DrawerList(
+      DrawerMenu(
         index: DrawerIndex.voice,
         labelName: 'Voice',
         icon: const Icon(Icons.record_voice_over_outlined),
       ),
-      DrawerList(
+      DrawerMenu(
         index: DrawerIndex.feedback,
         labelName: 'FeedBack',
         icon: const Icon(Icons.help),
       ),
-      DrawerList(
+      DrawerMenu(
         index: DrawerIndex.rate,
         labelName: 'Rate this app',
         icon: const Icon(Icons.share),
       ),
-      DrawerList(
+      DrawerMenu(
         index: DrawerIndex.about,
         labelName: 'About Us',
         icon: const Icon(Icons.info),
@@ -175,23 +178,6 @@ class HomeDrawerState extends State<HomeDrawer> {
     );
   }
 
-  void onTappedLogin() {
-    Navigator.push<dynamic>(
-      context,
-      MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => const LoginScreen(),
-      ),
-    );
-  }
-  void onTappedLogout() async {
-    bool result = await onLogout(HomeDrawer.userEmail);
-    // ignore: use_build_context_synchronously
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Logout Complete')));
-    setState(() {
-      HomeDrawer.isLogin = result;
-    });
-  }
-
   Widget makeSignButton() {
     if(HomeDrawer.isLogin == null){
       return ListTile(
@@ -233,7 +219,12 @@ class HomeDrawerState extends State<HomeDrawer> {
           // color: Colors.red,
         ),
         onTap: () {
-          onTappedLogin();
+          Navigator.push<dynamic>(
+            context,
+            MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => const LoginScreen(),
+            ),
+          );
         },
       );
     }
@@ -254,14 +245,19 @@ class HomeDrawerState extends State<HomeDrawer> {
           color: Colors.red,
           // color: Colors.red,
         ),
-        onTap: () {
-          onTappedLogout();
+        onTap: () async {
+          bool result = await _authController.onLogout(HomeDrawer.userEmail);
+          // ignore: use_build_context_synchronously
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Logout Complete')));
+          setState(() {
+            HomeDrawer.isLogin = result;
+          });
         },
       );
     }
   }
 
-  Widget inkwell(DrawerList listData) {
+  Widget inkwell(DrawerMenu listData) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -377,20 +373,4 @@ enum DrawerIndex {
   rate,
   about,
   login,
-}
-
-class DrawerList {
-  DrawerList({
-    this.isAssetsImage = false,
-    this.labelName = '',
-    this.icon,
-    this.index,
-    this.imageName = '',
-  });
-
-  String labelName;
-  Icon? icon;
-  bool isAssetsImage;
-  String imageName;
-  DrawerIndex? index;
 }

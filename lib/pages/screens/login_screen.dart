@@ -1,9 +1,11 @@
 import 'package:amplify_core/amplify_core.dart';
-import 'package:book_story/custom_drawer/home_drawer.dart';
-import 'package:book_story/screens/verification_screen.dart';
+import 'package:book_story/controllers/auth_controller.dart';
+import 'package:book_story/controllers/impl/auth_controller_impl.dart';
+import 'package:book_story/models/app_user.dart';
+import 'package:book_story/pages/custom_drawer/home_drawer.dart';
+import 'package:book_story/pages/screens/verification_screen.dart';
 import 'package:book_story/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
-import '../utils/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,10 +15,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
-  bool isComplete = false;
+  bool isComplete = true;
   bool isObscure = true;
   String errorMessageEmail = "";
   String errorMessagePassword = "";
+  AppUser? appUserData;
+  final AuthController _authController = AuthControllerImpl();
   final FocusNode _secondTextFieldFocus = FocusNode();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -131,7 +135,7 @@ class LoginScreenState extends State<LoginScreen> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            _loginButtonPressed();
+                            _cognitoButtonPressed(CognitoIndex.login);
                           },
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -143,7 +147,7 @@ class LoginScreenState extends State<LoginScreen> {
                         const SizedBox(width: 20.0),
                         ElevatedButton(
                           onPressed: () {
-                            _signUpButtonPressed();
+                            _cognitoButtonPressed(CognitoIndex.signup);
                           },
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -203,7 +207,7 @@ class LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          if(isComplete)
+          if(isComplete == false)
             Container(
               color: Colors.black.withOpacity(0.1),
               child: const Center(
@@ -216,230 +220,113 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _loginButtonPressed() {
-    // Show loading screen and deactivate the main content
+  Future<void> _cognitoButtonPressed(CognitoIndex cognitoIndex) async {
+    // init AppUser
+    appUserData = AppUser(email: _emailController.text, password: _passwordController.text);
+
+    // clear errorMessages
     setState(() {
-      isComplete = true;
+      errorMessageEmail = "";
+      errorMessagePassword = "";
     });
 
     // Login process... (if done, automatically activate the main content)
-    _loginProcess();
-
-    // Waiting login process
-    Future.delayed(const Duration(seconds: 10), () {
-      // Once login is complete, hide loading screen and activate main content
-      setState(() {
-        isComplete = false;
-      });
-    });
-  }
-
-  void _signUpButtonPressed() async{
-    // Show loading screen and deactivate the main content
-    setState(() {
-      isComplete = true;
-    });
-
-    // SignUp process... (if done, automatically activate the main content)
-    _signUpProcess();
-
-    // Waiting signUp process
-    Future.delayed(const Duration(seconds: 10), () {
-      // Once login is complete, hide loading screen and activate main content
-      setState(() {
-        isComplete = false;
-      });
-    });
-  }
-
-  void _loginProcess() async {
-    // onLogin()을 실시해도 되는지를 저장
-    bool isValid = false;
-    // internet connection valid
-    if (await HelperFunctions.internetConnectionCheck()) {
-      safePrint("name: ${_emailController.text}, pw: ${_passwordController.text}");
-      AuthService authService = AuthService(email: _emailController.text, password: _passwordController.text);
-      setState(() {
-        // clear errorMessage
-        errorMessageEmail = "";
-        errorMessagePassword = "";
-        // 형식 체크
-        String isPasswordValidResult = isPasswordValid(authService.password);
-        if(isEmailValid(authService.email) == false || isPasswordValidResult != ""){
-          // 이메일 형식 체크
-          if(isEmailValid(authService.email) == false){
-            errorMessageEmail = "Check your email format.";
-          }
-          // 비번 형식 체크
-          if(isPasswordValidResult != ""){
-            errorMessagePassword = isPasswordValidResult;
-          }
-        }
-        else{
-          // go!
-          isValid = true;
-        }
-      });
-
-      // Login 실시해도 되는가?
-      if(isValid){
-        safePrint('LOGIN!');
-        String result = await onLogin(authService);
-        // Login 성공!
-        if(result == '') {
+    if(cognitoIndex == CognitoIndex.login){
+      Map<String,dynamic>? result = await _authController.stringValidCheckProcess(context,appUserData!);
+      // 로그인을 시도해봐도 좋음!
+      if(result == null){
+        // Show loading screen and deactivate the main content
+        setState(() {
+          isComplete = false;
+        });
+        // 로그인 실시!
+        Map<String,dynamic>? result = await _authController.loginProcess(appUserData!);
+        // 로그인 성공
+        if(result == null){
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Login Complete')));
           // ignore: use_build_context_synchronously
           Navigator.pop(context);
           setState(() {
             HomeDrawer.isLogin = true;
-            HomeDrawer.userEmail = authService.email;
+            HomeDrawer.userEmail = appUserData!.email;
           });
         }
-        // onLogin()함수에서 어딘가 잘못됨
+        // 로그인 실패
         else {
           setState(() {
-            // 이미 접속중인 아이디 TODO: stateless connection인데 이게 왜 떴지?.. 중복로그인이 가능하도록 하는게 좋을듯. (한 계정으로 엄마아빠 같이쓰기. 아이가 여럿일수도 있고!)
-            if(result.startsWith("There is already a user signed in")){
-              errorMessageEmail = "There is already a user signed in.";
-            }
-            // 아이디 or 비번의 입력값이 잘못됨. 어딘가 비어있음.
-            if(result.startsWith("One or more parameters are incorrect")){
-              // ID field empty
-              if(_emailController.text == ""){
-                errorMessageEmail = "Enter Email.";
-              }
-              // PW field empty
-              if(_passwordController.text == ""){
-                errorMessagePassword = "Enter Password.";
-              }
-            }
-            // 비밀번호가 틀렸음
-            if(result.startsWith("Failed since user is not authorized")){
-              errorMessageEmail = "Wrong password - Try Again.";
-            }
-            // 등록된 아이디가 아님
-            if(result.startsWith("User not found in the system")){
-              errorMessageEmail = "This account is not registered. Sign up!";
-            }
-            // 이메일 인증이 안됨
-            if(result.startsWith("User not confirmed in the system")){
-              errorMessageEmail = "This account is not verification.";
-            }
+            errorMessageEmail = result['errorMessageEmail'];
+            errorMessagePassword = result['errorMessagePassword'];
           });
         }
+        // 모든 절차가 완료되었으니, active하게 변경
+        setState(() {
+          isComplete = true;
+        });
+      }
+      // 로그인을 시도하기에 적합하지 않은 문자열임.
+      else {
+        setState(() {
+          errorMessageEmail = result['errorMessageEmail'];
+          errorMessagePassword = result['errorMessagePassword'];
+        });
       }
     }
-    // internet connection invalid
-    else {
-      // ignore: use_build_context_synchronously
-      HelperFunctions.showNoInternetDialog(context);
-    }
-    // 모든 절차가 완료되면 content active하게 변경
-    setState(() {
-      isComplete = false;
-    });
-  }
-
-  void _signUpProcess() async {
-    // onSignUp()을 실시해도 되는지를 저장
-    bool isValid = false;
-    // internet connection valid
-    if (await HelperFunctions.internetConnectionCheck()) {
-      // get input (email + password)
-      safePrint('INPUT CHECK - email: ${_emailController.text}, pw: ${_passwordController.text}');
-      AuthService authService = AuthService(email: _emailController.text, password: _passwordController.text);
-      setState(() {
-        // clear errorMessage
-        errorMessageEmail = "";
-        errorMessagePassword = "";
-        // 형식 체크
-        String isPasswordValidResult = isPasswordValid(authService.password);
-        if(isEmailValid(authService.email) == false || isPasswordValidResult != ""){
-          // 이메일 형식 체크
-          if(isEmailValid(authService.email) == false){
-            errorMessageEmail = "Check your email format.";
-          }
-          // 비번 형식 체크
-          if(isPasswordValidResult != ""){
-            errorMessagePassword = isPasswordValidResult;
-          }
-        }
-        else{
-          // go!
-          isValid = true;
-        }
-      });
-
-      // Authenticate 실시해도 되는가?
-      if(isValid){
-        safePrint('AUTH!');
-        String result = await onSignUp(authService);
-        // Authenticate 성공!
-        if(result == '') {
+    // SignUp process... (if done, automatically activate the main content)
+    else if(cognitoIndex == CognitoIndex.signup){
+      Map<String,dynamic>? result = await _authController.stringValidCheckProcess(context,appUserData!);
+      // 회원가입을 시도해봐도 좋음!
+      if(result == null) {
+        // Show loading screen and deactivate the main content
+        setState(() {
+          isComplete = false;
+        });
+        // 회원가입 실시!
+        Map<String, dynamic>? result = await _authController.signUpProcess(appUserData!);
+        // 회원가입 성공
+        if(result == null){
           // ignore: use_build_context_synchronously
           Navigator.push<dynamic>(
             context,
             MaterialPageRoute<dynamic>(
-              builder: (BuildContext context) => VerificationScreen(authService),
+              builder: (BuildContext context) => VerificationScreen(appUserData!),
             ),
           );
         }
-        // onSignUp()함수에서 어딘가 잘못됨
-        else {
+        // 회원가입 실패
+        else{
           setState(() {
-            // 이미 존재하는 아이디
-            if(result.startsWith("Username already exists in the system")){
-              errorMessageEmail = "This user already exists in the system.";
-            }
-            // 아이디 or 비번의 입력값이 잘못됨. 어딘가 비어있음
-            if(result.startsWith("One or more parameters are incorrect")){
-              // ID field empty
-              if(_emailController.text == ""){
-                errorMessageEmail = "Enter Email.";
-              }
-              // PW field empty
-              if(_passwordController.text == ""){
-                errorMessagePassword = "Enter Password.";
-              }
-            }
+            errorMessageEmail = result['errorMessageEmail'];
+            errorMessagePassword = result['errorMessagePassword'];
           });
         }
+        // 모든 절차가 완료되었으니, active하게 변경
+        setState(() {
+          isComplete = true;
+        });
+      }
+      // 회원가입을 시도하기에 적합하지 않은 문자열임.
+      else {
+        setState(() {
+          errorMessageEmail = result['errorMessageEmail'];
+          errorMessagePassword = result['errorMessagePassword'];
+        });
       }
     }
-    // internet connection invalid
-    else {
-      // ignore: use_build_context_synchronously
-      HelperFunctions.showNoInternetDialog(context);
-    }
-    // 모든 절차가 완료되면 content active하게 변경
-    setState(() {
-      isComplete = false;
+
+    // Waiting login process
+    Future.delayed(const Duration(seconds: 10), () {
+      if(isComplete == false) {
+        // Once login is complete, hide loading screen and activate main content
+        setState(() {
+          isComplete = true;
+        });
+      }
     });
   }
+}
 
-  bool isEmailValid(String email) {
-    // Regular expression for email validation
-    final emailRegExp = RegExp(r'^[\w.-]+@[\w.-]+\.\w+$');
-    return emailRegExp.hasMatch(email);
-  }
-
-  String isPasswordValid(String password) {
-    if (password.length < 8) {
-      return "Password must be at least 8 characters long.";
-    }
-    if (!password.contains(RegExp(r'[0-9]'))) {
-      return "Password must contain at least 1 number.";
-    }
-    if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-      return "Password must contain at least 1 special character.";
-    }
-    if (!password.contains(RegExp(r'[A-Z]'))) {
-      return "Password must contain at least 1 uppercase letter.";
-    }
-    if (!password.contains(RegExp(r'[a-z]'))) {
-      return "Password must contain at least 1 lowercase letter.";
-    }
-    return ""; // Password is valid
-  }
+enum CognitoIndex{
+  login,
+  signup,
 }

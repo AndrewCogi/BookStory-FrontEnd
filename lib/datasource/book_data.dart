@@ -1,33 +1,7 @@
-import 'package:book_story/screens/home_screen.dart';
+import 'package:book_story/models/book_model.dart';
+import 'package:book_story/pages/screens/home_screen.dart';
 
-class Book { // TODO : field 변수들 책들한테 모두 추가해주기!
-  Book({
-    this.id = -1,
-    this.title = '',
-    this.drawer = '',
-    this.writer = '',
-    this.imagePath = '',
-    this.bookType = '',
-    this.playTime = '0',
-    this.favorite = 0,
-    this.rate = 0.0,
-    this.playCount = 0,
-    this.description = '',
-  });
-
-  int id;
-  String title;
-  String drawer;
-  String writer;
-  String bookType;
-  String playTime;
-  int favorite;
-  int playCount;
-  double rate;
-  String imagePath;
-  String description;
-
-
+class BookData{
   static List<Book> categoryList = <Book>[
     Book(
       imagePath: 'assets/books/age_4_plus/book1.png',
@@ -72,18 +46,18 @@ class Book { // TODO : field 변수들 책들한테 모두 추가해주기!
           '친구를 만날 수 있는지 함께 떠나 볼까요?',
     ),
     Book(
-      imagePath: 'assets/books/age_4_plus/book4.png',
-      title: '생각하는 ㄱㄴㄷ',
-      drawer: 'Iwona Chmielewska',
-      writer: 'Iwona Chmielewska',
-      bookType: '4+ | 창작 | 36p',
-      playTime: '08:30',
-      favorite: 2739,
-      rate: 4.5,
-      playCount: 21480,
-      description: '한글 낱자와 뛰어난 상상력의 만남! 재미있게 한글 공부도 하고, 상상력도 키우는 특별한 그림책! '
-          '글자그림책 ㄱA1 시리즈는 ‘한글’과 ‘알파벳’과 ‘숫자’의 각 글자 형태와 의미에 사물을 연결시켜 풀어내는 '
-          '독특한 상상력의 그림책입니다.'
+        imagePath: 'assets/books/age_4_plus/book4.png',
+        title: '생각하는 ㄱㄴㄷ',
+        drawer: 'Iwona Chmielewska',
+        writer: 'Iwona Chmielewska',
+        bookType: '4+ | 창작 | 36p',
+        playTime: '08:30',
+        favorite: 2739,
+        rate: 4.5,
+        playCount: 21480,
+        description: '한글 낱자와 뛰어난 상상력의 만남! 재미있게 한글 공부도 하고, 상상력도 키우는 특별한 그림책! '
+            '글자그림책 ㄱA1 시리즈는 ‘한글’과 ‘알파벳’과 ‘숫자’의 각 글자 형태와 의미에 사물을 연결시켜 풀어내는 '
+            '독특한 상상력의 그림책입니다.'
     ),
     Book(
       imagePath: 'assets/books/age_4_plus/book5.png',

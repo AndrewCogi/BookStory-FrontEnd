@@ -1,8 +1,8 @@
-import 'package:book_story/data/voice_sentence.dart';
+import 'package:book_story/datasource/voice_sentence_data.dart';
 import 'package:book_story/utils/helper_functions.dart';
 import 'package:book_story/utils/speech_to_text_utils.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
-import 'package:book_story/theme/book_story_app_theme.dart';
+import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 
 class VoiceScreen extends StatefulWidget {
@@ -19,7 +19,7 @@ class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 
   String progressText = "1 / 100";
   String plainText = "";
   String speechText = "";
-  VoiceSentenceList voiceSentenceList = VoiceSentenceList();
+  VoiceSentenceData voiceSentenceList = VoiceSentenceData();
   SpeechToTextUtils speechToTextUtils = SpeechToTextUtils();
 
   void recogniseSpeech(SpeechRecognitionResult result){

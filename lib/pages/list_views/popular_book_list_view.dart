@@ -1,6 +1,7 @@
-import 'package:book_story/data/book.dart';
+import 'package:book_story/datasource/book_data.dart';
+import 'package:book_story/models/book_model.dart';
 import 'package:book_story/main.dart';
-import 'package:book_story/theme/book_story_app_theme.dart';
+import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 
 class PopularBookListView extends StatefulWidget {
@@ -19,6 +20,12 @@ class PopularBookListViewState extends State<PopularBookListView>
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
+  }
+
+  @override
+  void dispose(){
+    animationController?.dispose();
+    super.dispose();
   }
 
   Future<bool> getData() async {
@@ -47,9 +54,9 @@ class PopularBookListViewState extends State<PopularBookListView>
                 childAspectRatio: 1.0,
               ),
               children: List<Widget>.generate(
-                Book.popularBookList.length,
+                BookData.popularBookList.length,
                 (int index) {
-                  final int count = Book.popularBookList.length;
+                  final int count = BookData.popularBookList.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                     CurvedAnimation(
@@ -61,7 +68,7 @@ class PopularBookListViewState extends State<PopularBookListView>
                   animationController?.forward();
                   return CategoryView(
                     callback: widget.callBack,
-                    category: Book.popularBookList[index],
+                    category: BookData.popularBookList[index],
                     animation: animation,
                     animationController: animationController,
                   );

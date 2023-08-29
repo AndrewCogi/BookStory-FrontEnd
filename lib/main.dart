@@ -1,5 +1,5 @@
-import 'package:book_story/theme/main_app_theme.dart';
-import 'package:book_story/screens/navigation_home_screen.dart';
+import 'package:book_story/pages/screens/navigation_home_screen.dart';
+import 'package:book_story/utils/main_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

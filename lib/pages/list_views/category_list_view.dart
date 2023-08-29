@@ -1,6 +1,7 @@
-import 'package:book_story/data/book.dart';
+import 'package:book_story/datasource/book_data.dart';
+import 'package:book_story/models/book_model.dart';
 import 'package:book_story/main.dart';
-import 'package:book_story/theme/book_story_app_theme.dart';
+import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CategoryListView extends StatefulWidget {
@@ -49,12 +50,12 @@ class CategoryListViewState extends State<CategoryListView>
               return ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: Book.categoryList.length,
+                itemCount: BookData.categoryList.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  final int count = Book.categoryList.length > 10
+                  final int count = BookData.categoryList.length > 10
                       ? 10
-                      : Book.categoryList.length;
+                      : BookData.categoryList.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -64,7 +65,7 @@ class CategoryListViewState extends State<CategoryListView>
                   animationController?.forward();
 
                   return CategoryView(
-                    category: Book.categoryList[index],
+                    category: BookData.categoryList[index],
                     animation: animation,
                     animationController: animationController,
                     callback: widget.callBack,

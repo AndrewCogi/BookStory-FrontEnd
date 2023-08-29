@@ -1,5 +1,5 @@
 import 'package:amplify_core/amplify_core.dart';
-import 'package:book_story/theme/main_app_theme.dart';
+import 'package:book_story/utils/main_app_theme.dart';
 import 'package:flutter/material.dart';
 
 class FeedbackScreen extends StatefulWidget {

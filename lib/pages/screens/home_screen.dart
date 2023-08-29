@@ -1,10 +1,11 @@
 import 'package:amplify_core/amplify_core.dart';
-import 'package:book_story/list_view/category_list_view.dart';
-import 'package:book_story/data/book.dart';
-import 'package:book_story/list_view/popular_book_list_view.dart';
+import 'package:book_story/datasource/book_data.dart';
+import 'package:book_story/pages/list_views/category_list_view.dart';
+import 'package:book_story/models/book_model.dart';
+import 'package:book_story/pages/list_views/popular_book_list_view.dart';
 import 'package:book_story/main.dart';
-import 'package:book_story/screens/book_info_screen.dart';
-import 'package:book_story/theme/book_story_app_theme.dart';
+import 'package:book_story/pages/screens/book_info_screen.dart';
+import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
@@ -221,7 +222,7 @@ class HomeScreenState extends State<HomeScreen> {
               safePrint('$txt clicked.');
               setState(() {
                 categoryType = categoryTypeData;
-                Book.setCategory(categoryType);
+                BookData.setCategory(categoryType);
               });
             },
             child: Padding(

@@ -1,6 +1,6 @@
 import 'package:amplify_core/amplify_core.dart';
-import 'package:book_story/data/book.dart';
-import 'package:book_story/theme/book_story_app_theme.dart';
+import 'package:book_story/models/book_model.dart';
+import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 
 class BookInfoScreen extends StatefulWidget {
@@ -160,11 +160,11 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: <Widget>[
-                                    getTimeBoxUI(widget.book.bookType, 'Book Info'),
+                                    getBookInfoBoxUI(widget.book.bookType, 'Book Info'),
                                     widget.book.writer == widget.book.drawer ?
-                                      getTimeBoxUI(widget.book.writer, 'Writer/Drawer') :
-                                      getTimeBoxUI('${widget.book.writer}, ${widget.book.drawer}', 'Writer/Drawer'),
-                                    getTimeBoxUI('${widget.book.playCount}', 'Played'),
+                                      getBookInfoBoxUI(widget.book.writer, 'Writer/Drawer') :
+                                      getBookInfoBoxUI('${widget.book.writer}, ${widget.book.drawer}', 'Writer/Drawer'),
+                                    getBookInfoBoxUI('${widget.book.playCount}', 'Played'),
                                   ],
                                 ),
                               ),
@@ -343,7 +343,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
     );
   }
 
-  Widget getTimeBoxUI(String text1, String txt2) {
+  Widget getBookInfoBoxUI(String value, String title) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -365,7 +365,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
-                text1,
+                value,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
@@ -375,7 +375,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                 ),
               ),
               Text(
-                txt2,
+                title,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontWeight: FontWeight.w200,

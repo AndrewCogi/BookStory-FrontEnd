@@ -1,4 +1,5 @@
-import 'package:book_story/popup/internet_check_popup.dart';
+import 'package:book_story/pages/popups/internet_check_popup.dart';
+import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -29,6 +30,4 @@ class HelperFunctions {
       },
     );
   }
-
-  //
 }

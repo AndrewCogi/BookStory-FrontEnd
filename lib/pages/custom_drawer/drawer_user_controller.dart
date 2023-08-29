@@ -1,5 +1,5 @@
-import 'package:book_story/theme/main_app_theme.dart';
-import 'package:book_story/custom_drawer/home_drawer.dart';
+import 'package:book_story/pages/custom_drawer/home_drawer.dart';
+import 'package:book_story/utils/main_app_theme.dart';
 import 'package:flutter/material.dart';
 
 class DrawerUserController extends StatefulWidget {

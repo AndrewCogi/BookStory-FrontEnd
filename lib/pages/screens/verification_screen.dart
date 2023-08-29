@@ -1,21 +1,24 @@
+import 'package:book_story/controllers/auth_controller.dart';
+import 'package:book_story/controllers/impl/auth_controller_impl.dart';
+import 'package:book_story/models/app_user.dart';
 import 'package:book_story/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
-import '../utils/auth_service.dart';
 
 class VerificationScreen extends StatefulWidget {
-  const VerificationScreen(this.authData, {super.key});
+  const VerificationScreen(this.appUserData, {super.key});
 
-  final AuthService authData;
+  final AppUser appUserData;
 
   @override
   VerificationScreenState createState() => VerificationScreenState();
 }
 
 class VerificationScreenState extends State<VerificationScreen> {
-  bool isComplete = false;
+  bool isComplete = true;
   bool isObscure = true;
   String errorMessageVerificationCode = "";
   final TextEditingController _verificationCodeController = TextEditingController();
+  final AuthController _authController = AuthControllerImpl();
 
   @override
   void initState(){
@@ -112,7 +115,7 @@ class VerificationScreenState extends State<VerificationScreen> {
             ),
           ),
 
-          if(isComplete)
+          if(isComplete == false)
             Container(
               color: Colors.black.withOpacity(0.1),
               child: const Center(
@@ -124,20 +127,23 @@ class VerificationScreenState extends State<VerificationScreen> {
     );
   }
 
+  // TODO : auth_controller로 이전하는 작업 해야함.
   void _verificationButtonPressed() async {
     // Show loading screen and deactivate the main content
     setState(() {
-      isComplete = true;
+      isComplete = false;
     });
 
     _verificationProcess();
 
     // Waiting verification process
     Future.delayed(const Duration(seconds: 10), () {
-      // Once verification is complete, hide loading screen and activate main content
-      setState(() {
-        isComplete = false;
-      });
+      if(isComplete == false) {
+        // Once verification is complete, hide loading screen and activate main content
+        setState(() {
+          isComplete = true;
+        });
+      }
     });
   }
 
@@ -148,7 +154,7 @@ class VerificationScreenState extends State<VerificationScreen> {
         errorMessageVerificationCode = "";
       });
       // verification
-      String result = await verifyCode(widget.authData, _verificationCodeController.text);
+      String result = await _authController.verifyCode(widget.appUserData, _verificationCodeController.text);
       // if failed
       if(result!=""){
         setState(() {
@@ -176,7 +182,7 @@ class VerificationScreenState extends State<VerificationScreen> {
 
     // 모든 과정이 끝났으면 해제
     setState(() {
-      isComplete = false;
+      isComplete = true;
     });
   }
 }
