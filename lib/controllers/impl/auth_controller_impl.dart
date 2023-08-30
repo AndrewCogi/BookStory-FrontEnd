@@ -28,7 +28,7 @@ class AuthControllerImpl implements AuthController {
       safePrint('Successfully configured Amplify!');
       safePrint('Check auth state...');
       HomeDrawer.isLogin = await checkAuthState();
-      safePrint("HomeDrawer.isLogin : ${HomeDrawer.isLogin}");
+      safePrint("HomeDrawer.isLogin : ${await checkAuthState()}");
     }
   }
 
@@ -97,11 +97,9 @@ class AuthControllerImpl implements AuthController {
 
   @override
   Future<bool> onLogout(String userEmail) async {
-    HomeDrawer.isLogin = null;
     // await _recordLogout(userEmail);
-    await Amplify.Auth.signOut().then((_) {
-      HomeDrawer.isLogin = false;
-      HomeDrawer.userEmail = "";
+    Amplify.Auth.signOut().then((_) {
+      safePrint('o');
       return true;
     });
     return false;
@@ -182,11 +180,11 @@ class AuthControllerImpl implements AuthController {
     if (await HelperFunctions.internetConnectionCheck()) {
       safePrint("email: ${appUserData.email}, pw: ${appUserData.password}");
       // 형식 체크
-      String isPasswordValidResult = isPasswordValid(appUserData!.password);
-      if (isEmailValid(appUserData!.email) == false ||
+      String isPasswordValidResult = isPasswordValid(appUserData.password);
+      if (isEmailValid(appUserData.email) == false ||
           isPasswordValidResult != "") {
         // 이메일 형식 체크
-        if (isEmailValid(appUserData!.email) == false) {
+        if (isEmailValid(appUserData.email) == false) {
           result['errorMessageEmail'] = "Check your email format.";
         }
         // 비번 형식 체크
@@ -215,7 +213,7 @@ class AuthControllerImpl implements AuthController {
     };
 
     safePrint('AUTH!');
-    String signUpResult = await onSignUp(appUserData!);
+    String signUpResult = await onSignUp(appUserData);
     // 회원가입 성공
     if(signUpResult == ''){
       return null;
@@ -250,7 +248,7 @@ class AuthControllerImpl implements AuthController {
     };
 
     safePrint('LOGIN!');
-    String loginResult = await onLogin(appUserData!);
+    String loginResult = await onLogin(appUserData);
     // 로그인 성공
     if (loginResult == '') {
       return null;

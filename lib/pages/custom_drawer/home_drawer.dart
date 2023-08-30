@@ -1,3 +1,4 @@
+import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/models/drawer_menu_model.dart';
 import 'package:book_story/pages/screens/login_screen.dart';
@@ -179,29 +180,7 @@ class HomeDrawerState extends State<HomeDrawer> {
   }
 
   Widget makeSignButton() {
-    if(HomeDrawer.isLogin == null){
-      return ListTile(
-        title: const Text(
-          'Check Authentication...',
-          style: TextStyle(
-            fontFamily: AppTheme.fontName,
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-            color: AppTheme.darkText,
-          ),
-          textAlign: TextAlign.left,
-        ),
-        trailing: const Icon(
-          Icons.power_settings_new,
-          color: Colors.yellow,
-          // color: Colors.red,
-        ),
-        onTap: () {
-          // nothing...
-        },
-      );
-    }
-    else if(HomeDrawer.isLogin == false) {
+    if(HomeDrawer.isLogin == false) {
       return ListTile(
         title: const Text(
           'Sign in / Sign up',
@@ -228,7 +207,7 @@ class HomeDrawerState extends State<HomeDrawer> {
         },
       );
     }
-    else{
+    else if(HomeDrawer.isLogin == true){
       return ListTile(
         title: const Text(
           'Sign out',
@@ -243,15 +222,37 @@ class HomeDrawerState extends State<HomeDrawer> {
         trailing: const Icon(
           Icons.power_settings_new,
           color: Colors.red,
-          // color: Colors.red,
         ),
-        onTap: () async {
-          bool result = await _authController.onLogout(HomeDrawer.userEmail);
+        onTap: () {
+          _authController.onLogout(HomeDrawer.userEmail);
+          setState(() {
+            HomeDrawer.isLogin = false;
+            HomeDrawer.userEmail = "";
+          });
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Logout Complete')));
-          setState(() {
-            HomeDrawer.isLogin = result;
-          });
+        },
+      );
+    }
+    else {
+      return ListTile(
+        title: const Text(
+          'Check Authentication...',
+          style: TextStyle(
+            fontFamily: AppTheme.fontName,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            color: AppTheme.darkText,
+          ),
+          textAlign: TextAlign.left,
+        ),
+        trailing: const Icon(
+          Icons.power_settings_new,
+          color: Colors.yellow,
+          // color: Colors.red,
+        ),
+        onTap: () {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Wait a second Plz..')));
         },
       );
     }

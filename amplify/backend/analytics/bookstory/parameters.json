@@ -1,11 +1,11 @@
 {
     "appName": "bookstory",
-    "roleName": "pinpointLambdaRole0cf58d83",
-    "cloudformationPolicyName": "cloudformationPolicy0cf58d83",
-    "cloudWatchPolicyName": "cloudWatchPolicy0cf58d83",
-    "pinpointPolicyName": "pinpointPolicy0cf58d83",
-    "authPolicyName": "pinpoint_amplify_0cf58d83",
-    "unauthPolicyName": "pinpoint_amplify_0cf58d83",
+    "roleName": "pinpointLambdaRolee7a16f48",
+    "cloudformationPolicyName": "cloudformationPolicye7a16f48",
+    "cloudWatchPolicyName": "cloudWatchPolicye7a16f48",
+    "pinpointPolicyName": "pinpointPolicye7a16f48",
+    "authPolicyName": "pinpoint_amplify_e7a16f48",
+    "unauthPolicyName": "pinpoint_amplify_e7a16f48",
     "authRoleName": {
         "Ref": "AuthRoleName"
     },
