@@ -1,19 +1,20 @@
-import 'package:amplify_core/amplify_core.dart';
-import 'package:book_story/datasource/data_source.dart';
-import 'package:book_story/datasource/dummy_data_source.dart';
-import 'package:book_story/datasource/temp_db.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/main.dart';
 import 'package:book_story/pages/screens/home_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
-import 'package:book_story/utils/constants.dart';
 import 'package:book_story/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CategoryListView extends StatefulWidget {
   const CategoryListView({Key? key, this.callBack}) : super(key: key);
+
+  // 카테고리 버튼 클릭 시, 결과를 처음부터 보여주기 위한 친구들
+  static ScrollController? scrollController;
+  static void scrollToStart(){
+    scrollController!.animateTo(0, duration: const Duration(milliseconds: 700), curve: Curves.easeInOut);
+  }
 
   final Function(Book)? callBack;
   @override
@@ -23,22 +24,18 @@ class CategoryListView extends StatefulWidget {
 class CategoryListViewState extends State<CategoryListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
-  final DataSource _dataSource = DummyDataSource();
 
   @override
   void initState() {
+    CategoryListView.scrollController = ScrollController(initialScrollOffset: 0.0);
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
   }
 
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
-    return true;
-  }
-
   @override
   void dispose() {
+    CategoryListView.scrollController!.dispose();
     animationController?.dispose();
     super.dispose();
   }
@@ -52,22 +49,20 @@ class CategoryListViewState extends State<CategoryListView>
         width: double.infinity,
         child: FutureBuilder<List<Book>?>(
           future: Provider.of<AppDataProvider>(context, listen: false)
-              .getBooksByCategory(HomeScreen.categoryType),
+              .get5BooksByCategory(HomeScreen.categoryType),
           builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
             if (!snapshot.hasData) {
               return const SizedBox();
             } else {
               List<Book> bookList = snapshot.data!;
-              safePrint(bookList);
               return ListView.builder(
+                controller: CategoryListView.scrollController,
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: getBooksByCategoryItemCount,
+                itemCount: bookList.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  const int count = getBooksByCategoryItemCount > 10
-                      ? 10
-                      : getBooksByCategoryItemCount;
+                  int count = bookList.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(

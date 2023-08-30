@@ -6,7 +6,10 @@ import 'package:flutter/cupertino.dart';
 
 class AppDataProvider extends ChangeNotifier {
   final DataSource _dataSource =DummyDataSource();
-  Future<List<Book>?> getBooksByCategory(CategoryType categoryType) {
-    return _dataSource.getBooksByCategory(categoryType);
+  Future<List<Book>?> get5BooksByCategory(CategoryType categoryType) {
+    return _dataSource.get5BooksByCategory(categoryType);
+  }
+  Future<List<Book>?> get10BooksByPlayCount(){
+    return _dataSource.get10BooksByPlayCount();
   }
 }

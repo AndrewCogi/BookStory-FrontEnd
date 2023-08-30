@@ -1,9 +1,12 @@
 import 'package:book_story/datasource/temp_db.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/main.dart';
+import 'package:book_story/pages/screens/home_screen.dart';
+import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:book_story/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PopularBookListView extends StatefulWidget {
   const PopularBookListView({Key? key, this.callBack}) : super(key: key);
@@ -29,21 +32,18 @@ class PopularBookListViewState extends State<PopularBookListView>
     super.dispose();
   }
 
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
-    return true;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
-      child: FutureBuilder<bool>(
-        future: getData(),
-        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+      child: FutureBuilder<List<Book>?>(
+        future: Provider.of<AppDataProvider>(context, listen: false)
+            .get10BooksByPlayCount(),
+        builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
           if (!snapshot.hasData) {
             return const SizedBox();
           } else {
+            List<Book> bookList = snapshot.data!;
             return GridView(
               padding: const EdgeInsets.all(8),
               physics: const BouncingScrollPhysics(),
@@ -55,9 +55,9 @@ class PopularBookListViewState extends State<PopularBookListView>
                 childAspectRatio: 1.0,
               ),
               children: List<Widget>.generate(
-                TempDB.popularBookList.length,
+                bookList.length,
                 (int index) {
-                  final int count = TempDB.popularBookList.length;
+                  final int count = bookList.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                     CurvedAnimation(
@@ -69,7 +69,7 @@ class PopularBookListViewState extends State<PopularBookListView>
                   animationController?.forward();
                   return CategoryView(
                     callback: widget.callBack,
-                    book: TempDB.popularBookList[index],
+                    book: bookList[index],
                     animation: animation,
                     animationController: animationController,
                   );

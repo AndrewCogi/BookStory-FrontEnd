@@ -205,23 +205,23 @@ class HomeScreenState extends State<HomeScreen> {
   Widget getButtonUI(CategoryType categoryTypeData, bool isSelected) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
-    String txt = '';
+    String nowCategory = '';
     if (CategoryType.age4plus == categoryTypeData) {
-      txt = '4세 이상';
+      nowCategory = '4세 이상';
     } else if (CategoryType.age6plus == categoryTypeData) {
-      txt = '6세 이상';
+      nowCategory = '6세 이상';
     } else if (CategoryType.creative == categoryTypeData) {
-      txt = '창작';
+      nowCategory = '창작';
     } else if (CategoryType.lifeStyle == categoryTypeData) {
-      txt = '생활';
+      nowCategory = '생활';
     } else if (CategoryType.learning == categoryTypeData) {
-      txt = '학습';
+      nowCategory = '학습';
     } else if (CategoryType.culture == categoryTypeData || CategoryType.art == categoryTypeData) {
-      txt = '문화/예술';
+      nowCategory = '문화/예술';
     } else if (CategoryType.society == categoryTypeData || CategoryType.history == categoryTypeData) {
-      txt = '사회/역사';
+      nowCategory = '사회/역사';
     } else if (CategoryType.natural == categoryTypeData || CategoryType.science == categoryTypeData) {
-      txt = '자연/과학';
+      nowCategory = '자연/과학';
     }
     return Container(
         width: 110,
@@ -237,23 +237,23 @@ class HomeScreenState extends State<HomeScreen> {
             splashColor: Colors.white24,
             borderRadius: const BorderRadius.all(Radius.circular(24.0)),
             onTap: () {
-              safePrint('$txt clicked.');
-              // TempDB.setCategory(categoryType);
+              safePrint('$nowCategory clicked.');
               Provider.of<AppDataProvider>(context, listen: false)
-                  .getBooksByCategory(categoryTypeData)
+                  .get5BooksByCategory(categoryTypeData)
                   .then((bookList) {
-                    safePrint('query result: ${bookList!.map((book) => book.title).toList()}');
+                    safePrint('[Home - Category] query result: [${bookList!.map((book) => book.title).toList().join(' / ')}]');
                     setState(() {
                       HomeScreen.categoryType = categoryTypeData;
                     });
               });
+              CategoryListView.scrollToStart();
             },
             child: Padding(
               padding: const EdgeInsets.only(
                   top: 12, bottom: 12, left: 18, right: 18),
               child: Center(
                 child: Text(
-                  txt,
+                  nowCategory,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
