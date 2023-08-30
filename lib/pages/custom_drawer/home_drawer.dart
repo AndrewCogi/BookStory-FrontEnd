@@ -265,6 +265,7 @@ class HomeDrawerState extends State<HomeDrawer> {
         splashColor: Colors.grey.withOpacity(0.1),
         highlightColor: Colors.transparent,
         onTap: () {
+          safePrint('${_authController.getCurrentUserInfo()}'); // TODO : 삭제해야 함. 테스트용
           navigationtoScreen(listData.index!);
         },
         child: Stack(

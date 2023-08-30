@@ -1,3 +1,4 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:book_story/models/app_user.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -18,6 +19,8 @@ abstract class AuthController{
   Future<String> verifyCode(AppUser data, String code);
   // 현재 로그인 상태 요청
   Future<bool> checkAuthState();
+  // 로그인한 유저 ID token, email 등 반환 TODO : 백엔드에서 이 token과 비교해서 로그인한 사람을 찾을 예정!
+  Future<List<AuthUserAttribute>?> getCurrentUserInfo();
   // 유효한 이메일 형식인지 검사
   bool isEmailValid(String email);
   // 유효한 비밀번호 형식인지 검사

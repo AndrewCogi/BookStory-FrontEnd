@@ -90,6 +90,10 @@ class AuthControllerImpl implements AuthController {
 
       await recordLogin(data.email);
     } on AuthException catch (e) {
+      // 이미 접속중인 아이디의 경우, 자동 로그아웃 실시
+      if (e.message.startsWith("There is already a user signed in")) {
+        onLogout(data.email);
+      }
       return e.message;
     }
     return '';
@@ -99,7 +103,6 @@ class AuthControllerImpl implements AuthController {
   Future<bool> onLogout(String userEmail) async {
     // await _recordLogout(userEmail);
     Amplify.Auth.signOut().then((_) {
-      safePrint('o');
       return true;
     });
     return false;
@@ -140,6 +143,18 @@ class AuthControllerImpl implements AuthController {
       safePrint('Error checking auth state: $e');
     }
     return isLogin;
+  }
+
+  @override
+  Future<List<AuthUserAttribute>?> getCurrentUserInfo() async {
+    try{
+      List<AuthUserAttribute> userAttributes = await Amplify.Auth.fetchUserAttributes();
+      safePrint('[getCurrentUserInfo]: ${userAttributes.toList()}');
+      return userAttributes.toList();
+    } on AuthException catch (e) {
+      safePrint(e.message);
+      return null;
+    }
   }
 
   @override
@@ -257,7 +272,7 @@ class AuthControllerImpl implements AuthController {
     else {
       // 이미 접속중인 아이디 (하나의 기기에서 중복 접속할 경우 발생)
       if (loginResult.startsWith("There is already a user signed in")) {
-        result['errorMessageEmail'] = "There is already a user signed in.";
+        result['errorMessageEmail'] = "Problem logging in. Please try again.";
       }
       // 아이디 or 비번의 입력값이 잘못됨. 어딘가 비어있음.
       if (loginResult.startsWith("One or more parameters are incorrect")) {
