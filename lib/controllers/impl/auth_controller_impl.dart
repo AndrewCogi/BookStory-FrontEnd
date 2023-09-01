@@ -1,3 +1,4 @@
+
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -35,7 +36,7 @@ class AuthControllerImpl implements AuthController {
   @override
   Future<void> recordLogin(String userEmail) async {
     AnalyticsEvent event = AnalyticsEvent("UserLogin");
-    event.properties.addStringProperty(
+    event.customProperties.addStringProperty(
         userEmail, HelperFunctions.getKoreanDateTime());
     // Log login event to analytics
     try {
@@ -50,7 +51,7 @@ class AuthControllerImpl implements AuthController {
   @override
   Future<void> recordSignUp(String userEmail) async {
     AnalyticsEvent event = AnalyticsEvent("UserSignUp");
-    event.properties.addStringProperty(
+    event.customProperties.addStringProperty(
         userEmail, HelperFunctions.getKoreanDateTime());
     // Log signup event to analytics
     try {
@@ -68,7 +69,7 @@ class AuthControllerImpl implements AuthController {
       await Amplify.Auth.signUp(
           username: data.email,
           password: data.password,
-          options: CognitoSignUpOptions(
+          options: SignUpOptions(
               userAttributes: {CognitoUserAttributeKey.email: data.email})
       );
       await recordSignUp(data.email);
@@ -146,15 +147,19 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
-  Future<List<AuthUserAttribute>?> getCurrentUserInfo() async {
-    try{
-      List<AuthUserAttribute> userAttributes = await Amplify.Auth.fetchUserAttributes();
-      safePrint('[getCurrentUserInfo]: ${userAttributes.toList()}');
-      return userAttributes.toList();
-    } on AuthException catch (e) {
-      safePrint(e.message);
-      return null;
-    }
+  Future<String?> getCurrentUserToken() async {
+    final result = await Amplify.Auth.fetchAuthSession(
+        options: const FetchAuthSessionOptions());
+    String? idToken = (result as CognitoAuthSession).userPoolTokensResult.valueOrNull?.idToken.raw;
+    safePrint(['IdToken: $idToken']);
+    String? accessToken = (result as CognitoAuthSession).userPoolTokensResult.valueOrNull?.accessToken.raw;
+    safePrint(['IdTokenEmail: $accessToken']);
+    // String? identityId = (result as CognitoAuthSession)
+    //     .userPoolTokensResult
+    //     .valueOrNull
+    //     ?.idToken
+    //     .raw;
+    return 'testing';
   }
 
   @override
@@ -184,6 +189,7 @@ class AuthControllerImpl implements AuthController {
     return ""; // Password is valid
   }
 
+  // TODO : 이 요청이 필요할까? 그리고 에러 문자열로 찾는거 버전 업데이트되니까 싹 바뀌어버렸다. 다른 방법(e.message 등)을 찾고 적용하자..
   @override
   Future<Map<String, dynamic>?> stringValidCheckProcess(BuildContext context, AppUser appUserData) async {
     // errorMessage 2쌍을 저장해서 반환할 결과

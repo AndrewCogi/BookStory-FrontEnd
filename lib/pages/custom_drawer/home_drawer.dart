@@ -264,8 +264,8 @@ class HomeDrawerState extends State<HomeDrawer> {
       child: InkWell(
         splashColor: Colors.grey.withOpacity(0.1),
         highlightColor: Colors.transparent,
-        onTap: () {
-          safePrint('${_authController.getCurrentUserInfo()}'); // TODO : 삭제해야 함. 테스트용
+        onTap: () async {
+          safePrint('[User Token]: ${await _authController.getCurrentUserToken()}'); // TODO : 테스트용
           navigationtoScreen(listData.index!);
         },
         child: Stack(
