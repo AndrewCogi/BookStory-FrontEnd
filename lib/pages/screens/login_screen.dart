@@ -232,7 +232,7 @@ class LoginScreenState extends State<LoginScreen> {
 
     // Login process... (if done, automatically activate the main content)
     if(cognitoIndex == CognitoIndex.login){
-      Map<String,dynamic>? result = await _authController.stringValidCheckProcess(context,appUserData!);
+      Map<String,dynamic>? result = await _authController.verificationProcessIDPW(context,appUserData!);
       // 로그인을 시도해봐도 좋음!
       if(result == null){
         // Show loading screen and deactivate the main content
@@ -274,7 +274,7 @@ class LoginScreenState extends State<LoginScreen> {
     }
     // SignUp process... (if done, automatically activate the main content)
     else if(cognitoIndex == CognitoIndex.signup){
-      Map<String,dynamic>? result = await _authController.stringValidCheckProcess(context,appUserData!);
+      Map<String,dynamic>? result = await _authController.verificationProcessIDPW(context,appUserData!);
       // 회원가입을 시도해봐도 좋음!
       if(result == null) {
         // Show loading screen and deactivate the main content

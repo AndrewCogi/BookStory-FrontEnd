@@ -158,14 +158,7 @@ class VerificationScreenState extends State<VerificationScreen> {
       // if failed
       if(result!=""){
         setState(() {
-          // code가 일치하지 않음
-          if(result.startsWith("Confirmation code entered is not correct")){
-            errorMessageVerificationCode = "Confirmation code is not correct.";
-          }
-          // code칸이 비었음
-          if(result.startsWith("One or more parameters are incorrect")){
-            errorMessageVerificationCode = "Enter verification code.";
-          }
+          errorMessageVerificationCode = result;
         });
       }
       // success!

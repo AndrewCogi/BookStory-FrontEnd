@@ -6,8 +6,10 @@ import 'package:book_story/amplifyconfiguration.dart';
 import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/models/app_user.dart';
 import 'package:book_story/pages/custom_drawer/home_drawer.dart';
+import 'package:book_story/pages/screens/verification_screen.dart';
 import 'package:book_story/utils/helper_functions.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class AuthControllerImpl implements AuthController {
 
@@ -73,10 +75,11 @@ class AuthControllerImpl implements AuthController {
               userAttributes: {CognitoUserAttributeKey.email: data.email})
       );
       await recordSignUp(data.email);
+      safePrint('[onSignUp Result] : SUCCESS!');
       return '';
     } on AuthException catch (e) {
-      safePrint(e);
-      return '${e.message}\n${e.recoverySuggestion}';
+      safePrint('[onSignUp Result] : $e');
+      return e.message;
     }
   }
 
@@ -87,17 +90,23 @@ class AuthControllerImpl implements AuthController {
           username: data.email, password: data.password);
 
       bool isSignedIn = res.isSignedIn;
-      safePrint('Login? : $isSignedIn');
+      safePrint('Successfully Login? : $isSignedIn');
 
-      await recordLogin(data.email);
-    } on AuthException catch (e) {
-      // 이미 접속중인 아이디의 경우, 자동 로그아웃 실시
-      if (e.message.startsWith("There is already a user signed in")) {
-        onLogout(data.email);
+      // 정상적인 로그인으로 확인되지 않음.
+      if(isSignedIn == false){
+        throw Exception('Unconfirmed.');
       }
+      // 정상적으로 로그인이 확인됨
+      await recordLogin(data.email);
+      safePrint('[onLogin Result] : SUCCESS!');
+      return '';
+    } on AuthException catch (e) {
+      safePrint('[onSignUp Result] : $e');
       return e.message;
+    } on Exception catch (e) {
+      safePrint('[onSignUp Result] : $e');
+      return e.toString();
     }
-    return '';
   }
 
   @override
@@ -152,8 +161,8 @@ class AuthControllerImpl implements AuthController {
         options: const FetchAuthSessionOptions());
     String? idToken = (result as CognitoAuthSession).userPoolTokensResult.valueOrNull?.idToken.raw;
     safePrint(['IdToken: $idToken']);
-    String? accessToken = (result as CognitoAuthSession).userPoolTokensResult.valueOrNull?.accessToken.raw;
-    safePrint(['IdTokenEmail: $accessToken']);
+    String? accessToken = result.userPoolTokensResult.valueOrNull?.accessToken.raw;
+    safePrint(['AccessToken: $accessToken']);
     // String? identityId = (result as CognitoAuthSession)
     //     .userPoolTokensResult
     //     .valueOrNull
@@ -189,36 +198,46 @@ class AuthControllerImpl implements AuthController {
     return ""; // Password is valid
   }
 
-  // TODO : 이 요청이 필요할까? 그리고 에러 문자열로 찾는거 버전 업데이트되니까 싹 바뀌어버렸다. 다른 방법(e.message 등)을 찾고 적용하자..
+  // TODO : 에러 문자열로 찾는거 버전 업데이트되니까 싹 바뀌어버렸다. 다른 방법(e.message 등)을 찾고 적용하자..
   @override
-  Future<Map<String, dynamic>?> stringValidCheckProcess(BuildContext context, AppUser appUserData) async {
+  Future<Map<String, dynamic>?> verificationProcessIDPW(BuildContext context, AppUser appUserData) async {
     // errorMessage 2쌍을 저장해서 반환할 결과
     Map<String, dynamic> result = {
       'errorMessageEmail': "",
       'errorMessagePassword': "",
     };
-    // internet connection valid
-    if (await HelperFunctions.internetConnectionCheck()) {
-      safePrint("email: ${appUserData.email}, pw: ${appUserData.password}");
-      // 형식 체크
-      String isPasswordValidResult = isPasswordValid(appUserData.password);
-      if (isEmailValid(appUserData.email) == false ||
-          isPasswordValidResult != "") {
-        // 이메일 형식 체크
-        if (isEmailValid(appUserData.email) == false) {
-          result['errorMessageEmail'] = "Check your email format.";
-        }
-        // 비번 형식 체크
-        if (isPasswordValidResult != "") {
-          result['errorMessagePassword'] = isPasswordValidResult;
-        }
-        return result;
-      }
-    }
+    // check
+    safePrint("email: ${appUserData.email}, pw: ${appUserData.password}");
     // internet connection invalid
-    else {
+    if (!(await HelperFunctions.internetConnectionCheck())) {
       // ignore: use_build_context_synchronously
       HelperFunctions.showNoInternetDialog(context);
+      return result;
+    }
+    // ID/PW가 하나라도 비어있는 경우
+    if(appUserData.email == "" || appUserData.password == ""){
+      // ID is empty
+      if (appUserData.email == "") {
+        result['errorMessageEmail'] = "Enter Email.";
+      }
+      // PW is empty
+      if (appUserData.password == "") {
+        result['errorMessagePassword'] = "Enter Password.";
+      }
+      return result;
+    }
+    // 비어있지 않은 경우 형식 검증 진행
+    String isPasswordValidResult = isPasswordValid(appUserData.password);
+    if (isEmailValid(appUserData.email) == false ||
+        isPasswordValidResult != "") {
+      // 이메일 형식 체크
+      if (isEmailValid(appUserData.email) == false) {
+        result['errorMessageEmail'] = "Check your email format.";
+      }
+      // 비번 형식 체크
+      if (isPasswordValidResult != "") {
+        result['errorMessagePassword'] = isPasswordValidResult;
+      }
       return result;
     }
     // go!
@@ -236,26 +255,12 @@ class AuthControllerImpl implements AuthController {
     safePrint('AUTH!');
     String signUpResult = await onSignUp(appUserData);
     // 회원가입 성공
-    if(signUpResult == ''){
+    if(signUpResult == '') {
       return null;
     }
     // 회원가입 실패. 사유 작성해서 반환.
-    else{
-      // 이미 존재하는 아이디
-      if(signUpResult.startsWith("Username already exists in the system")){
-        result['errorMessageEmail'] = "This user already exists in the system.";
-      }
-      // 아이디 or 비번의 입력값이 잘못됨. 어딘가 비어있음
-      if(signUpResult.startsWith("One or more parameters are incorrect")){
-        // ID field empty
-        if(appUserData.email == ""){
-          result['errorMessageEmail'] = "Enter Email.";
-        }
-        // PW field empty
-        if(appUserData.password == ""){
-          result['errorMessagePassword'] = "Enter Password.";
-        }
-      }
+    else {
+      result['errorMessageEmail'] = signUpResult;
       return result;
     }
   }
@@ -276,20 +281,11 @@ class AuthControllerImpl implements AuthController {
     }
     // 로그인 실패. 사유 작성해서 반환.
     else {
+      result['errorMessageEmail'] = loginResult;
+      return result;
       // 이미 접속중인 아이디 (하나의 기기에서 중복 접속할 경우 발생)
       if (loginResult.startsWith("There is already a user signed in")) {
         result['errorMessageEmail'] = "Problem logging in. Please try again.";
-      }
-      // 아이디 or 비번의 입력값이 잘못됨. 어딘가 비어있음.
-      if (loginResult.startsWith("One or more parameters are incorrect")) {
-        // ID is empty
-        if (appUserData.email == "") {
-          result['errorMessageEmail'] = "Enter Email.";
-        }
-        // PW is empty
-        if (appUserData.password == "") {
-          result['errorMessagePassword'] = "Enter Password.";
-        }
       }
       // 비밀번호가 틀렸음
       if (loginResult.startsWith("Failed since user is not authorized")) {

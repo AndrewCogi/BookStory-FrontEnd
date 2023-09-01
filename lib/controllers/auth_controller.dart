@@ -26,7 +26,7 @@ abstract class AuthController{
   // 유효한 비밀번호 형식인지 검사
   String isPasswordValid(String password);
   // 로그인 문자열 검증 절차 진행 - 이 문자열(email,pw)로 Cognito에 로그인/회원가입을 시도해 봐도 되는가를 확인함
-  Future<Map<String, dynamic>?> stringValidCheckProcess(BuildContext context, AppUser appUserData);
+  Future<Map<String, dynamic>?> verificationProcessIDPW(BuildContext context, AppUser appUserData);
   // 로그인 절차 진행
   Future<Map<String, dynamic>?> loginProcess(AppUser appUserData);
   // 회원가입 절차 진행
