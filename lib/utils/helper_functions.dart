@@ -1,5 +1,6 @@
 import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/pages/popups/internet_check_popup.dart';
+import 'package:book_story/pages/popups/login_expiration_popup.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -27,6 +28,16 @@ class HelperFunctions {
       context: context,
       builder: (BuildContext context) {
         return const InternetCheckPopup();
+      },
+    );
+  }
+
+  // 로그인 만료 팝업
+  static void showLoginExpirationDialog(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (BuildContext context){
+        return const LoginExpirationPopup();
       },
     );
   }

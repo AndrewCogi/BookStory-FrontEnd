@@ -1,3 +1,4 @@
+import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/pages/custom_drawer/drawer_user_controller.dart';
@@ -6,6 +7,7 @@ import 'package:book_story/pages/popups/record_tips_popup.dart';
 import 'package:book_story/pages/screens/feedback_screen.dart';
 import 'package:book_story/pages/screens/home_screen.dart';
 import 'package:book_story/pages/screens/voice_screen.dart';
+import 'package:book_story/utils/helper_functions.dart';
 import 'package:book_story/utils/main_app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +29,20 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
     drawerIndex = DrawerIndex.home;
     screenView = const HomeScreen();
     super.initState();
-    _authController.configureAmplify();
+    _asyncTask();
+  }
+
+  void _asyncTask() async {
+    String? result = await _authController.configureAmplify();
+    // 오류가 있을 시, 재 로그인 시키기 (ex. refreshToken 만료)
+    if(result != null){
+      // ignore: use_build_context_synchronously
+      HelperFunctions.showLoginExpirationDialog(context);
+      setState(() {
+        HomeDrawer.isLogin = false;
+        HomeDrawer.userEmail = "";
+      });
+    }
   }
 
   @override

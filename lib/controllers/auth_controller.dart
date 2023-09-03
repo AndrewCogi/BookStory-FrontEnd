@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 abstract class AuthController{
   // Amplify 초기화
-  void configureAmplify();
+  Future<String?> configureAmplify();
   // 로그인 로그 저장
   Future<void> recordLogin(String userEmail);
   // 회원가입 로그 저장
@@ -27,6 +27,8 @@ abstract class AuthController{
   String isPasswordValid(String password);
   // 로그인 문자열 검증 절차 진행 - 이 문자열(email,pw)로 Cognito에 로그인/회원가입을 시도해 봐도 되는가를 확인함
   Future<Map<String, dynamic>?> verificationProcessIDPW(BuildContext context, AppUser appUserData);
+  // access Token 검증 진행
+  Future<void> validateToken(String accessToken);
   // 로그인 절차 진행
   Future<Map<String, dynamic>?> loginProcess(AppUser appUserData);
   // 회원가입 절차 진행

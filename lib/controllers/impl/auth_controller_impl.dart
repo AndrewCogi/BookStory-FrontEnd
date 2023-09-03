@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -6,15 +8,15 @@ import 'package:book_story/amplifyconfiguration.dart';
 import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/models/app_user.dart';
 import 'package:book_story/pages/custom_drawer/home_drawer.dart';
-import 'package:book_story/pages/screens/verification_screen.dart';
 import 'package:book_story/utils/helper_functions.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AuthControllerImpl implements AuthController {
 
   @override
-  void configureAmplify() async {
+  Future<String?> configureAmplify() async {
     bool configured = false;
     final auth = AmplifyAuthCognito();
     final analytics = AmplifyAnalyticsPinpoint();
@@ -23,15 +25,16 @@ class AuthControllerImpl implements AuthController {
       Amplify.addPlugins([auth, analytics]);
       await Amplify.configure(amplifyconfig);
       configured = true;
-    } catch(e) {
+    } on UnknownException catch(e) {
       safePrint(e);
+      return e.message;
     }
 
     if(configured){
       safePrint('Successfully configured Amplify!');
       safePrint('Check auth state...');
       HomeDrawer.isLogin = await checkAuthState();
-      safePrint("HomeDrawer.isLogin : ${await checkAuthState()}");
+      safePrint("HomeDrawer.isLogin : ${HomeDrawer.isLogin}");
     }
   }
 
@@ -160,15 +163,36 @@ class AuthControllerImpl implements AuthController {
     final result = await Amplify.Auth.fetchAuthSession(
         options: const FetchAuthSessionOptions());
     String? idToken = (result as CognitoAuthSession).userPoolTokensResult.valueOrNull?.idToken.raw;
-    safePrint(['IdToken: $idToken']);
+    safePrint('[IdToken]: $idToken');
     String? accessToken = result.userPoolTokensResult.valueOrNull?.accessToken.raw;
-    safePrint(['AccessToken: $accessToken']);
-    // String? identityId = (result as CognitoAuthSession)
-    //     .userPoolTokensResult
-    //     .valueOrNull
-    //     ?.idToken
-    //     .raw;
+    safePrint('[AccessToken]: $accessToken');
+    String? refreshToken = result.userPoolTokensResult.valueOrNull?.refreshToken;
+    safePrint('[RefreshToken]: $refreshToken');
+
+    validateToken(accessToken!);
     return 'testing';
+  }
+
+  @override
+  Future<void> validateToken(String accessToken) async {
+    final url = Uri.parse('http://localhost:5000/api/validate-token');
+    final response = await http.post(url, body: json.encode({'accessToken': accessToken}), headers: {
+      'Content-Type': 'application/json',
+    });
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final message = data['message'];
+      final username = data['username'];
+      print('Message: $message');
+      if (message == 'Token is valid') {
+        print('Authenticated user: $username');
+      } else {
+        print('Token validation failed.');
+      }
+    } else {
+      print('Failed to validate token.');
+    }
   }
 
   @override
@@ -282,24 +306,6 @@ class AuthControllerImpl implements AuthController {
     // 로그인 실패. 사유 작성해서 반환.
     else {
       result['errorMessageEmail'] = loginResult;
-      return result;
-      // 이미 접속중인 아이디 (하나의 기기에서 중복 접속할 경우 발생)
-      if (loginResult.startsWith("There is already a user signed in")) {
-        result['errorMessageEmail'] = "Problem logging in. Please try again.";
-      }
-      // 비밀번호가 틀렸음
-      if (loginResult.startsWith("Failed since user is not authorized")) {
-        result['errorMessageEmail'] = "Wrong password.";
-      }
-      // 등록된 아이디가 아님
-      if (loginResult.startsWith("User not found in the system")) {
-        result['errorMessageEmail'] =
-        "This account is not registered. Sign up!";
-      }
-      // 이메일 인증이 안됨
-      if (loginResult.startsWith("User not confirmed in the system")) {
-        result['errorMessageEmail'] = "This account is not verification.";
-      }
       return result;
     }
   }
