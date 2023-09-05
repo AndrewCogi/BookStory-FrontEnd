@@ -179,7 +179,7 @@ class LoginScreenState extends State<LoginScreen> {
                             // TODO : 구글로그인으로 이동
                           } else {
                             // ignore: use_build_context_synchronously
-                            HelperFunctions.showNoInternetDialog(context);
+                            HelperFunctions.showNoInternetDialog(context, false);
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -249,7 +249,6 @@ class LoginScreenState extends State<LoginScreen> {
           Navigator.pop(context);
           setState(() {
             HomeDrawer.isLogin = true;
-            HomeDrawer.userEmail = appUserData!.email;
           });
         }
         // 로그인 실패

@@ -170,7 +170,7 @@ class VerificationScreenState extends State<VerificationScreen> {
       }
     } else {
       // ignore: use_build_context_synchronously
-      HelperFunctions.showNoInternetDialog(context);
+      HelperFunctions.showNoInternetDialog(context, false);
     }
 
     // 모든 과정이 끝났으면 해제

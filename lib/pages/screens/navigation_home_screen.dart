@@ -34,14 +34,13 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
 
   void _asyncTask() async {
     String? result = await _authController.configureAmplify();
-    // 오류가 있을 시, 재 로그인 시키기 (ex. refreshToken 만료)
+    setState(() {
+      HomeDrawer.isLogin = HomeDrawer.isLogin;
+      safePrint('[isLogin] : ${HomeDrawer.isLogin}');
+    });
     if(result != null){
-      // ignore: use_build_context_synchronously
-      HelperFunctions.showLoginExpirationDialog(context);
-      setState(() {
-        HomeDrawer.isLogin = false;
-        HomeDrawer.userEmail = "";
-      });
+      // 오류 발생 원인 출력
+      safePrint('[ERROR _asyncTask()] : $result');
     }
   }
 

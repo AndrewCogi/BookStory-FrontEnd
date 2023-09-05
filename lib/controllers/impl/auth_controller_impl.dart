@@ -1,6 +1,4 @@
-
 import 'dart:convert';
-
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -104,17 +102,16 @@ class AuthControllerImpl implements AuthController {
       safePrint('[onLogin Result] : SUCCESS!');
       return '';
     } on AuthException catch (e) {
-      safePrint('[onSignUp Result] : $e');
+      safePrint('[onLogin Result] : $e');
       return e.message;
     } on Exception catch (e) {
-      safePrint('[onSignUp Result] : $e');
+      safePrint('[onLogin Result] : $e');
       return e.toString();
     }
   }
 
   @override
-  Future<bool> onLogout(String userEmail) async {
-    // await _recordLogout(userEmail);
+  Future<bool> onLogout() async {
     Amplify.Auth.signOut().then((_) {
       return true;
     });
@@ -175,10 +172,12 @@ class AuthControllerImpl implements AuthController {
 
   @override
   Future<void> validateToken(String accessToken) async {
-    final url = Uri.parse('http://localhost:5000/api/validate-token');
+    final url = Uri.parse('http://sgm.cloudsoft-bookstory.com/validate-token');
     final response = await http.post(url, body: json.encode({'accessToken': accessToken}), headers: {
       'Content-Type': 'application/json',
     });
+
+    safePrint('[response]: ${response.body}');
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -235,7 +234,7 @@ class AuthControllerImpl implements AuthController {
     // internet connection invalid
     if (!(await HelperFunctions.internetConnectionCheck())) {
       // ignore: use_build_context_synchronously
-      HelperFunctions.showNoInternetDialog(context);
+      HelperFunctions.showNoInternetDialog(context, false);
       return result;
     }
     // ID/PW가 하나라도 비어있는 경우

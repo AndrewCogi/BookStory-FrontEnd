@@ -207,7 +207,7 @@ class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 
                             });
                           } else {
                             // ignore: use_build_context_synchronously
-                            HelperFunctions.showNoInternetDialog(context);
+                            HelperFunctions.showNoInternetDialog(context, false);
                           }
                         }, // to avoid conflict InkWell:onTap
                         child: speechToTextUtils.isListening() ? const Icon(Icons.stop) : const Icon(Icons.mic),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class InternetCheckPopup extends StatelessWidget {
-  const InternetCheckPopup({super.key});
+  const InternetCheckPopup(this.terminate, {super.key});
+  final bool terminate;
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +36,13 @@ class InternetCheckPopup extends StatelessWidget {
             ),
             const SizedBox(height: 25.0),
             ElevatedButton(
+              // Add any action you want to perform when the user clicks a button (if needed).
               onPressed: () {
-                // Add any action you want to perform when the user clicks a button (if needed).
-                Navigator.of(context).pop();
+                if(terminate == false){
+                  Navigator.of(context).pop();
+                }else{
+                  SystemNavigator.pop();
+                }
               },
               child: const Text('OK'),
             ),

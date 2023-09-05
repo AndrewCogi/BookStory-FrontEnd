@@ -1,19 +1,19 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-bookstory-dev-235619-authRole",
-      "UnauthRoleArn": "arn:aws:iam::956036859323:role/amplify-bookstory-dev-235619-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::956036859323:role/amplify-bookstory-dev-235619-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-bookstory-dev-235619-deployment",
-      "UnauthRoleName": "amplify-bookstory-dev-235619-unauthRole",
-      "StackName": "amplify-bookstory-dev-235619",
-      "StackId": "arn:aws:cloudformation:us-east-1:956036859323:stack/amplify-bookstory-dev-235619/634e3790-4745-11ee-a308-0eae7f17c02d",
-      "AmplifyAppId": "d1wmtrho7udrzy"
+      "AuthRoleName": "amplify-bookstory-dev-164505-authRole",
+      "UnauthRoleArn": "arn:aws:iam::956036859323:role/amplify-bookstory-dev-164505-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::956036859323:role/amplify-bookstory-dev-164505-authRole",
+      "Region": "ap-northeast-2",
+      "DeploymentBucketName": "amplify-bookstory-dev-164505-deployment",
+      "UnauthRoleName": "amplify-bookstory-dev-164505-unauthRole",
+      "StackName": "amplify-bookstory-dev-164505",
+      "StackId": "arn:aws:cloudformation:ap-northeast-2:956036859323:stack/amplify-bookstory-dev-164505/228687b0-4bc0-11ee-8228-0630faa99aba",
+      "AmplifyAppId": "dvseeuec4kenk"
     },
     "categories": {
       "auth": {
-        "bookstory23516728": {}
+        "bookstoryde7e7090": {}
       },
       "analytics": {
         "bookstory": {}

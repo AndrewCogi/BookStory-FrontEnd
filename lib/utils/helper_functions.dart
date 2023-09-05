@@ -22,12 +22,12 @@ class HelperFunctions {
     return connectivityResult != ConnectivityResult.none;
   }
 
-  // 인터넷 없음 팝업
-  static void showNoInternetDialog(BuildContext context) {
+  // 인터넷 없음 팝업 TODO: 나중에 인터넷 연결 없음에 대한 해결방안 잘 생각하기
+  static void showNoInternetDialog(BuildContext context, bool terminate) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const InternetCheckPopup();
+        return InternetCheckPopup(terminate);
       },
     );
   }

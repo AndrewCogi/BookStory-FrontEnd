@@ -18,7 +18,6 @@ class HomeDrawer extends StatefulWidget {
   final DrawerIndex? screenIndex;
   final Function(DrawerIndex)? callBackIndex;
   static bool? isLogin;
-  static String userEmail="";
 
   @override
   HomeDrawerState createState() => HomeDrawerState();
@@ -224,10 +223,9 @@ class HomeDrawerState extends State<HomeDrawer> {
           color: Colors.red,
         ),
         onTap: () {
-          _authController.onLogout(HomeDrawer.userEmail);
+          _authController.onLogout();
           setState(() {
             HomeDrawer.isLogin = false;
-            HomeDrawer.userEmail = "";
           });
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Logout Complete')));
