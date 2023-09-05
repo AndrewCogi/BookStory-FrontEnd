@@ -1,4 +1,3 @@
-import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/datasource/data_source.dart';
 import 'package:book_story/datasource/temp_db.dart';
 import 'package:book_story/enums/category_type.dart';
@@ -19,7 +18,7 @@ class DummyDataSource implements DataSource {
       categoryList = categoryList.take(5).toList();
       // 반환
       return categoryList;
-    } on StateError catch (error) {
+    } on StateError {
       return null;
     }
   }
@@ -36,7 +35,7 @@ class DummyDataSource implements DataSource {
       popularList = popularList.take(10).toList();
       // 반환
       return popularList;
-    } on StateError catch (error) {
+    } on StateError {
       return null;
     }
   }

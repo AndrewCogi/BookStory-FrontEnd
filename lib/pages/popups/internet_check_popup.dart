@@ -42,6 +42,7 @@ class InternetCheckPopup extends StatelessWidget {
                   Navigator.of(context).pop();
                 }else{
                   SystemNavigator.pop();
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                 }
               },
               child: const Text('OK'),

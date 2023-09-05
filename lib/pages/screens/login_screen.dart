@@ -1,10 +1,8 @@
-import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/models/app_user.dart';
 import 'package:book_story/pages/custom_drawer/home_drawer.dart';
 import 'package:book_story/pages/screens/verification_screen.dart';
-import 'package:book_story/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -175,12 +173,7 @@ class LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.only(left: 50, right: 50),
                       child: ElevatedButton(
                         onPressed: () async {
-                          if (await HelperFunctions.internetConnectionCheck()) {
-                            // TODO : 구글로그인으로 이동
-                          } else {
-                            // ignore: use_build_context_synchronously
-                            HelperFunctions.showNoInternetDialog(context, false);
-                          }
+                          // TODO : 구글로그인으로 이동
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(

@@ -1,6 +1,5 @@
 import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/pages/popups/internet_check_popup.dart';
-import 'package:book_story/pages/popups/login_expiration_popup.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,28 +15,26 @@ class HelperFunctions {
     return '[$formattedDate $formattedTime]';
   }
 
-  // 인터넷 연결 확인
-  static Future<bool> internetConnectionCheck() async {
+  // 인터넷 연결 확인 TODO: 나중에 인터넷 연결 없음에 대한 해결방안 잘 생각하기
+  static Future<bool> internetConnectionIsAlive(BuildContext context, bool terminate) async {
     var connectivityResult = await Connectivity().checkConnectivity();
-    return connectivityResult != ConnectivityResult.none;
+    if(connectivityResult == ConnectivityResult.none){
+      // ignore: use_build_context_synchronously
+      _showNoInternetDialog(context, terminate);
+      return false;
+    }
+    else{
+      return true;
+    }
   }
 
-  // 인터넷 없음 팝업 TODO: 나중에 인터넷 연결 없음에 대한 해결방안 잘 생각하기
-  static void showNoInternetDialog(BuildContext context, bool terminate) {
+  // 인터넷 없음 팝업 / terminate에 따라 확인 눌렀을 때 종료 여부 결정
+  static void _showNoInternetDialog(BuildContext context, bool terminate) {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return InternetCheckPopup(terminate);
-      },
-    );
-  }
-
-  // 로그인 만료 팝업
-  static void showLoginExpirationDialog(BuildContext context){
-    showDialog(
-      context: context,
-      builder: (BuildContext context){
-        return const LoginExpirationPopup();
       },
     );
   }

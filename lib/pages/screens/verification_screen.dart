@@ -1,7 +1,6 @@
 import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/models/app_user.dart';
-import 'package:book_story/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 
 class VerificationScreen extends StatefulWidget {
@@ -148,29 +147,24 @@ class VerificationScreenState extends State<VerificationScreen> {
   }
 
   void _verificationProcess() async {
-    if (await HelperFunctions.internetConnectionCheck()) {
-      // clear textField
+    // clear textField
+    setState(() {
+      errorMessageVerificationCode = "";
+    });
+    // verification
+    String result = await _authController.verifyCode(widget.appUserData, _verificationCodeController.text);
+    // if failed
+    if(result!=""){
       setState(() {
-        errorMessageVerificationCode = "";
+        errorMessageVerificationCode = result;
       });
-      // verification
-      String result = await _authController.verifyCode(widget.appUserData, _verificationCodeController.text);
-      // if failed
-      if(result!=""){
-        setState(() {
-          errorMessageVerificationCode = result;
-        });
-      }
-      // success!
-      else{
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Sign Up Complete')));
-        // ignore: use_build_context_synchronously
-        Navigator.pop(context);
-      }
-    } else {
+    }
+    // success!
+    else{
       // ignore: use_build_context_synchronously
-      HelperFunctions.showNoInternetDialog(context, false);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Sign Up Complete')));
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
     }
 
     // 모든 과정이 끝났으면 해제

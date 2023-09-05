@@ -1,5 +1,4 @@
 import 'package:book_story/datasource/voice_sentence_data.dart';
-import 'package:book_story/utils/helper_functions.dart';
 import 'package:book_story/utils/speech_to_text_utils.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
@@ -199,16 +198,10 @@ class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 
                     floatingActionButton: InkWell(
                       child: FloatingActionButton.large(
                         onPressed: () async {
-                          if (await HelperFunctions.internetConnectionCheck()) {
-                            String? text =
-                            await speechToTextUtils.startListening(recogniseSpeech);
-                            setState(() {
-                              speechText = text ?? "";
-                            });
-                          } else {
-                            // ignore: use_build_context_synchronously
-                            HelperFunctions.showNoInternetDialog(context, false);
-                          }
+                          String? text = await speechToTextUtils.startListening(recogniseSpeech);
+                          setState(() {
+                            speechText = text ?? "";
+                          });
                         }, // to avoid conflict InkWell:onTap
                         child: speechToTextUtils.isListening() ? const Icon(Icons.stop) : const Icon(Icons.mic),
                       ),

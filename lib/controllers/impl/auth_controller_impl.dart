@@ -34,6 +34,7 @@ class AuthControllerImpl implements AuthController {
       HomeDrawer.isLogin = await checkAuthState();
       safePrint("HomeDrawer.isLogin : ${HomeDrawer.isLogin}");
     }
+    return null;
   }
 
   @override
@@ -221,7 +222,6 @@ class AuthControllerImpl implements AuthController {
     return ""; // Password is valid
   }
 
-  // TODO : 에러 문자열로 찾는거 버전 업데이트되니까 싹 바뀌어버렸다. 다른 방법(e.message 등)을 찾고 적용하자..
   @override
   Future<Map<String, dynamic>?> verificationProcessIDPW(BuildContext context, AppUser appUserData) async {
     // errorMessage 2쌍을 저장해서 반환할 결과
@@ -231,12 +231,6 @@ class AuthControllerImpl implements AuthController {
     };
     // check
     safePrint("email: ${appUserData.email}, pw: ${appUserData.password}");
-    // internet connection invalid
-    if (!(await HelperFunctions.internetConnectionCheck())) {
-      // ignore: use_build_context_synchronously
-      HelperFunctions.showNoInternetDialog(context, false);
-      return result;
-    }
     // ID/PW가 하나라도 비어있는 경우
     if(appUserData.email == "" || appUserData.password == ""){
       // ID is empty

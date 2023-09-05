@@ -29,18 +29,22 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
     drawerIndex = DrawerIndex.home;
     screenView = const HomeScreen();
     super.initState();
+    // 비동기 작업 수행
     _asyncTask();
   }
 
   void _asyncTask() async {
-    String? result = await _authController.configureAmplify();
-    setState(() {
-      HomeDrawer.isLogin = HomeDrawer.isLogin;
-      safePrint('[isLogin] : ${HomeDrawer.isLogin}');
-    });
-    if(result != null){
-      // 오류 발생 원인 출력
-      safePrint('[ERROR _asyncTask()] : $result');
+    // 인터넷 연결 확인
+    if(await HelperFunctions.internetConnectionIsAlive(context, true)){
+      String? result = await _authController.configureAmplify();
+      setState(() {
+        HomeDrawer.isLogin = HomeDrawer.isLogin;
+        safePrint('[isLogin] : ${HomeDrawer.isLogin}');
+      });
+      if(result != null){
+        // 오류 발생 원인 출력
+        safePrint('[ERROR _asyncTask()] : $result');
+      }
     }
   }
 
