@@ -4,11 +4,11 @@ import 'package:book_story/pages/list_views/category_list_view.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/pages/list_views/popular_book_list_view.dart';
 import 'package:book_story/main.dart';
+import 'package:book_story/pages/list_views/recent_book_list_view.dart';
 import 'package:book_story/pages/screens/book_info_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
 
 import 'package:provider/provider.dart';
 
@@ -27,20 +27,6 @@ class HomeScreenState extends State<HomeScreen> {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
 
-    // for fixed web height
-    double screenHeight;
-    const double webScreenHeight = 1000.0;
-    try{
-      if(Platform.isIOS || Platform.isAndroid){
-        screenHeight = MediaQuery.of(context).size.height*1;
-      } else{
-        screenHeight = webScreenHeight;
-      }
-    } catch(e){
-      screenHeight = webScreenHeight;
-    }
-
-
     return Container(
       color: isLightMode ? BookStoryAppTheme.nearlyWhite : BookStoryAppTheme.nearlyBlack,
       child: Scaffold(
@@ -53,18 +39,14 @@ class HomeScreenState extends State<HomeScreen> {
             getAppBarUI(),
             Expanded(
               child: SingleChildScrollView(
-                child: SizedBox(
-                  height: screenHeight,
                   child: Column(
                     children: <Widget>[
                       getSearchBarUI(),
                       getCategoryUI(),
-                      Flexible(
-                        child: getPopularBookUI(),
-                      ),
+                      getRecentUI(),
+                      getPopularBookUI(),
                     ],
                   ),
-                ),
               ),
             ),
           ],
@@ -80,6 +62,9 @@ class HomeScreenState extends State<HomeScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        const SizedBox(
+          height: 20,
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
           child: Text(
@@ -87,7 +72,7 @@ class HomeScreenState extends State<HomeScreen> {
             textAlign: TextAlign.left,
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              fontSize: 22,
+              fontSize: 25,
               letterSpacing: 0.27,
               color: isLightMode ? BookStoryAppTheme.darkText : BookStoryAppTheme.lightText,
             ),
@@ -150,12 +135,47 @@ class HomeScreenState extends State<HomeScreen> {
           )
         ),
         const SizedBox(
-          height: 16,
+          height: 10,
         ),
         CategoryListView(
           callBack: (Book c) {
             moveTo(c);
           },
+        ),
+      ],
+    );
+  }
+
+  Widget getRecentUI() {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const SizedBox(
+          height: 20,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
+          child: Text(
+            'Recent Books',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 25,
+              letterSpacing: 0.27,
+              color: isLightMode ? BookStoryAppTheme.darkText : BookStoryAppTheme.lightText,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 270,
+          child: RecentBookListView(
+            callBack: (Book c) {
+              moveTo(c);
+            },
+          ),
         ),
       ],
     );
@@ -170,17 +190,21 @@ class HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          const SizedBox(
+            height: 20,
+          ),
           Text(
             'Popular Books',
             textAlign: TextAlign.left,
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              fontSize: 22,
+              fontSize: 25,
               letterSpacing: 0.27,
               color: isLightMode ? BookStoryAppTheme.darkerText : BookStoryAppTheme.lightText,
             ),
           ),
-          Flexible(
+          SizedBox(
+            height: 400,
             child: PopularBookListView(
               callBack: (Book c) {
                 moveTo(c);
@@ -368,7 +392,7 @@ class HomeScreenState extends State<HomeScreen> {
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 22,
+                    fontSize: 28,
                     letterSpacing: 0.27,
                     color: BookStoryAppTheme.darkerText,
                   ),

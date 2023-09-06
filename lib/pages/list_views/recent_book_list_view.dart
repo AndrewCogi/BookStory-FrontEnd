@@ -6,15 +6,15 @@ import 'package:book_story/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PopularBookListView extends StatefulWidget {
-  const PopularBookListView({Key? key, this.callBack}) : super(key: key);
+class RecentBookListView extends StatefulWidget {
+  const RecentBookListView({Key? key, this.callBack}) : super(key: key);
 
   final Function(Book)? callBack;
   @override
   PopularBookListViewState createState() => PopularBookListViewState();
 }
 
-class PopularBookListViewState extends State<PopularBookListView>
+class PopularBookListViewState extends State<RecentBookListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   @override
@@ -43,13 +43,13 @@ class PopularBookListViewState extends State<PopularBookListView>
           } else {
             List<Book> bookList = snapshot.data!;
             return GridView(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(15),
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 30.0,
-                crossAxisSpacing: 30.0,
+                crossAxisCount: 1,
+                mainAxisSpacing: 1.0, // 가로 간 padding
+                crossAxisSpacing: 12.0, // 세로 간 padding
                 childAspectRatio: 1.0,
               ),
               children: List<Widget>.generate(
@@ -114,6 +114,7 @@ class CategoryView extends StatelessWidget {
                 child: Stack(
                   alignment: AlignmentDirectional.bottomCenter,
                   children: <Widget>[
+
                     Column(
                       children: <Widget>[
                         Expanded(
@@ -139,7 +140,7 @@ class CategoryView extends StatelessWidget {
                                             textAlign: TextAlign.left,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w600,
-                                              fontSize: 16,
+                                              fontSize: 17,
                                               letterSpacing: 0.27,
                                               color: BookStoryAppTheme
                                                   .darkerText,
@@ -162,36 +163,34 @@ class CategoryView extends StatelessWidget {
                                             CrossAxisAlignment.center,
                                             children: <Widget>[
                                               Text(
-                                          HelperFunctions.makeBookInfo(book.categoryAge,book.categoryType,2,book.bookPage),
+                                                HelperFunctions.makeBookInfo(book.categoryAge,book.categoryType,2,book.bookPage),
                                                 textAlign: TextAlign.left,
                                                 style: const TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 9,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 10,
                                                   letterSpacing: 0.27,
                                                   color: BookStoryAppTheme
                                                       .grey,
                                                 ),
                                               ),
-                                              const SizedBox(width: 23),
+                                              const SizedBox(width: 20),
                                               const Icon(
-                                                Icons.recommend_outlined,
+                                                Icons.border_color_outlined,
                                                 color:
-                                                BookStoryAppTheme
-                                                    .nearlyBlue,
-                                                size: 12,
+                                                Colors.lightBlueAccent,
+                                                size: 15,
                                               ),
                                               Text(
-                                                '${book.playCount}',
+                                                book.writer,
                                                 textAlign:
                                                 TextAlign.left,
                                                 style: const TextStyle(
                                                   fontWeight:
                                                   FontWeight.w600,
-                                                  fontSize: 10,
+                                                  fontSize: 13,
                                                   letterSpacing: 0.27,
                                                   color:
-                                                  BookStoryAppTheme
-                                                      .grey,
+                                                  Colors.blueGrey,
                                                 ),
                                               ),
                                             ],

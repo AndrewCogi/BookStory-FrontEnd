@@ -33,7 +33,7 @@ class DrawerUserControllerState extends State<DrawerUserController>
   AnimationController? iconAnimationController;
   AnimationController? animationController;
 
-  double scrolloffset = 0.0;
+  double scrollOffset = 0.0;
 
   @override
   void initState() {
@@ -50,9 +50,9 @@ class DrawerUserControllerState extends State<DrawerUserController>
     scrollController!
       .addListener(() {
         if (scrollController!.offset <= 0) {
-          if (scrolloffset != 1.0) {
+          if (scrollOffset != 1.0) {
             setState(() {
-              scrolloffset = 1.0;
+              scrollOffset = 1.0;
               try {
                 widget.drawerIsOpen!(true);
               } catch (_) {}
@@ -68,9 +68,9 @@ class DrawerUserControllerState extends State<DrawerUserController>
               duration: const Duration(milliseconds: 0),
               curve: Curves.fastOutSlowIn);
         } else {
-          if (scrolloffset != 0.0) {
+          if (scrollOffset != 0.0) {
             setState(() {
-              scrolloffset = 0.0;
+              scrollOffset = 0.0;
               try {
                 widget.drawerIsOpen!(false);
               } catch (_) {}
@@ -159,11 +159,11 @@ class DrawerUserControllerState extends State<DrawerUserController>
                     children: <Widget>[
                       //this IgnorePointer we use as touch(user Interface) widget.screen View, for example scrolloffset == 1 means drawer is close we just allow touching all widget.screen View
                       IgnorePointer(
-                        ignoring: scrolloffset == 1 || false,
+                        ignoring: scrollOffset == 1 || false,
                         child: widget.screenView,
                       ),
                       //alternative touch(user Interface) for widget.screen, for example, drawer is close we need to tap on a few home screen area and close the drawer
-                      if (scrolloffset == 1.0)
+                      if (scrollOffset == 1.0)
                         InkWell(
                           onTap: () {
                             onDrawerClick();

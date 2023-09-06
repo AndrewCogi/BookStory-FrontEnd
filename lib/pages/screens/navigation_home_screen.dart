@@ -59,7 +59,8 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
           backgroundColor: AppTheme.nearlyWhite,
           body: DrawerUserController(
             screenIndex: drawerIndex,
-            drawerWidth: MediaQuery.of(context).size.width * 0.70,
+            // drawerWidth: MediaQuery.of(context).size.width * 0.70, // 전체 화면의 x% 사용
+            drawerWidth: 300,
             onDrawerCall: (DrawerIndex drawerIndexData){
               changeIndex(drawerIndexData);
             },

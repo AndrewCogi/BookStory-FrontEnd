@@ -243,7 +243,7 @@ class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 22,
+                    fontSize: 25,
                     letterSpacing: 0.27,
                     color: BookStoryAppTheme.darkerText,
                   ),
