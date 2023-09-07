@@ -1,7 +1,7 @@
 import 'package:book_story/enums/category_type.dart';
 
 class Book {
-  int? id;
+  int id;
   String title;
   String drawer;
   String writer;
@@ -16,7 +16,7 @@ class Book {
   String description;
 
   Book({
-    this.id,
+    required this.id,
     required this.title,
     required this.drawer,
     required this.writer,

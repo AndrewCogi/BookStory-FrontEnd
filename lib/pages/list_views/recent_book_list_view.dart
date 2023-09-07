@@ -3,6 +3,7 @@ import 'package:book_story/main.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:book_story/utils/helper_functions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -229,8 +230,13 @@ class CategoryView extends StatelessWidget {
                           borderRadius:
                               const BorderRadius.all(Radius.circular(16.0)),
                           child: AspectRatio(
-                              aspectRatio: 1.28,
-                              child: Image.asset(book.imagePath)),
+                            aspectRatio: 1.28,
+                            child: CachedNetworkImage(
+                              placeholder: null,
+                              imageUrl: book.imagePath,
+                              errorWidget: (context, url, error) => const Icon(Icons.cancel_outlined),
+                            ),
+                          ),
                         ),
                       ),
                     ),

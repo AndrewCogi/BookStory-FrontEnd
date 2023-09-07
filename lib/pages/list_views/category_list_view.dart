@@ -1,9 +1,12 @@
+import 'package:book_story/controllers/impl/public_data_controller_impl.dart';
+import 'package:book_story/controllers/public_data_controller.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/main.dart';
 import 'package:book_story/pages/screens/home_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:book_story/utils/helper_functions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -71,7 +74,7 @@ class CategoryListViewState extends State<CategoryListView>
                                   curve: Curves.fastOutSlowIn)));
                   animationController?.forward();
                   return CategoryView(
-                    category: bookList[index],
+                    book: bookList[index],
                     animation: animation,
                     animationController: animationController,
                     callback: widget.callBack,
@@ -87,18 +90,19 @@ class CategoryListViewState extends State<CategoryListView>
 }
 
 class CategoryView extends StatelessWidget {
-  const CategoryView(
+  CategoryView(
       {Key? key,
-      required this.category,
+      required this.book,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
 
   final void Function(Book)? callback;
-  final Book category;
+  final Book book;
   final AnimationController? animationController;
   final Animation<double>? animation;
+  final PublicDataController _publicDataController = PublicDataControllerImpl();
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +117,7 @@ class CategoryView extends StatelessWidget {
             child: InkWell(
               splashColor: Colors.transparent,
               onTap: (){
-                callback?.call(category);
+                callback?.call(book);
               },
               child: SizedBox(
                 width: 280,
@@ -144,7 +148,7 @@ class CategoryView extends StatelessWidget {
                                             const EdgeInsets.only(top: 16, right: 25),
                                         child: FittedBox(
                                           child: Text(
-                                            category.title,
+                                            book.title,
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w600,
@@ -170,7 +174,7 @@ class CategoryView extends StatelessWidget {
                                               CrossAxisAlignment.center,
                                           children: <Widget>[
                                             Text(
-                                              HelperFunctions.makeBookInfo(category.categoryAge,category.categoryType,1,category.bookPage),
+                                              HelperFunctions.makeBookInfo(book.categoryAge,book.categoryType,1,book.bookPage),
                                               textAlign: TextAlign.left,
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.w200,
@@ -190,7 +194,7 @@ class CategoryView extends StatelessWidget {
                                                   size: 12,
                                                 ),
                                                 Text(
-                                                  '${category.playCount}',
+                                                  '${book.playCount}',
                                                   textAlign:
                                                   TextAlign.left,
                                                   style: const TextStyle(
@@ -219,7 +223,7 @@ class CategoryView extends StatelessWidget {
                                               CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
-                                              category.playTime,
+                                              book.playTime,
                                               textAlign: TextAlign.left,
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -271,9 +275,14 @@ class CategoryView extends StatelessWidget {
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(16.0)),
                             child: AspectRatio(
-                                aspectRatio: 1.0,
-                                child: Image.asset(category.imagePath)),
-                          )
+                              aspectRatio: 1.0,
+                              child: CachedNetworkImage(
+                                placeholder: null,
+                                imageUrl: book.imagePath,
+                                errorWidget: (context, url, error) => const Icon(Icons.cancel_outlined),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

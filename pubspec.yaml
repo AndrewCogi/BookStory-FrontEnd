@@ -56,6 +56,8 @@ dependencies:
   provider:
   http:
 
+  cached_network_image:
+
 dev_dependencies:
   #  flutter_native_splash: ^1.3.1
   flutter_lints: ^2.0.0
@@ -79,9 +81,6 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-    - assets/books/age_4_plus/
-    - assets/books/age_6_plus/
-    - assets/books/popular/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
