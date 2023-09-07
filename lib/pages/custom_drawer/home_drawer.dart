@@ -263,7 +263,9 @@ class HomeDrawerState extends State<HomeDrawer> {
         splashColor: Colors.grey.withOpacity(0.1),
         highlightColor: Colors.transparent,
         onTap: () async {
-          safePrint('[User Token]: ${await _authController.getCurrentUserToken()}'); // TODO : 테스트용
+          String? result = await _authController.getCurrentUserAccessToken();
+          safePrint('[User Token]: $result'); // TODO : 테스트용
+          _authController.validateToken(result!);
           navigationtoScreen(listData.index!);
         },
         child: Stack(

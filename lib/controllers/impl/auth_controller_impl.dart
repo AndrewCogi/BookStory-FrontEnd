@@ -76,7 +76,7 @@ class AuthControllerImpl implements AuthController {
           options: SignUpOptions(
               userAttributes: {CognitoUserAttributeKey.email: data.email})
       );
-      await recordSignUp(data.email);
+      await recordSignUp(data.email); // TODO : 이메일 인증까지 완료하고 호출하도록 변경하기
       safePrint('[onSignUp Result] : SUCCESS!');
       return '';
     } on AuthException catch (e) {
@@ -157,18 +157,17 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
-  Future<String?> getCurrentUserToken() async {
+  Future<String?> getCurrentUserAccessToken() async {
     final result = await Amplify.Auth.fetchAuthSession(
         options: const FetchAuthSessionOptions());
-    String? idToken = (result as CognitoAuthSession).userPoolTokensResult.valueOrNull?.idToken.raw;
-    safePrint('[IdToken]: $idToken');
-    String? accessToken = result.userPoolTokensResult.valueOrNull?.accessToken.raw;
+    // String? idToken = (result as CognitoAuthSession).userPoolTokensResult.valueOrNull?.idToken.raw;
+    // safePrint('[IdToken]: $idToken');
+    String? accessToken = (result as CognitoAuthSession).userPoolTokensResult.valueOrNull?.accessToken.raw;
     safePrint('[AccessToken]: $accessToken');
-    String? refreshToken = result.userPoolTokensResult.valueOrNull?.refreshToken;
-    safePrint('[RefreshToken]: $refreshToken');
+    // String? refreshToken = (result as CognitoAuthSession).userPoolTokensResult.valueOrNull?.refreshToken;
+    // safePrint('[RefreshToken]: $refreshToken');
 
-    validateToken(accessToken!);
-    return 'testing';
+    return accessToken;
   }
 
   @override

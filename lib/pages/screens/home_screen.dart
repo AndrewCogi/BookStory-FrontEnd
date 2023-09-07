@@ -158,15 +158,35 @@ class HomeScreenState extends State<HomeScreen> {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
-          child: Text(
-            'Recent Books',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 25,
-              letterSpacing: 0.27,
-              color: isLightMode ? BookStoryAppTheme.darkText : BookStoryAppTheme.lightText,
-            ),
+          child: Row(
+            mainAxisAlignment:
+            MainAxisAlignment
+                .spaceBetween,
+            crossAxisAlignment:
+            CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Recent Books',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 25,
+                  letterSpacing: 0.27,
+                  color: isLightMode ? BookStoryAppTheme.darkText : BookStoryAppTheme.lightText,
+                ),
+              ),
+              InkWell(
+                onTap:() {
+                  safePrint('More Info - Recent Books');
+                },
+                child: const Icon(
+                  Icons.add,
+                  color:
+                  Colors.grey,
+                  size: 28,
+                ),
+              ),
+            ],
           ),
         ),
         SizedBox(
@@ -184,23 +204,44 @@ class HomeScreenState extends State<HomeScreen> {
   Widget getPopularBookUI() {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
-      child: Column(
+    return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const SizedBox(
             height: 20,
           ),
-          Text(
-            'Popular Books',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 25,
-              letterSpacing: 0.27,
-              color: isLightMode ? BookStoryAppTheme.darkerText : BookStoryAppTheme.lightText,
+          Padding(
+              padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
+            child: Row(
+              mainAxisAlignment:
+              MainAxisAlignment
+                  .spaceBetween,
+              crossAxisAlignment:
+              CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Popular Books',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 25,
+                    letterSpacing: 0.27,
+                    color: isLightMode ? BookStoryAppTheme.darkerText : BookStoryAppTheme.lightText,
+                  ),
+                ),
+                InkWell(
+                  onTap:() {
+                    safePrint('More Info - Popular Books');
+                  },
+                  child: const Icon(
+                    Icons.add,
+                    color:
+                    Colors.grey,
+                    size: 28,
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(
@@ -212,8 +253,7 @@ class HomeScreenState extends State<HomeScreen> {
             ),
           )
         ],
-      ),
-    );
+      );
   }
 
   void moveTo(Book category) {
