@@ -1,5 +1,3 @@
-import 'package:book_story/controllers/impl/public_data_controller_impl.dart';
-import 'package:book_story/controllers/public_data_controller.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/main.dart';
 import 'package:book_story/pages/screens/home_screen.dart';
@@ -90,7 +88,7 @@ class CategoryListViewState extends State<CategoryListView>
 }
 
 class CategoryView extends StatelessWidget {
-  CategoryView(
+  const CategoryView(
       {Key? key,
       required this.book,
       this.animationController,
@@ -102,7 +100,6 @@ class CategoryView extends StatelessWidget {
   final Book book;
   final AnimationController? animationController;
   final Animation<double>? animation;
-  final PublicDataController _publicDataController = PublicDataControllerImpl();
 
   @override
   Widget build(BuildContext context) {

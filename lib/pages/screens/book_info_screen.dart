@@ -3,6 +3,7 @@ import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:book_story/utils/helper_functions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class BookInfoScreen extends StatefulWidget {
@@ -65,7 +66,11 @@ class BookInfoScreenState extends State<BookInfoScreen>
               children: <Widget>[
                 AspectRatio(
                   aspectRatio: 1.2,
-                  child: Image.asset(widget.book.imagePath),
+                  child: CachedNetworkImage(
+                    placeholder: null,
+                    imageUrl: widget.book.imagePath,
+                    errorWidget: (context, url, error) => const Icon(Icons.cancel_outlined),
+                  ),
                 ),
               ],
             ),

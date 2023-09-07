@@ -6,7 +6,7 @@ class TempDB{
     Book(
       id: 1,
       // imagePath: 'assets/books/age_4_plus/book1.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/1.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/1.png',
       title: '곰곰아, 괜찮아?',
       drawer: '김정민',
       writer: '김정민',
@@ -24,7 +24,7 @@ class TempDB{
     Book(
       id: 2,
       // imagePath: 'assets/books/age_4_plus/book2.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/2.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/2.png',
       title: '나 아기 안할래',
       drawer: '김동영',
       writer: '김동영',
@@ -42,7 +42,7 @@ class TempDB{
     Book(
       id: 3,
       // imagePath: 'assets/books/age_4_plus/book3.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/3.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/3.png',
       title: '파란 물고기',
       drawer: '김릴리',
       writer: '차인우',
@@ -60,7 +60,7 @@ class TempDB{
     Book(
         id: 4,
         // imagePath: 'assets/books/age_4_plus/book4.png',
-        imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/4.png',
+        imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/4.png',
         title: '생각하는 ㄱㄴㄷ',
         drawer: 'Iwona Chmielewska',
         writer: 'Iwona Chmielewska',
@@ -78,7 +78,7 @@ class TempDB{
     Book(
       id: 5,
       // imagePath: 'assets/books/age_4_plus/book5.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/5.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/5.png',
       title: '허수아비의 비밀',
       drawer: '이초혜',
       writer: '양승숙',
@@ -96,7 +96,7 @@ class TempDB{
     Book(
       id: 6,
       // imagePath: 'assets/books/popular/book1.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/6.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/6.png',
       title: '깨끗 공주와 깔끔 왕자',
       drawer: '김태란',
       writer: '이혜옥',
@@ -112,7 +112,7 @@ class TempDB{
     Book(
       id: 7,
       // imagePath: 'assets/books/popular/book2.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/7.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/7.png',
       title: '고요한 나라를 찾아서',
       drawer: '문지나',
       writer: '문지나',
@@ -128,7 +128,7 @@ class TempDB{
     Book(
       id: 8,
       // imagePath: 'assets/books/popular/book3.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/8.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/8.png',
       title: '도시락 도둑',
       drawer: '김선배',
       writer: '정란희',
@@ -144,7 +144,7 @@ class TempDB{
     Book(
       id: 9,
       // imagePath: 'assets/books/popular/book4.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/9.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/9.png',
       title: '치과의사 치카뿡',
       drawer: '윤공주',
       writer: '신선웅',
@@ -160,7 +160,7 @@ class TempDB{
     Book(
       id: 10,
       // imagePath: 'assets/books/popular/book5.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/10.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/10.png',
       title: '인절미 시집가는 날',
       drawer: '김아인',
       writer: '김아인',
@@ -176,7 +176,7 @@ class TempDB{
     Book(
       id: 11,
       // imagePath: 'assets/books/popular/book6.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/11.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/11.png',
       title: '고마워, 기역도깨비야',
       drawer: '조수진',
       writer: '조우상/이지수',
@@ -192,7 +192,7 @@ class TempDB{
     Book(
       id: 12,
       // imagePath: 'assets/books/popular/book7.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/12.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/12.png',
       title: '올리와 바람',
       drawer: '로노조이 고시',
       writer: '로노조이 고시',
@@ -208,7 +208,7 @@ class TempDB{
     Book(
       id: 13,
       // imagePath: 'assets/books/popular/book8.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/13.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/13.png',
       title: '틀린게 아니라 다른거야',
       drawer: '유수정',
       writer: '최영미',
@@ -224,7 +224,7 @@ class TempDB{
     Book(
       id: 14,
       // imagePath: 'assets/books/popular/book9.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/14.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/14.png',
       title: '공주양말',
       drawer: '윤샘',
       writer: '최서윤',
@@ -240,7 +240,7 @@ class TempDB{
     Book(
       id: 15,
       // imagePath: 'assets/books/popular/book10.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/15.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/15.png',
       title: '피가 붉다고?',
       drawer: '조수진',
       writer: '소망',
@@ -256,7 +256,7 @@ class TempDB{
     Book(
       id: 16,
       // imagePath: 'assets/books/age_6_plus/book1.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/16.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/16.png',
       title: '내 마음대로',
       drawer: '김주현',
       writer: '이현',
@@ -272,7 +272,7 @@ class TempDB{
     Book(
       id: 17,
       // imagePath: 'assets/books/age_6_plus/book2.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/17.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/17.png',
       title: '보송이의 작은 모험',
       drawer: '김규연',
       writer: '김규연',
@@ -288,7 +288,7 @@ class TempDB{
     Book(
       id: 18,
       // imagePath: 'assets/books/age_6_plus/book3.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/18.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/18.png',
       title: '별나라에서 온 공주',
       drawer: '김재홍',
       writer: '김재홍',
@@ -304,7 +304,7 @@ class TempDB{
     Book(
       id: 19,
       // imagePath: 'assets/books/age_6_plus/book4.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/19.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/19.png',
       title: '아빠 쉬는 날',
       drawer: '차야다',
       writer: '차야다',
@@ -320,7 +320,7 @@ class TempDB{
     Book(
       id: 20,
       // imagePath: 'assets/books/age_6_plus/book5.png',
-      imagePath: 'https://bookstory-public-data.s3.ap-northeast-2.amazonaws.com/images/books/20.png',
+      imagePath: 'https://d1uuv72cpfayuq.cloudfront.net/images/books/20.png',
       title: '솔비가 태어났어요',
       drawer: '이주윤',
       writer: '민수현',
