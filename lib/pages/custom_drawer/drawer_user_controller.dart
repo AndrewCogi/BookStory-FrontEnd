@@ -2,6 +2,7 @@ import 'package:book_story/pages/custom_drawer/home_drawer.dart';
 import 'package:book_story/utils/main_app_theme.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class DrawerUserController extends StatefulWidget {
   DrawerUserController({
     Key? key,
@@ -81,11 +82,12 @@ class DrawerUserControllerState extends State<DrawerUserController>
               curve: Curves.fastOutSlowIn);
         }
       });
+    // navigation bar 초기 위치 설정
     WidgetsBinding.instance.addPostFrameCallback((_) => getInitState());
     super.initState();
   }
 
-  Future<bool> getInitState() async {
+  bool getInitState() {
     scrollController?.jumpTo(
       widget.drawerWidth,
     );
@@ -97,15 +99,11 @@ class DrawerUserControllerState extends State<DrawerUserController>
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
 
-    // // TODO : profile, release mode로 실행했을 때, 자꾸 열려있는 네비게이션 메뉴 닫아줌 (최초 1회만 실행)
-    // if(widget.firstTime){
-    //   scrollController?.animateTo(
-    //     widget.drawerWidth,
-    //     duration: const Duration(milliseconds: 0),
-    //     curve: Curves.fastOutSlowIn,
-    //   );
-    //   widget.firstTime = false;
-    // }
+    // profile, release mode로 실행했을 때, 열려있는 네비게이션 메뉴 닫아줌 (최초 1회만 실행)
+    if(widget.firstTime){
+      getInitState();
+      widget.firstTime = false;
+    }
 
     return Scaffold(
       backgroundColor: isLightMode ? AppTheme.white : AppTheme.nearlyBlack,
