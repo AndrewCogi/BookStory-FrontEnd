@@ -59,7 +59,8 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
           backgroundColor: AppTheme.nearlyWhite,
           body: DrawerUserController(
             screenIndex: drawerIndex,
-            drawerWidth: MediaQuery.of(context).size.width < 411 ? MediaQuery.of(context).size.width * 0.70 : 287.7, // 전체 화면의 x% 사용, 가로길이 450 넘어가면 고정 287.7 사용
+            // TODO : 300보다 작으면 메뉴판이 계속 열리는 문제 발생함..
+            drawerWidth: MediaQuery.of(context).size.width < 411 ? MediaQuery.of(context).size.width * 0.70 : 300, // 전체 화면의 x% 사용, 가로길이 450 넘어가면 고정 300 사용
             onDrawerCall: (DrawerIndex drawerIndexData){
               changeIndex(drawerIndexData);
             },

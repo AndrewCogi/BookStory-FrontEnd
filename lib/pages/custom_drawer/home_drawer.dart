@@ -262,10 +262,10 @@ class HomeDrawerState extends State<HomeDrawer> {
       child: InkWell(
         splashColor: Colors.grey.withOpacity(0.1),
         highlightColor: Colors.transparent,
-        onTap: () async {
-          String? result = await _authController.getCurrentUserAccessToken();
-          safePrint('[User Token]: $result'); // TODO : 테스트용
-          _authController.validateToken(result!);
+        onTap: () {
+          // String? result = await _authController.getCurrentUserAccessToken();
+          // safePrint('[User Token]: $result'); // TODO : 테스트용
+          // _authController.validateToken(result!);
           navigationtoScreen(listData.index!);
         },
         child: Stack(
@@ -328,7 +328,7 @@ class HomeDrawerState extends State<HomeDrawer> {
               builder: (BuildContext context, Widget? child) {
                 return Transform(
                   transform: Matrix4.translationValues(
-                      (MediaQuery.of(context).size.width * 0.75 - 64) *
+                      (MediaQuery.of(context).size.width * 0.70 - 64) *
                           (1.0 -
                               widget.iconAnimationController!.value -
                               1.0),
@@ -338,7 +338,7 @@ class HomeDrawerState extends State<HomeDrawer> {
                     padding: const EdgeInsets.only(top: 8, bottom: 8),
                     child: Container(
                       width:
-                      MediaQuery.of(context).size.width * 0.75 - 64,
+                      MediaQuery.of(context).size.width < 411 ? MediaQuery.of(context).size.width * 0.60 : 270,
                       height: 46,
                       decoration: BoxDecoration(
                         color: Colors.blue.withOpacity(0.2),
