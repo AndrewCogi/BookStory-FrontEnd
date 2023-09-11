@@ -6,5 +6,5 @@ enum DrawerIndex {
   feedback,
   rate,
   about,
-  login,
+  auth,
 }

@@ -1,6 +1,6 @@
 import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/controllers/impl/auth_controller_impl.dart';
-import 'package:book_story/models/app_user.dart';
+import 'package:book_story/models/user_model.dart';
 import 'package:book_story/pages/custom_drawer/home_drawer.dart';
 import 'package:book_story/pages/screens/verification_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class LoginScreenState extends State<LoginScreen> {
   bool isObscure = true;
   String errorMessageEmail = "";
   String errorMessagePassword = "";
-  AppUser? appUserData;
+  User? appUserData;
   final AuthController _authController = AuthControllerImpl();
   final FocusNode _secondTextFieldFocus = FocusNode();
   final TextEditingController _emailController = TextEditingController();
@@ -215,7 +215,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   Future<void> _cognitoButtonPressed(CognitoIndex cognitoIndex) async {
     // init AppUser
-    appUserData = AppUser(email: _emailController.text, password: _passwordController.text);
+    appUserData = User(userEmail: _emailController.text, password: _passwordController.text);
 
     // clear errorMessages
     setState(() {

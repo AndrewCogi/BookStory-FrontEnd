@@ -214,7 +214,7 @@ class HomeDrawerState extends State<HomeDrawer> {
           if(widget.screenIndex == DrawerIndex.home){
             HelperFunctions.showConfirmDeleteAccount(context, "Confirm");
           }
-          },
+        },
         child: InkWell(
           child: ListTile(
             title: const Text(

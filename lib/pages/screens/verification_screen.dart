@@ -1,12 +1,12 @@
 import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/controllers/impl/auth_controller_impl.dart';
-import 'package:book_story/models/app_user.dart';
+import 'package:book_story/models/user_model.dart';
 import 'package:flutter/material.dart';
 
 class VerificationScreen extends StatefulWidget {
   const VerificationScreen(this.appUserData, {super.key});
 
-  final AppUser appUserData;
+  final User appUserData;
 
   @override
   VerificationScreenState createState() => VerificationScreenState();

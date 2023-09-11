@@ -4,7 +4,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:book_story/amplifyconfiguration.dart';
 import 'package:book_story/controllers/auth_controller.dart';
-import 'package:book_story/models/app_user.dart';
+import 'package:book_story/models/user_model.dart';
 import 'package:book_story/pages/custom_drawer/home_drawer.dart';
 import 'package:book_story/utils/helper_functions.dart';
 import 'package:http/http.dart' as http;
@@ -68,15 +68,15 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
-  Future<String> onSignUp(AppUser data) async {
+  Future<String> onSignUp(User data) async {
     try {
       await Amplify.Auth.signUp(
-          username: data.email,
+          username: data.userEmail,
           password: data.password,
           options: SignUpOptions(
-              userAttributes: {CognitoUserAttributeKey.email: data.email})
+              userAttributes: {CognitoUserAttributeKey.email: data.userEmail})
       );
-      await recordSignUp(data.email); // TODO : 이메일 인증까지 완료하고 호출하도록 변경하기
+      await recordSignUp(data.userEmail); // TODO : 이메일 인증까지 완료하고 호출하도록 변경하기
       safePrint('[onSignUp Result] : SUCCESS!');
       return '';
     } on AuthException catch (e) {
@@ -86,10 +86,10 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
-  Future<String> onLogin(AppUser data) async {
+  Future<String> onLogin(User data) async {
     try {
       SignInResult res = await Amplify.Auth.signIn(
-          username: data.email, password: data.password);
+          username: data.userEmail, password: data.password);
 
       bool isSignedIn = res.isSignedIn;
       safePrint('Successfully Login? : $isSignedIn');
@@ -99,7 +99,7 @@ class AuthControllerImpl implements AuthController {
         throw Exception('Unconfirmed.');
       }
       // 정상적으로 로그인이 확인됨
-      await recordLogin(data.email);
+      await recordLogin(data.userEmail);
       safePrint('[onLogin Result] : SUCCESS!');
       return '';
     } on AuthException catch (e) {
@@ -128,12 +128,12 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
-  Future<String> verifyCode(AppUser data, String code) async {
-    safePrint('email: ${data.email}, code: "+$code');
+  Future<String> verifyCode(User data, String code) async {
+    safePrint('email: ${data.userEmail}, code: "+$code');
     String result = "Unknown Error. Try again.";
     try {
       SignUpResult res = await Amplify.Auth.confirmSignUp(
-          username: data.email, confirmationCode: code);
+          username: data.userEmail, confirmationCode: code);
 
       if (res.isSignUpComplete) {
         // 회원 가입 성공!!
@@ -230,18 +230,18 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
-  Future<Map<String, dynamic>?> verificationProcessIDPW(BuildContext context, AppUser appUserData) async {
+  Future<Map<String, dynamic>?> verificationProcessIDPW(BuildContext context, User appUserData) async {
     // errorMessage 2쌍을 저장해서 반환할 결과
     Map<String, dynamic> result = {
       'errorMessageEmail': "",
       'errorMessagePassword': "",
     };
     // check
-    safePrint("email: ${appUserData.email}, pw: ${appUserData.password}");
+    safePrint("email: ${appUserData.userEmail}, pw: ${appUserData.password}");
     // ID/PW가 하나라도 비어있는 경우
-    if(appUserData.email == "" || appUserData.password == ""){
+    if(appUserData.userEmail == "" || appUserData.password == ""){
       // ID is empty
-      if (appUserData.email == "") {
+      if (appUserData.userEmail == "") {
         result['errorMessageEmail'] = "Enter Email.";
       }
       // PW is empty
@@ -252,10 +252,10 @@ class AuthControllerImpl implements AuthController {
     }
     // 비어있지 않은 경우 형식 검증 진행
     String isPasswordValidResult = isPasswordValid(appUserData.password);
-    if (isEmailValid(appUserData.email) == false ||
+    if (isEmailValid(appUserData.userEmail) == false ||
         isPasswordValidResult != "") {
       // 이메일 형식 체크
-      if (isEmailValid(appUserData.email) == false) {
+      if (isEmailValid(appUserData.userEmail) == false) {
         result['errorMessageEmail'] = "Check your email format.";
       }
       // 비번 형식 체크
@@ -269,7 +269,7 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
-  Future<Map<String, dynamic>?> signUpProcess(AppUser appUserData) async {
+  Future<Map<String, dynamic>?> signUpProcess(User appUserData) async {
     // errorMessage 2쌍을 저장해서 반환할 결과
     Map<String, dynamic> result = {
       'errorMessageEmail': "",
@@ -290,7 +290,7 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
-  Future<Map<String, dynamic>?> loginProcess(AppUser appUserData) async {
+  Future<Map<String, dynamic>?> loginProcess(User appUserData) async {
     // errorMessage 2쌍을 저장해서 반환할 결과
     Map<String, dynamic> result = {
       'errorMessageEmail': "",
@@ -301,6 +301,8 @@ class AuthControllerImpl implements AuthController {
     String loginResult = await onLogin(appUserData);
     // 로그인 성공
     if (loginResult == '') {
+      // TODO : DB에 로그인함을 알림
+
       return null;
     }
     // 로그인 실패. 사유 작성해서 반환.
