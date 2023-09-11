@@ -1,6 +1,7 @@
 import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/controllers/impl/auth_controller_impl.dart';
+import 'package:book_story/enums/drawer_index.dart';
 import 'package:book_story/pages/custom_drawer/drawer_user_controller.dart';
 import 'package:book_story/pages/custom_drawer/home_drawer.dart';
 import 'package:book_story/pages/popups/record_tips_popup.dart';

@@ -1,4 +1,5 @@
 import 'package:book_story/enums/category_type.dart';
+import 'package:book_story/pages/popups/delete_account_popup.dart';
 import 'package:book_story/pages/popups/internet_check_popup.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,17 @@ class HelperFunctions {
       context: context,
       builder: (BuildContext context) {
         return InternetCheckPopup(terminate);
+      },
+    );
+  }
+
+  // 계정탈퇴 팝업
+  static void showConfirmDeleteAccount(BuildContext context, String text){
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return DeleteAccountPopup(text);
       },
     );
   }

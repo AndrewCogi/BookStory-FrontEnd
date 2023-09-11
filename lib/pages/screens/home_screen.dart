@@ -166,7 +166,7 @@ class HomeScreenState extends State<HomeScreen> {
             CrossAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Recent Books',
+                'Newly Added Books',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,

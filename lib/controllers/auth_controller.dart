@@ -14,6 +14,8 @@ abstract class AuthController{
   Future<String> onLogin(AppUser data);
   // 로그아웃 요청
   Future<bool> onLogout();
+  // 계정 삭제 요청
+  Future<bool> onDeleteAccount();
   // 이메일 인증 요청
   Future<String> verifyCode(AppUser data, String code);
   // 현재 로그인 상태 확인.

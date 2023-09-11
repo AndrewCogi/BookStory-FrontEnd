@@ -1,3 +1,4 @@
+import 'package:book_story/enums/drawer_index.dart';
 import 'package:book_story/pages/custom_drawer/home_drawer.dart';
 import 'package:book_story/utils/main_app_theme.dart';
 import 'package:flutter/material.dart';
@@ -99,11 +100,12 @@ class DrawerUserControllerState extends State<DrawerUserController>
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
 
-    // profile, release mode로 실행했을 때, 열려있는 네비게이션 메뉴 닫아줌 (최초 1회만 실행)
-    if(widget.firstTime){
-      getInitState();
-      widget.firstTime = false;
-    }
+    // TODO : profile, release mode로 실행했을 때, 열려있는 네비게이션 메뉴 닫아줌 (최초 1회만 실행)
+    // TODO : 해당 코드는 RUN 모드일 때, 에러를 일으킴. 개발 시에는 주석처리 필요.
+    // if(widget.firstTime){
+    //   getInitState();
+    //   widget.firstTime = false;
+    // }
 
     return Scaffold(
       backgroundColor: isLightMode ? AppTheme.white : AppTheme.nearlyBlack,

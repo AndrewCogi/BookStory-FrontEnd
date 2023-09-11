@@ -120,6 +120,14 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
+  Future<bool> onDeleteAccount() async {
+    Amplify.Auth.deleteUser().then((_) {
+      return true;
+    });
+    return false;
+  }
+
+  @override
   Future<String> verifyCode(AppUser data, String code) async {
     safePrint('email: ${data.email}, code: "+$code');
     String result = "Unknown Error. Try again.";

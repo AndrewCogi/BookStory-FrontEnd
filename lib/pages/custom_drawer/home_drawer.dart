@@ -1,7 +1,9 @@
 import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/controllers/impl/auth_controller_impl.dart';
+import 'package:book_story/enums/drawer_index.dart';
 import 'package:book_story/models/drawer_menu_model.dart';
 import 'package:book_story/pages/screens/login_screen.dart';
+import 'package:book_story/utils/helper_functions.dart';
 import 'package:book_story/utils/main_app_theme.dart';
 import 'package:book_story/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
@@ -207,29 +209,37 @@ class HomeDrawerState extends State<HomeDrawer> {
       );
     }
     else if(HomeDrawer.isLogin == true){
-      return ListTile(
-        title: const Text(
-          'Sign out',
-          style: TextStyle(
-            fontFamily: AppTheme.fontName,
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-            color: AppTheme.darkText,
+      return GestureDetector(
+        onLongPress: () {
+          if(widget.screenIndex == DrawerIndex.home){
+            HelperFunctions.showConfirmDeleteAccount(context, "Confirm");
+          }
+          },
+        child: InkWell(
+          child: ListTile(
+            title: const Text(
+              'Sign out',
+              style: TextStyle(
+                fontFamily: AppTheme.fontName,
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+                color: AppTheme.darkText,
+              ),
+              textAlign: TextAlign.left,
+            ),
+            trailing: const Icon(
+              Icons.power_settings_new,
+              color: Colors.red,
+            ),
+            onTap: () {
+              _authController.onLogout();
+              setState(() {
+                HomeDrawer.isLogin = false;
+              });
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Logout Complete')));
+            },
           ),
-          textAlign: TextAlign.left,
         ),
-        trailing: const Icon(
-          Icons.power_settings_new,
-          color: Colors.red,
-        ),
-        onTap: () {
-          _authController.onLogout();
-          setState(() {
-            HomeDrawer.isLogin = false;
-          });
-          // ignore: use_build_context_synchronously
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Logout Complete')));
-        },
       );
     }
     else {
@@ -364,15 +374,4 @@ class HomeDrawerState extends State<HomeDrawer> {
   Future<void> navigationtoScreen(DrawerIndex indexScreen) async {
     widget.callBackIndex!(indexScreen);
   }
-}
-
-enum DrawerIndex {
-  home,
-  library,
-  favorite,
-  voice,
-  feedback,
-  rate,
-  about,
-  login,
 }
