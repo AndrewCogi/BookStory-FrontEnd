@@ -63,4 +63,15 @@ class HelperFunctions {
   static String makeBookInfo(CategoryType categoryAge, List<CategoryType> categoryType, int takeCount, int page){
     return "${categoryDescriptions[categoryAge]} | ${makeBookCategoryToString(categoryType, takeCount)} | ${page}p";
   }
+
+  // 책에 대한 playTime(초)을 받아서, "xx:yy" 문자열로 만들어 줌
+  static String formatSecondsToMinutesAndSeconds(int seconds) {
+    int minutes = seconds ~/ 60;
+    int remainingSeconds = seconds % 60;
+
+    String formattedMinutes = minutes < 10 ? '0$minutes' : '$minutes';
+    String formattedSeconds = remainingSeconds < 10 ? '0$remainingSeconds' : '$remainingSeconds';
+
+    return '$formattedMinutes:$formattedSeconds';
+  }
 }

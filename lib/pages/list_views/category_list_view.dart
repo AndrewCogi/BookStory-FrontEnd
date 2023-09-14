@@ -220,7 +220,7 @@ class CategoryView extends StatelessWidget {
                                               CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
-                                              book.playTime,
+                                              HelperFunctions.formatSecondsToMinutesAndSeconds(book.playTime),
                                               textAlign: TextAlign.left,
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.w600,

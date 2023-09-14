@@ -38,38 +38,38 @@ class HomeDrawerState extends State<HomeDrawer> {
   void setDrawerListArray() {
     drawerList = <DrawerMenu>[
       DrawerMenu(
-        index: DrawerIndex.home,
+        index: DrawerIndex.HOME,
         labelName: 'Home',
         icon: const Icon(Icons.home),
       ),
       DrawerMenu(
-        index: DrawerIndex.library,
+        index: DrawerIndex.LIBRARY,
         labelName: 'Library',
         isAssetsImage: true,
         imageName: 'assets/icons/libraryIcon.png',
       ),
       DrawerMenu(
-        index: DrawerIndex.favorite,
+        index: DrawerIndex.FAVORITE,
         labelName: 'My Favorite',
         icon: const Icon(Icons.favorite_border),
       ),
       DrawerMenu(
-        index: DrawerIndex.voice,
+        index: DrawerIndex.VOICE,
         labelName: 'Voice',
         icon: const Icon(Icons.record_voice_over_outlined),
       ),
       DrawerMenu(
-        index: DrawerIndex.feedback,
+        index: DrawerIndex.FEEDBACK,
         labelName: 'FeedBack',
         icon: const Icon(Icons.help),
       ),
       DrawerMenu(
-        index: DrawerIndex.rate,
+        index: DrawerIndex.RATE,
         labelName: 'Rate this app',
         icon: const Icon(Icons.share),
       ),
       DrawerMenu(
-        index: DrawerIndex.about,
+        index: DrawerIndex.ABOUT,
         labelName: 'About Us',
         icon: const Icon(Icons.info),
       ),
@@ -211,7 +211,7 @@ class HomeDrawerState extends State<HomeDrawer> {
     else if(HomeDrawer.isLogin == true){
       return GestureDetector(
         onLongPress: () {
-          if(widget.screenIndex == DrawerIndex.home){
+          if(widget.screenIndex == DrawerIndex.HOME){
             HelperFunctions.showConfirmDeleteAccount(context, "Confirm");
           }
         },

@@ -127,7 +127,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  widget.book.playTime,
+                                  HelperFunctions.formatSecondsToMinutesAndSeconds(widget.book.playTime),
                                   textAlign: TextAlign.left,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w600,

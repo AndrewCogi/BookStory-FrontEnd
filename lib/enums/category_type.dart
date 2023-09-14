@@ -1,49 +1,49 @@
 enum CategoryType {
-  age4plus,       // 4세 이상
-  age6plus,       // 6세 이상
-  age8plus,       // 8세 이상
-  upto4age,       // 4세 까지
-  upto6age,       // 6세 까지
-  fairyTale,      // 동화
-  creative,       // 창작
-  lifeStyle,      // 생활
-  habits,         // 습관
-  learning,       // 학습
-  sophistication, // 교양
-  culture,        // 문화
-  art,            // 예술
-  society,        // 사회
-  history,        // 역사
-  natural,        // 자연
-  science,        // 과학
-  none,           // unknown
+  AGE_4_PLUS,       // 4세 이상
+  AGE_6_PLUS,       // 6세 이상
+  AGE_8_PLUS,       // 8세 이상
+  UPTO_4_AGE,       // 4세 까지
+  UPTO_6_AGE,       // 6세 까지
+  FAIRY_TALE,      // 동화
+  CREATIVE,       // 창작
+  LIFE_STYLE,      // 생활
+  HABITS,         // 습관
+  LEARNING,       // 학습
+  SOPHISTICATION, // 교양
+  CULTURE,        // 문화
+  ART,            // 예술
+  SOCIETY,        // 사회
+  HISTORY,        // 역사
+  NATURAL,        // 자연
+  SCIENCE,        // 과학
+  NONE,           // unknown
 }
 
 Map<CategoryType, String> categoryDescriptionsAge = {
-  CategoryType.age4plus: "4세 이상",
-  CategoryType.age6plus: "6세 이상",
-  CategoryType.age8plus: "8세 이상",
-  CategoryType.upto4age: "4세 까지",
-  CategoryType.upto6age: "6세 까지",
+  CategoryType.AGE_4_PLUS: "4세 이상",
+  CategoryType.AGE_6_PLUS: "6세 이상",
+  CategoryType.AGE_8_PLUS: "8세 이상",
+  CategoryType.UPTO_4_AGE: "4세 까지",
+  CategoryType.UPTO_6_AGE: "6세 까지",
 };
 
 Map<CategoryType, String> categoryDescriptions = {
-  CategoryType.age4plus: "4+",
-  CategoryType.age6plus: "6+",
-  CategoryType.age8plus: "8+",
-  CategoryType.upto4age: "~4",
-  CategoryType.upto6age: "~6",
-  CategoryType.fairyTale: "동화",
-  CategoryType.creative: "창작",
-  CategoryType.lifeStyle: "생활",
-  CategoryType.habits: "습관",
-  CategoryType.learning: "학습",
-  CategoryType.sophistication: "교양",
-  CategoryType.culture: "문화",
-  CategoryType.art: "예술",
-  CategoryType.society: "사회",
-  CategoryType.history: "역사",
-  CategoryType.natural: "자연",
-  CategoryType.science: "과학",
-  CategoryType.none: "NONE",
+  CategoryType.AGE_4_PLUS: "4+",
+  CategoryType.AGE_6_PLUS: "6+",
+  CategoryType.AGE_8_PLUS: "8+",
+  CategoryType.UPTO_4_AGE: "~4",
+  CategoryType.UPTO_6_AGE: "~6",
+  CategoryType.FAIRY_TALE: "동화",
+  CategoryType.CREATIVE: "창작",
+  CategoryType.LIFE_STYLE: "생활",
+  CategoryType.HABITS: "습관",
+  CategoryType.LEARNING: "학습",
+  CategoryType.SOPHISTICATION: "교양",
+  CategoryType.CULTURE: "문화",
+  CategoryType.ART: "예술",
+  CategoryType.SOCIETY: "사회",
+  CategoryType.HISTORY: "역사",
+  CategoryType.NATURAL: "자연",
+  CategoryType.SCIENCE: "과학",
+  CategoryType.NONE: "NONE",
 };

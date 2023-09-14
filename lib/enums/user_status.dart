@@ -1,4 +1,4 @@
 enum UserStatus{
-  login,
-  logout,
+  LOGIN,
+  LOGOUT,
 }

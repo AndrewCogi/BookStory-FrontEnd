@@ -1,33 +1,28 @@
 import 'package:book_story/enums/category_type.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Book {
-  int id;
-  String title;
-  String drawer;
-  String writer;
-  int bookPage;
-  CategoryType categoryAge;
-  List<CategoryType> categoryType;
-  String playTime;
-  int favorite;
-  int playCount;
-  double rate;
-  String imagePath;
-  String description;
+part 'book_model.freezed.dart';
+part 'book_model.g.dart';
 
-  Book({
-    required this.id,
-    required this.title,
-    required this.drawer,
-    required this.writer,
-    required this.imagePath,
-    required this.bookPage,
-    required this.categoryAge,
-    required this.categoryType,
-    required this.playTime,
-    required this.favorite,
-    required this.rate,
-    required this.playCount,
-    required this.description,
-  });
+@unfreezed
+class Book with _$Book{
+  factory Book({
+    required int id,
+    required String title,
+    required String drawer,
+    required String writer,
+    required int bookPage,
+    required CategoryType categoryAge,
+    required List<CategoryType> categoryType,
+    required int playTime,
+    required String imagePath,
+    required String description,
+    required DateTime creationTime,
+    @Default(0)int playCount,
+    @Default(0)int favorite,
+    @Default(0.0)double rate,
+}) = _Book;
+
+  factory Book.fromJson(Map<String, dynamic> json) =>
+      _$BookFromJson(json);
 }
