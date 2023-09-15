@@ -47,7 +47,7 @@ class TodayBookListViewState extends State<TodayBookListView>
               scrollDirection: Axis.horizontal,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
-                mainAxisSpacing: 1.0, // 가로 간 padding
+                mainAxisSpacing: 12.0, // 가로 간 padding
                 crossAxisSpacing: 12.0, // 세로 간 padding
                 childAspectRatio: 1.0,
               ),
@@ -150,7 +150,7 @@ class CategoryView extends StatelessWidget {
                                               textAlign: TextAlign.left,
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
-                                                fontSize: 17,
+                                                fontSize: 18,
                                                 letterSpacing: 0.27,
                                                 color: BookStoryAppTheme
                                                     .darkerText,

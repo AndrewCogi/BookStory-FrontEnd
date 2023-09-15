@@ -150,7 +150,7 @@ class CategoryView extends StatelessWidget {
                                               textAlign: TextAlign.left,
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
-                                                fontSize: 16,
+                                                fontSize: 14,
                                                 letterSpacing: 0.27,
                                                 color: BookStoryAppTheme
                                                     .darkerText,
@@ -173,7 +173,7 @@ class CategoryView extends StatelessWidget {
                                               CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  HelperFunctions.makeBookInfo(book.categoryAge,book.categoryType,2,book.bookPage),
+                                                  HelperFunctions.makeBookInfo(book.categoryAge,book.categoryType,1,book.bookPage),
                                                   textAlign: TextAlign.left,
                                                   style: const TextStyle(
                                                     fontWeight: FontWeight.w600,
