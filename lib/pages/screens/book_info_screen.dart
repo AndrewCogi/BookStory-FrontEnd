@@ -139,7 +139,8 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                 Row(
                                   children: <Widget>[
                                     Text(
-                                      '${widget.book.rate}',
+                                      // '${widget.book.rate}', TODO : 원상복구하기
+                                      '0.0',
                                       textAlign: TextAlign.left,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w200,

@@ -7,7 +7,7 @@ part 'response_model.g.dart';
 @unfreezed
 class ResponseModel with _$ResponseModel{
   factory ResponseModel({
-    @Default(ResponseStatus.SAVED)ResponseStatus responseStatus,
+    @Default(ResponseStatus.saved)ResponseStatus responseStatus,
     @Default(200)int statusCode,
     @Default('Saved')String message,
     @Default({})Map<String, dynamic> object,

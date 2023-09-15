@@ -27,7 +27,7 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
 
   @override
   void initState(){
-    drawerIndex = DrawerIndex.HOME;
+    drawerIndex = DrawerIndex.home;
     screenView = const HomeScreen();
     super.initState();
     // 비동기 작업 수행
@@ -76,22 +76,22 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
     if(drawerIndex != drawerIndexData){
       drawerIndex = drawerIndexData;
       switch(drawerIndex){
-        case DrawerIndex.HOME:
+        case DrawerIndex.home:
           setState(() {
             screenView = const HomeScreen();
           });
           break;
-        case DrawerIndex.LIBRARY:
+        case DrawerIndex.library:
           setState(() {
             // screenView = LibraryScreen();
           });
           break;
-        case DrawerIndex.FAVORITE:
+        case DrawerIndex.favorite:
           setState(() {
             // screenView = FavoriteScreen();
           });
           break;
-        case DrawerIndex.VOICE:
+        case DrawerIndex.voice:
           setState(() {
             screenView = const VoiceScreen();
             showDialog(context: context, builder: (BuildContext context){
@@ -99,17 +99,17 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
             });
           });
           break;
-        case DrawerIndex.FEEDBACK:
+        case DrawerIndex.feedback:
           setState(() {
             screenView = const FeedbackScreen();
           });
           break;
-        case DrawerIndex.RATE:
+        case DrawerIndex.rate:
           setState(() {
             // screenView = RateScreen();
           });
           break;
-        case DrawerIndex.ABOUT:
+        case DrawerIndex.about:
           setState(() {
             // screenView = AboutScreen();
           });

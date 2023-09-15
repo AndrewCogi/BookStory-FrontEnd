@@ -1,10 +1,10 @@
 enum DrawerIndex {
-  HOME,
-  LIBRARY,
-  FAVORITE,
-  VOICE,
-  FEEDBACK,
-  RATE,
-  ABOUT,
-  AUTH,
+  home,
+  library,
+  favorite,
+  voice,
+  feedback,
+  rate,
+  about,
+  auth,
 }

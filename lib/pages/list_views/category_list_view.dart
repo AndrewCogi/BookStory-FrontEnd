@@ -48,13 +48,11 @@ class CategoryListViewState extends State<CategoryListView>
       child: SizedBox(
         height: 134,
         width: double.infinity,
-        child: FutureBuilder<List<Book>?>(
+        child: FutureBuilder<List<Book>>(
           future: Provider.of<AppDataProvider>(context, listen: false)
               .get5BooksByCategory(HomeScreen.categoryType),
-          builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
-            if (!snapshot.hasData) {
-              return const SizedBox();
-            } else {
+          builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
+            if(snapshot.hasData){
               List<Book> bookList = snapshot.data!;
               return ListView.builder(
                 controller: CategoryListView.scrollController,
@@ -65,11 +63,11 @@ class CategoryListViewState extends State<CategoryListView>
                 itemBuilder: (BuildContext context, int index) {
                   int count = bookList.length;
                   final Animation<double> animation =
-                      Tween<double>(begin: 0.0, end: 1.0).animate(
-                          CurvedAnimation(
-                              parent: animationController!,
-                              curve: Interval((1 / count) * index, 1.0,
-                                  curve: Curves.fastOutSlowIn)));
+                  Tween<double>(begin: 0.0, end: 1.0).animate(
+                      CurvedAnimation(
+                          parent: animationController!,
+                          curve: Interval((1 / count) * index, 1.0,
+                              curve: Curves.fastOutSlowIn)));
                   animationController?.forward();
                   return CategoryView(
                     book: bookList[index],
@@ -80,6 +78,10 @@ class CategoryListViewState extends State<CategoryListView>
                 },
               );
             }
+            if(snapshot.hasError){
+              return const Text('Failed to fetch data');
+            }
+            return const Text('Please wait');
           },
         ),
       ),

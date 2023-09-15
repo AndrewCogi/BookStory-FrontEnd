@@ -1,10 +1,12 @@
 import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/pages/popups/delete_account_popup.dart';
 import 'package:book_story/pages/popups/internet_check_popup.dart';
+import 'package:book_story/utils/constants.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HelperFunctions {
   // 한국 시간 받아오기
@@ -73,5 +75,31 @@ class HelperFunctions {
     String formattedSeconds = remainingSeconds < 10 ? '0$remainingSeconds' : '$remainingSeconds';
 
     return '$formattedMinutes:$formattedSeconds';
+  }
+
+  static Future<bool> saveLoginTime(int time) async {
+    final pref = await SharedPreferences.getInstance();
+    return pref.setInt(loginTime, time);
+  }
+
+  static Future<int> getLoginTime() async {
+    final pref = await SharedPreferences.getInstance();
+    return pref.getInt(loginTime) ?? 0;
+  }
+
+  static Future<bool> saveExpirationDuration(int duration) async {
+    final pref = await SharedPreferences.getInstance();
+    return pref.setInt(expirationDuration, duration);
+  }
+
+  static Future<int> getExpirationDuration() async {
+    final pref = await SharedPreferences.getInstance();
+    return pref.getInt(expirationDuration) ?? 0;
+  }
+
+  static Future<bool> hasTokenExpired() async {
+    final loginTime = await getLoginTime();
+    final expDuration = await getExpirationDuration();
+    return DateTime.now().millisecondsSinceEpoch - loginTime > expDuration;
   }
 }

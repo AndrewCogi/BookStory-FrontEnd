@@ -144,7 +144,7 @@ class __$$_ResponseModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_ResponseModel implements _ResponseModel {
   _$_ResponseModel(
-      {this.responseStatus = ResponseStatus.SAVED,
+      {this.responseStatus = ResponseStatus.saved,
       this.statusCode = 200,
       this.message = 'Saved',
       this.object = const {}});

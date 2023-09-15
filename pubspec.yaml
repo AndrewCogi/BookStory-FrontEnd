@@ -54,7 +54,8 @@ dependencies:
   connectivity: ^3.0.6
 
   provider:
-  http:
+  http: ^1.1.0
+  shared_preferences:
 
   cached_network_image:
 

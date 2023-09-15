@@ -10,7 +10,7 @@ _$_ResponseModel _$$_ResponseModelFromJson(Map<String, dynamic> json) =>
     _$_ResponseModel(
       responseStatus: $enumDecodeNullable(
               _$ResponseStatusEnumMap, json['responseStatus']) ??
-          ResponseStatus.SAVED,
+          ResponseStatus.saved,
       statusCode: json['statusCode'] as int? ?? 200,
       message: json['message'] as String? ?? 'Saved',
       object: json['object'] as Map<String, dynamic>? ?? const {},
@@ -25,10 +25,10 @@ Map<String, dynamic> _$$_ResponseModelToJson(_$_ResponseModel instance) =>
     };
 
 const _$ResponseStatusEnumMap = {
-  ResponseStatus.SAVED: 'SAVED',
-  ResponseStatus.FAILED: 'FAILED',
-  ResponseStatus.UNAUTHORIZED: 'UNAUTHORIZED',
-  ResponseStatus.AUTHORIZED: 'AUTHORIZED',
-  ResponseStatus.EXPIRED: 'EXPIRED',
-  ResponseStatus.NONE: 'NONE',
+  ResponseStatus.saved: 'saved',
+  ResponseStatus.failed: 'failed',
+  ResponseStatus.unauthorized: 'unauthorized',
+  ResponseStatus.authorized: 'authorized',
+  ResponseStatus.expired: 'expired',
+  ResponseStatus.none: 'none',
 };

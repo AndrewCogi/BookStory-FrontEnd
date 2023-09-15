@@ -35,13 +35,11 @@ class PopularBookListViewState extends State<RecentBookListView>
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
-      child: FutureBuilder<List<Book>?>(
+      child: FutureBuilder<List<Book>>(
         future: Provider.of<AppDataProvider>(context, listen: false)
             .get10BooksByPlayCount(),
-        builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
-          if (!snapshot.hasData) {
-            return const SizedBox();
-          } else {
+        builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
+          if (snapshot.hasData) {
             List<Book> bookList = snapshot.data!;
             return GridView(
               padding: const EdgeInsets.all(15),
@@ -55,10 +53,10 @@ class PopularBookListViewState extends State<RecentBookListView>
               ),
               children: List<Widget>.generate(
                 bookList.length,
-                (int index) {
+                    (int index) {
                   final int count = bookList.length;
                   final Animation<double> animation =
-                      Tween<double>(begin: 0.0, end: 1.0).animate(
+                  Tween<double>(begin: 0.0, end: 1.0).animate(
                     CurvedAnimation(
                       parent: animationController!,
                       curve: Interval((1 / count) * index, 1.0,
@@ -76,6 +74,10 @@ class PopularBookListViewState extends State<RecentBookListView>
               ),
             );
           }
+          if(snapshot.hasError){
+            return const Text('Failed to fetch data');
+          }
+          return const Text('Please wait');
         },
       ),
     );

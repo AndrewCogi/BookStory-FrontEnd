@@ -1,8 +1,8 @@
 enum ResponseStatus {
-  SAVED,
-  FAILED,
-  UNAUTHORIZED,
-  AUTHORIZED,
-  EXPIRED,
-  NONE,
+  saved,
+  failed,
+  unauthorized,
+  authorized,
+  expired,
+  none,
 }

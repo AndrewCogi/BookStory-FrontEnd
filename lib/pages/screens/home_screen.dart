@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  static CategoryType categoryType = CategoryType.AGE_4_PLUS;
+  static CategoryType categoryType = CategoryType.age4plus;
   const HomeScreen({super.key});
 
   @override
@@ -88,48 +88,48 @@ class HomeScreenState extends State<HomeScreen> {
             child: Row(
               children: <Widget>[
                 // 4세 이상
-                getButtonUI(CategoryType.AGE_4_PLUS, HomeScreen.categoryType == CategoryType.AGE_4_PLUS),
+                getButtonUI(CategoryType.age4plus, HomeScreen.categoryType == CategoryType.age4plus),
                 const SizedBox(
                   width: 16,
                 ),
                 // 6세 이상
-                getButtonUI(CategoryType.AGE_6_PLUS, HomeScreen.categoryType == CategoryType.AGE_6_PLUS),
+                getButtonUI(CategoryType.age6plus, HomeScreen.categoryType == CategoryType.age6plus),
                 const SizedBox(
                   width: 16,
                 ),
                 // 창작
                 getButtonUI(
-                    CategoryType.CREATIVE, HomeScreen.categoryType == CategoryType.CREATIVE),
+                    CategoryType.creative, HomeScreen.categoryType == CategoryType.creative),
                 const SizedBox(
                   width: 16,
                 ),
                 // 생활
                 getButtonUI(
-                    CategoryType.LIFE_STYLE, HomeScreen.categoryType == CategoryType.LIFE_STYLE),
+                    CategoryType.lifeStyle, HomeScreen.categoryType == CategoryType.lifeStyle),
                 const SizedBox(
                   width: 16,
                 ),
                 // 학습
                 getButtonUI(
-                    CategoryType.LEARNING, HomeScreen.categoryType == CategoryType.LEARNING),
+                    CategoryType.learning, HomeScreen.categoryType == CategoryType.learning),
                 const SizedBox(
                   width: 16,
                 ),
                 // 문화/예술
                 getButtonUI(
-                    CategoryType.CULTURE, HomeScreen.categoryType == CategoryType.CULTURE),
+                    CategoryType.culture, HomeScreen.categoryType == CategoryType.culture),
                 const SizedBox(
                   width: 16,
                 ),
                 // 사회/역사
                 getButtonUI(
-                    CategoryType.SOCIETY, HomeScreen.categoryType == CategoryType.SOCIETY),
+                    CategoryType.society, HomeScreen.categoryType == CategoryType.society),
                 const SizedBox(
                   width: 16,
                 ),
                 // 자연/과학
                 getButtonUI(
-                    CategoryType.NATURAL, HomeScreen.categoryType == CategoryType.NATURAL),
+                    CategoryType.natural, HomeScreen.categoryType == CategoryType.natural),
               ],
             ),
           )
@@ -270,21 +270,21 @@ class HomeScreenState extends State<HomeScreen> {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     String nowCategory = '';
-    if (CategoryType.AGE_4_PLUS == categoryTypeData) {
+    if (CategoryType.age4plus == categoryTypeData) {
       nowCategory = '4세 이상';
-    } else if (CategoryType.AGE_6_PLUS == categoryTypeData) {
+    } else if (CategoryType.age6plus == categoryTypeData) {
       nowCategory = '6세 이상';
-    } else if (CategoryType.CREATIVE == categoryTypeData) {
+    } else if (CategoryType.creative == categoryTypeData) {
       nowCategory = '창작';
-    } else if (CategoryType.LIFE_STYLE == categoryTypeData) {
+    } else if (CategoryType.lifeStyle == categoryTypeData) {
       nowCategory = '생활';
-    } else if (CategoryType.LEARNING == categoryTypeData) {
+    } else if (CategoryType.learning == categoryTypeData) {
       nowCategory = '학습';
-    } else if (CategoryType.CULTURE == categoryTypeData || CategoryType.ART == categoryTypeData) {
+    } else if (CategoryType.culture == categoryTypeData || CategoryType.art == categoryTypeData) {
       nowCategory = '문화/예술';
-    } else if (CategoryType.SOCIETY == categoryTypeData || CategoryType.HISTORY == categoryTypeData) {
+    } else if (CategoryType.society == categoryTypeData || CategoryType.history == categoryTypeData) {
       nowCategory = '사회/역사';
-    } else if (CategoryType.NATURAL == categoryTypeData || CategoryType.SCIENCE == categoryTypeData) {
+    } else if (CategoryType.natural == categoryTypeData || CategoryType.science == categoryTypeData) {
       nowCategory = '자연/과학';
     }
     return Container(
@@ -305,7 +305,7 @@ class HomeScreenState extends State<HomeScreen> {
               Provider.of<AppDataProvider>(context, listen: false)
                   .get5BooksByCategory(categoryTypeData)
                   .then((bookList) {
-                    safePrint('[Home - Category] query result: [${bookList!.map((book) => book.title).toList().join(' / ')}]');
+                    safePrint('[Home - Category] query result: [${bookList.map((book) => book.title).toList().join(' / ')}]');
                     setState(() {
                       HomeScreen.categoryType = categoryTypeData;
                     });

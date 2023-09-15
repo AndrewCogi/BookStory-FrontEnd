@@ -5,7 +5,7 @@ import 'package:book_story/models/book_model.dart';
 
 class DummyDataSource implements DataSource {
   @override
-  Future<List<Book>?> get5BooksByCategory(CategoryType categoryType) async {
+  Future<List<Book>> get5BooksByCategory(CategoryType categoryType) async {
     List<Book>? categoryList;
     try {
       // 해당 카테고리에 있는 책 검색
@@ -19,12 +19,12 @@ class DummyDataSource implements DataSource {
       // 반환
       return categoryList;
     } on StateError {
-      return null;
+      return [];
     }
   }
 
   @override
-  Future<List<Book>?> get10BooksByPlayCount() async {
+  Future<List<Book>> get10BooksByPlayCount() async {
     List<Book>? popularList;
     try{
       // 모든 책 검색
@@ -36,7 +36,7 @@ class DummyDataSource implements DataSource {
       // 반환
       return popularList;
     } on StateError {
-      return null;
+      return [];
     }
   }
 }

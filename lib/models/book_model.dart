@@ -7,7 +7,7 @@ part 'book_model.g.dart';
 @unfreezed
 class Book with _$Book{
   factory Book({
-    required int id,
+    required int bookId,
     required String title,
     required String drawer,
     required String writer,
@@ -17,10 +17,10 @@ class Book with _$Book{
     required int playTime,
     required String imagePath,
     required String description,
-    required DateTime creationTime,
+    DateTime? creationTime,
     @Default(0)int playCount,
-    @Default(0)int favorite,
-    @Default(0.0)double rate,
+    // @Default(0)int favorite,
+    // @Default(0.0)double rate,
 }) = _Book;
 
   factory Book.fromJson(Map<String, dynamic> json) =>

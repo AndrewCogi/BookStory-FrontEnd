@@ -6,6 +6,7 @@ import 'package:book_story/amplifyconfiguration.dart';
 import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/models/user_model.dart';
 import 'package:book_story/pages/custom_drawer/home_drawer.dart';
+import 'package:book_story/utils/constants.dart';
 import 'package:book_story/utils/helper_functions.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
@@ -180,7 +181,7 @@ class AuthControllerImpl implements AuthController {
 
   @override
   Future<void> validateToken(String accessToken) async {
-    final url = Uri.parse('http://sgm.cloudsoft-bookstory.com/validate-token');
+    final url = Uri.parse('http://sgm.cloudsoft-bookstory.com/api/auth/validate-token');
     final response = await http.post(url, body: json.encode({'accessToken': accessToken}), headers: {
       'Content-Type': 'application/json',
     });
@@ -298,11 +299,13 @@ class AuthControllerImpl implements AuthController {
     };
 
     safePrint('LOGIN!');
-    String loginResult = await onLogin(appUserData);
+    String loginResult = await  onLogin(appUserData);
     // 로그인 성공
     if (loginResult == '') {
       // TODO : DB에 로그인함을 알림
-
+      // SharedPreference에 loginTime, expiration 정보 저장
+      HelperFunctions.saveLoginTime(DateTime.now().millisecondsSinceEpoch);
+      HelperFunctions.saveExpirationDuration(expirationTimeMilliseconds); // 1시간으로 설정
       return null;
     }
     // 로그인 실패. 사유 작성해서 반환.

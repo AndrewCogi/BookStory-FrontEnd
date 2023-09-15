@@ -20,8 +20,8 @@ Book _$BookFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Book {
-  int get id => throw _privateConstructorUsedError;
-  set id(int value) => throw _privateConstructorUsedError;
+  int get bookId => throw _privateConstructorUsedError;
+  set bookId(int value) => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   set title(String value) => throw _privateConstructorUsedError;
   String get drawer => throw _privateConstructorUsedError;
@@ -41,14 +41,10 @@ mixin _$Book {
   set imagePath(String value) => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   set description(String value) => throw _privateConstructorUsedError;
-  DateTime get creationTime => throw _privateConstructorUsedError;
-  set creationTime(DateTime value) => throw _privateConstructorUsedError;
+  DateTime? get creationTime => throw _privateConstructorUsedError;
+  set creationTime(DateTime? value) => throw _privateConstructorUsedError;
   int get playCount => throw _privateConstructorUsedError;
   set playCount(int value) => throw _privateConstructorUsedError;
-  int get favorite => throw _privateConstructorUsedError;
-  set favorite(int value) => throw _privateConstructorUsedError;
-  double get rate => throw _privateConstructorUsedError;
-  set rate(double value) => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -61,7 +57,7 @@ abstract class $BookCopyWith<$Res> {
       _$BookCopyWithImpl<$Res, Book>;
   @useResult
   $Res call(
-      {int id,
+      {int bookId,
       String title,
       String drawer,
       String writer,
@@ -71,10 +67,8 @@ abstract class $BookCopyWith<$Res> {
       int playTime,
       String imagePath,
       String description,
-      DateTime creationTime,
-      int playCount,
-      int favorite,
-      double rate});
+      DateTime? creationTime,
+      int playCount});
 }
 
 /// @nodoc
@@ -90,7 +84,7 @@ class _$BookCopyWithImpl<$Res, $Val extends Book>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? bookId = null,
     Object? title = null,
     Object? drawer = null,
     Object? writer = null,
@@ -100,15 +94,13 @@ class _$BookCopyWithImpl<$Res, $Val extends Book>
     Object? playTime = null,
     Object? imagePath = null,
     Object? description = null,
-    Object? creationTime = null,
+    Object? creationTime = freezed,
     Object? playCount = null,
-    Object? favorite = null,
-    Object? rate = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      bookId: null == bookId
+          ? _value.bookId
+          : bookId // ignore: cast_nullable_to_non_nullable
               as int,
       title: null == title
           ? _value.title
@@ -146,22 +138,14 @@ class _$BookCopyWithImpl<$Res, $Val extends Book>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      creationTime: null == creationTime
+      creationTime: freezed == creationTime
           ? _value.creationTime
           : creationTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       playCount: null == playCount
           ? _value.playCount
           : playCount // ignore: cast_nullable_to_non_nullable
               as int,
-      favorite: null == favorite
-          ? _value.favorite
-          : favorite // ignore: cast_nullable_to_non_nullable
-              as int,
-      rate: null == rate
-          ? _value.rate
-          : rate // ignore: cast_nullable_to_non_nullable
-              as double,
     ) as $Val);
   }
 }
@@ -173,7 +157,7 @@ abstract class _$$_BookCopyWith<$Res> implements $BookCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int id,
+      {int bookId,
       String title,
       String drawer,
       String writer,
@@ -183,10 +167,8 @@ abstract class _$$_BookCopyWith<$Res> implements $BookCopyWith<$Res> {
       int playTime,
       String imagePath,
       String description,
-      DateTime creationTime,
-      int playCount,
-      int favorite,
-      double rate});
+      DateTime? creationTime,
+      int playCount});
 }
 
 /// @nodoc
@@ -198,7 +180,7 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? bookId = null,
     Object? title = null,
     Object? drawer = null,
     Object? writer = null,
@@ -208,15 +190,13 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
     Object? playTime = null,
     Object? imagePath = null,
     Object? description = null,
-    Object? creationTime = null,
+    Object? creationTime = freezed,
     Object? playCount = null,
-    Object? favorite = null,
-    Object? rate = null,
   }) {
     return _then(_$_Book(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      bookId: null == bookId
+          ? _value.bookId
+          : bookId // ignore: cast_nullable_to_non_nullable
               as int,
       title: null == title
           ? _value.title
@@ -254,22 +234,14 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      creationTime: null == creationTime
+      creationTime: freezed == creationTime
           ? _value.creationTime
           : creationTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       playCount: null == playCount
           ? _value.playCount
           : playCount // ignore: cast_nullable_to_non_nullable
               as int,
-      favorite: null == favorite
-          ? _value.favorite
-          : favorite // ignore: cast_nullable_to_non_nullable
-              as int,
-      rate: null == rate
-          ? _value.rate
-          : rate // ignore: cast_nullable_to_non_nullable
-              as double,
     ));
   }
 }
@@ -278,7 +250,7 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
 @JsonSerializable()
 class _$_Book implements _Book {
   _$_Book(
-      {required this.id,
+      {required this.bookId,
       required this.title,
       required this.drawer,
       required this.writer,
@@ -288,15 +260,13 @@ class _$_Book implements _Book {
       required this.playTime,
       required this.imagePath,
       required this.description,
-      required this.creationTime,
-      this.playCount = 0,
-      this.favorite = 0,
-      this.rate = 0.0});
+      this.creationTime,
+      this.playCount = 0});
 
   factory _$_Book.fromJson(Map<String, dynamic> json) => _$$_BookFromJson(json);
 
   @override
-  int id;
+  int bookId;
   @override
   String title;
   @override
@@ -316,20 +286,14 @@ class _$_Book implements _Book {
   @override
   String description;
   @override
-  DateTime creationTime;
+  DateTime? creationTime;
   @override
   @JsonKey()
   int playCount;
-  @override
-  @JsonKey()
-  int favorite;
-  @override
-  @JsonKey()
-  double rate;
 
   @override
   String toString() {
-    return 'Book(id: $id, title: $title, drawer: $drawer, writer: $writer, bookPage: $bookPage, categoryAge: $categoryAge, categoryType: $categoryType, playTime: $playTime, imagePath: $imagePath, description: $description, creationTime: $creationTime, playCount: $playCount, favorite: $favorite, rate: $rate)';
+    return 'Book(bookId: $bookId, title: $title, drawer: $drawer, writer: $writer, bookPage: $bookPage, categoryAge: $categoryAge, categoryType: $categoryType, playTime: $playTime, imagePath: $imagePath, description: $description, creationTime: $creationTime, playCount: $playCount)';
   }
 
   @JsonKey(ignore: true)
@@ -348,7 +312,7 @@ class _$_Book implements _Book {
 
 abstract class _Book implements Book {
   factory _Book(
-      {required int id,
+      {required int bookId,
       required String title,
       required String drawer,
       required String writer,
@@ -358,16 +322,14 @@ abstract class _Book implements Book {
       required int playTime,
       required String imagePath,
       required String description,
-      required DateTime creationTime,
-      int playCount,
-      int favorite,
-      double rate}) = _$_Book;
+      DateTime? creationTime,
+      int playCount}) = _$_Book;
 
   factory _Book.fromJson(Map<String, dynamic> json) = _$_Book.fromJson;
 
   @override
-  int get id;
-  set id(int value);
+  int get bookId;
+  set bookId(int value);
   @override
   String get title;
   set title(String value);
@@ -396,17 +358,11 @@ abstract class _Book implements Book {
   String get description;
   set description(String value);
   @override
-  DateTime get creationTime;
-  set creationTime(DateTime value);
+  DateTime? get creationTime;
+  set creationTime(DateTime? value);
   @override
   int get playCount;
   set playCount(int value);
-  @override
-  int get favorite;
-  set favorite(int value);
-  @override
-  double get rate;
-  set rate(double value);
   @override
   @JsonKey(ignore: true)
   _$$_BookCopyWith<_$_Book> get copyWith => throw _privateConstructorUsedError;
