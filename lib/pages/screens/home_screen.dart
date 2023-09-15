@@ -4,7 +4,7 @@ import 'package:book_story/pages/list_views/category_list_view.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/pages/list_views/popular_book_list_view.dart';
 import 'package:book_story/main.dart';
-import 'package:book_story/pages/list_views/recent_book_list_view.dart';
+import 'package:book_story/pages/list_views/new_book_list_view.dart';
 import 'package:book_story/pages/screens/book_info_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
@@ -43,8 +43,11 @@ class HomeScreenState extends State<HomeScreen> {
                     children: <Widget>[
                       getSearchBarUI(),
                       getCategoryUI(),
-                      getRecentUI(),
+                      getNewBookUI(),
                       getPopularBookUI(),
+                      const SizedBox(
+                        height: 32,
+                      ),
                     ],
                   ),
               ),
@@ -63,7 +66,7 @@ class HomeScreenState extends State<HomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const SizedBox(
-          height: 20,
+          height: 32,
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
@@ -135,7 +138,7 @@ class HomeScreenState extends State<HomeScreen> {
           )
         ),
         const SizedBox(
-          height: 10,
+          height: 16,
         ),
         CategoryListView(
           callBack: (Book c) {
@@ -146,7 +149,7 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget getRecentUI() {
+  Widget getNewBookUI() {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     return Column(
@@ -154,7 +157,7 @@ class HomeScreenState extends State<HomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const SizedBox(
-          height: 10,
+          height: 32,
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
@@ -177,7 +180,7 @@ class HomeScreenState extends State<HomeScreen> {
               ),
               InkWell(
                 onTap:() {
-                  safePrint('More Info - Recent Books');
+                  safePrint('More Info - New Books');
                 },
                 child: const Icon(
                   Icons.add,
@@ -190,7 +193,7 @@ class HomeScreenState extends State<HomeScreen> {
           ),
         ),
         SizedBox(
-          height: 270,
+          height: 250,
           child: NewBookListView(
             callBack: (Book c) {
               moveTo(c);
@@ -209,7 +212,7 @@ class HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const SizedBox(
-            height: 10,
+            height: 32,
           ),
           Padding(
               padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),

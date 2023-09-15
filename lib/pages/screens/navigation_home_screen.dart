@@ -7,6 +7,7 @@ import 'package:book_story/pages/custom_drawer/home_drawer.dart';
 import 'package:book_story/pages/popups/record_tips_popup.dart';
 import 'package:book_story/pages/screens/feedback_screen.dart';
 import 'package:book_story/pages/screens/home_screen.dart';
+import 'package:book_story/pages/screens/library_screen.dart';
 import 'package:book_story/pages/screens/voice_screen.dart';
 import 'package:book_story/utils/helper_functions.dart';
 import 'package:book_story/utils/main_app_theme.dart';
@@ -83,7 +84,7 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
           break;
         case DrawerIndex.library:
           setState(() {
-            // screenView = LibraryScreen();
+            screenView = const LibraryScreen();
           });
           break;
         case DrawerIndex.favorite:

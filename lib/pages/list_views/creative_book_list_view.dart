@@ -7,15 +7,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class NewBookListView extends StatefulWidget {
-  const NewBookListView({Key? key, this.callBack}) : super(key: key);
+class CreativeBookListView extends StatefulWidget {
+  const CreativeBookListView({Key? key, this.callBack}) : super(key: key);
 
   final Function(Book)? callBack;
   @override
-  NewBookListViewState createState() => NewBookListViewState();
+  CreativeBookListViewState createState() => CreativeBookListViewState();
 }
 
-class NewBookListViewState extends State<NewBookListView>
+class CreativeBookListViewState extends State<CreativeBookListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   @override
@@ -42,13 +42,13 @@ class NewBookListViewState extends State<NewBookListView>
           if (snapshot.hasData) {
             List<Book> bookList = snapshot.data!;
             return GridView(
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.all(8),
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
-                mainAxisSpacing: 1.0, // 가로 간 padding
-                crossAxisSpacing: 12.0, // 세로 간 padding
+                mainAxisSpacing: 10.0,
+                crossAxisSpacing: 30.0,
                 childAspectRatio: 1.0,
               ),
               children: List<Widget>.generate(
@@ -87,10 +87,10 @@ class NewBookListViewState extends State<NewBookListView>
 class CategoryView extends StatelessWidget {
   const CategoryView(
       {Key? key,
-      required this.book,
-      this.animationController,
-      this.animation,
-      this.callback})
+        required this.book,
+        this.animationController,
+        this.animation,
+        this.callback})
       : super(key: key);
 
   final void Function(Book)? callback;
@@ -150,7 +150,7 @@ class CategoryView extends StatelessWidget {
                                               textAlign: TextAlign.left,
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
-                                                fontSize: 17,
+                                                fontSize: 16,
                                                 letterSpacing: 0.27,
                                                 color: BookStoryAppTheme
                                                     .darkerText,
@@ -176,31 +176,33 @@ class CategoryView extends StatelessWidget {
                                                   HelperFunctions.makeBookInfo(book.categoryAge,book.categoryType,2,book.bookPage),
                                                   textAlign: TextAlign.left,
                                                   style: const TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 9,
                                                     letterSpacing: 0.27,
                                                     color: BookStoryAppTheme
                                                         .grey,
                                                   ),
                                                 ),
-                                                const SizedBox(width: 20),
+                                                const SizedBox(width: 23),
                                                 const Icon(
-                                                  Icons.border_color_outlined,
+                                                  Icons.timelapse_rounded,
                                                   color:
-                                                  Colors.lightBlueAccent,
-                                                  size: 15,
+                                                  BookStoryAppTheme
+                                                      .nearlyBlue,
+                                                  size: 12,
                                                 ),
                                                 Text(
-                                                  book.writer,
+                                                  HelperFunctions.formatSecondsToMinutesAndSeconds(book.playTime),
                                                   textAlign:
                                                   TextAlign.left,
                                                   style: const TextStyle(
                                                     fontWeight:
                                                     FontWeight.w600,
-                                                    fontSize: 13,
+                                                    fontSize: 16,
                                                     letterSpacing: 0.27,
                                                     color:
-                                                    Colors.blueGrey,
+                                                    BookStoryAppTheme
+                                                        .nearlyBlue,
                                                   ),
                                                 ),
                                               ],

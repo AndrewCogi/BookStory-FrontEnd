@@ -187,19 +187,19 @@ class BookInfoScreenState extends State<BookInfoScreen>
                               child: Padding(
                                 padding: const EdgeInsets.only(
                                     left: 16, right: 16, top: 8, bottom: 8),
-                                child:
-                                    Text(
-                                      widget.book.description,
-                                      textAlign: TextAlign.justify,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w200,
-                                        fontSize: 14,
-                                        letterSpacing: 0.27,
-                                        color: BookStoryAppTheme.grey,
-                                      ),
-                                      maxLines: 10,
-                                      overflow: TextOverflow.ellipsis,
+                                child: SingleChildScrollView(
+                                  child: Text(
+                                    widget.book.description,
+                                    textAlign: TextAlign.justify,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w200,
+                                      fontSize: 16,
+                                      letterSpacing: 0.27,
+                                      color: BookStoryAppTheme.grey,
                                     ),
+                                  ),
+                                ),
+
                               ),
                             ),
                           ),

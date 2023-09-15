@@ -38,7 +38,7 @@ class VerificationScreenState extends State<VerificationScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.blue,
-        title: const Text('Email Verification',),
+        title: const Text('Email Verification'),
       ),
       body: Stack(
         children: [
