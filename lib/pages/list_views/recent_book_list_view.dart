@@ -7,15 +7,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class RecentBookListView extends StatefulWidget {
-  const RecentBookListView({Key? key, this.callBack}) : super(key: key);
+class NewBookListView extends StatefulWidget {
+  const NewBookListView({Key? key, this.callBack}) : super(key: key);
 
   final Function(Book)? callBack;
   @override
-  PopularBookListViewState createState() => PopularBookListViewState();
+  NewBookListViewState createState() => NewBookListViewState();
 }
 
-class PopularBookListViewState extends State<RecentBookListView>
+class NewBookListViewState extends State<NewBookListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   @override
@@ -100,155 +100,163 @@ class CategoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: animationController!,
-      builder: (BuildContext context, Widget? child) {
-        return FadeTransition(
-          opacity: animation!,
-          child: Transform(
-            transform: Matrix4.translationValues(
-                0.0, 50 * (1.0 - animation!.value), 0.0),
-            child: InkWell(
-              splashColor: Colors.transparent,
-              onTap: (){
-                callback?.call(book);
-              },
-              child: SizedBox(
-                child: Stack(
-                  alignment: AlignmentDirectional.bottomCenter,
-                  children: <Widget>[
-
-                    Column(
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: HexColor('#F8FAFB'),
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(16.0)),
-                              // border: new Border.all(
-                              //     color: BookStoryAppTheme.notWhite),
-                            ),
-                            child: Column(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 16, left: 16, right: 16),
-                                        child: FittedBox(
-                                          child: Text(
-                                            book.title,
-                                            textAlign: TextAlign.left,
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 17,
-                                              letterSpacing: 0.27,
-                                              color: BookStoryAppTheme
-                                                  .darkerText,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 2),
+      child: AnimatedBuilder(
+        animation: animationController!,
+        builder: (BuildContext context, Widget? child) {
+          return FadeTransition(
+            opacity: animation!,
+            child: Transform(
+              transform: Matrix4.translationValues(
+                  0.0, 50 * (1.0 - animation!.value), 0.0),
+              child: InkWell(
+                splashColor: Colors.transparent,
+                onTap: (){
+                  callback?.call(book);
+                },
+                child: SizedBox(
+                  child: Stack(
+                    alignment: AlignmentDirectional.bottomCenter,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: HexColor('#F8FAFB'),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(16.0)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5), // 그림자 색상
+                                    spreadRadius: 0.5, // 그림자 확산 범위
+                                    blurRadius: 1, // 그림자 흐림 정도
+                                    offset: const Offset(2, 2), // 그림자의 위치 (가로, 세로)
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 16, left: 16, right: 16),
+                                          child: FittedBox(
+                                            child: Text(
+                                              book.title,
+                                              textAlign: TextAlign.left,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 17,
+                                                letterSpacing: 0.27,
+                                                color: BookStoryAppTheme
+                                                    .darkerText,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 6,
-                                            left: 16,
-                                            right: 16,
-                                            bottom: 8),
-                                        child: FittedBox(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment
-                                                .center,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(
-                                                HelperFunctions.makeBookInfo(book.categoryAge,book.categoryType,2,book.bookPage),
-                                                textAlign: TextAlign.left,
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 10,
-                                                  letterSpacing: 0.27,
-                                                  color: BookStoryAppTheme
-                                                      .grey,
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 6,
+                                              left: 16,
+                                              right: 16,
+                                              bottom: 8),
+                                          child: FittedBox(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .center,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              children: <Widget>[
+                                                Text(
+                                                  HelperFunctions.makeBookInfo(book.categoryAge,book.categoryType,2,book.bookPage),
+                                                  textAlign: TextAlign.left,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 10,
+                                                    letterSpacing: 0.27,
+                                                    color: BookStoryAppTheme
+                                                        .grey,
+                                                  ),
                                                 ),
-                                              ),
-                                              const SizedBox(width: 20),
-                                              const Icon(
-                                                Icons.border_color_outlined,
-                                                color:
-                                                Colors.lightBlueAccent,
-                                                size: 15,
-                                              ),
-                                              Text(
-                                                book.writer,
-                                                textAlign:
-                                                TextAlign.left,
-                                                style: const TextStyle(
-                                                  fontWeight:
-                                                  FontWeight.w600,
-                                                  fontSize: 13,
-                                                  letterSpacing: 0.27,
+                                                const SizedBox(width: 20),
+                                                const Icon(
+                                                  Icons.border_color_outlined,
                                                   color:
-                                                  Colors.blueGrey,
+                                                  Colors.lightBlueAccent,
+                                                  size: 15,
                                                 ),
-                                              ),
-                                            ],
+                                                Text(
+                                                  book.writer,
+                                                  textAlign:
+                                                  TextAlign.left,
+                                                  style: const TextStyle(
+                                                    fontWeight:
+                                                    FontWeight.w600,
+                                                    fontSize: 13,
+                                                    letterSpacing: 0.27,
+                                                    color:
+                                                    Colors.blueGrey,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
 
-                                      ),
-                                    ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 48,
-                                ),
-                              ],
+                                  const SizedBox(
+                                    width: 48,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(top: 24, right: 16, left: 16),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(16.0)),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                                color: BookStoryAppTheme.grey
-                                    .withOpacity(0.08),
-                                offset: const Offset(0.0, 0.0),
-                                blurRadius: 6.0),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(16.0)),
-                          child: AspectRatio(
-                            aspectRatio: 1.28,
-                            child: CachedNetworkImage(
-                              placeholder: null,
-                              imageUrl: book.imagePath,
-                              errorWidget: (context, url, error) => const Icon(Icons.cancel_outlined),
+                        ],
+                      ),
+                      Padding(
+                        padding:
+                        const EdgeInsets.only(top: 24, right: 16, left: 16),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius:
+                            const BorderRadius.all(Radius.circular(16.0)),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                  color: BookStoryAppTheme.grey
+                                      .withOpacity(0.08),
+                                  offset: const Offset(0.0, 0.0),
+                                  blurRadius: 6.0),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius:
+                            const BorderRadius.all(Radius.circular(16.0)),
+                            child: AspectRatio(
+                              aspectRatio: 1.28,
+                              child: CachedNetworkImage(
+                                placeholder: null,
+                                imageUrl: book.imagePath,
+                                errorWidget: (context, url, error) => const Icon(Icons.cancel_outlined),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

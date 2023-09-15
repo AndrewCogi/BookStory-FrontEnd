@@ -107,13 +107,12 @@ class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 
                                         : Colors.white,
                                   ),
                                 ),
-
                               ),
                               const SizedBox(height: 20),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
                                 child: Container(
-                                    height: 150,
+                                    height: 130,
                                     padding: const EdgeInsets.all(20.0),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
@@ -142,13 +141,13 @@ class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 
 
                                 ),
                               ),
-                              const SizedBox(height: 25),
+                              const SizedBox(height: 20),
                               setResultIcon(),
-                              const SizedBox(height: 25),
+                              const SizedBox(height: 20),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
                                 child: Container(
-                                  height: 150,
+                                  height: 130,
                                   padding: const EdgeInsets.all(20.0),
                                   decoration: BoxDecoration(
                                     color: Colors.white,

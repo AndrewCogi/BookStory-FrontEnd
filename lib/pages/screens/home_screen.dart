@@ -72,7 +72,7 @@ class HomeScreenState extends State<HomeScreen> {
             textAlign: TextAlign.left,
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              fontSize: 25,
+              fontSize: 23,
               letterSpacing: 0.27,
               color: isLightMode ? BookStoryAppTheme.darkText : BookStoryAppTheme.lightText,
             ),
@@ -154,7 +154,7 @@ class HomeScreenState extends State<HomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const SizedBox(
-          height: 20,
+          height: 10,
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
@@ -170,7 +170,7 @@ class HomeScreenState extends State<HomeScreen> {
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontSize: 25,
+                  fontSize: 23,
                   letterSpacing: 0.27,
                   color: isLightMode ? BookStoryAppTheme.darkText : BookStoryAppTheme.lightText,
                 ),
@@ -191,7 +191,7 @@ class HomeScreenState extends State<HomeScreen> {
         ),
         SizedBox(
           height: 270,
-          child: RecentBookListView(
+          child: NewBookListView(
             callBack: (Book c) {
               moveTo(c);
             },
@@ -209,7 +209,7 @@ class HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const SizedBox(
-            height: 20,
+            height: 10,
           ),
           Padding(
               padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
@@ -225,7 +225,7 @@ class HomeScreenState extends State<HomeScreen> {
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    fontSize: 25,
+                    fontSize: 23,
                     letterSpacing: 0.27,
                     color: isLightMode ? BookStoryAppTheme.darkerText : BookStoryAppTheme.lightText,
                   ),
@@ -288,7 +288,7 @@ class HomeScreenState extends State<HomeScreen> {
       nowCategory = '자연/과학';
     }
     return Container(
-        width: 110,
+        width: 105,
         decoration: BoxDecoration(
             color: isSelected
                 ? (isLightMode ? BookStoryAppTheme.nearlyBlue : BookStoryAppTheme.grey)
