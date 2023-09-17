@@ -157,7 +157,7 @@ class LibraryScreenState extends State<LibraryScreen> {
           ),
         ),
         SizedBox(
-          height: 180,
+          height: 200,
           child: CreativeBookListView(
             callBack: (Book c) {
               moveTo(c);

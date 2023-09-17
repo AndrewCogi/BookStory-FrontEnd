@@ -79,9 +79,27 @@ class CategoryListViewState extends State<CategoryListView>
               );
             }
             if(snapshot.hasError){
-              return const Text('Failed to fetch data');
+              return const Center(child: Text('Failed to fetch data'));
             }
-            return const Text('Please wait');
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(width: 20),
+                  FutureBuilder<bool>(
+                    future: Future<bool>.delayed(const Duration(seconds: 2), () => true),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return const Text("Poor internet connection. Still trying..");
+                      } else {
+                        return const SizedBox(); // 아무 것도 표시하지 않음
+                      }
+                    },
+                  ),
+                ],
+              )
+            );
           },
         ),
       ),

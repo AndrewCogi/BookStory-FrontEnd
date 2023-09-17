@@ -47,7 +47,7 @@ class TodayBookListViewState extends State<TodayBookListView>
               scrollDirection: Axis.horizontal,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
-                mainAxisSpacing: 12.0, // 가로 간 padding
+                mainAxisSpacing: 15.0, // 가로 간 padding
                 crossAxisSpacing: 12.0, // 세로 간 padding
                 childAspectRatio: 1.0,
               ),
