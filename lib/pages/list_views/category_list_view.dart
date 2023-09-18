@@ -15,9 +15,13 @@ class CategoryListView extends StatefulWidget {
   // 카테고리 버튼 클릭 시, 결과를 처음부터 보여주기 위한 친구들
   static ScrollController? scrollController;
   static AnimationController? animationController;
-  static void scrollToStart(){
-    scrollController!.jumpTo(0);
+  static void scrollToStartChange(){
     animationController!.reset();
+    scrollController!.animateTo(0, duration: Duration(milliseconds: 100),curve: Curves.linear);
+    scrollController!.jumpTo(0);
+  }
+  static void scrollToStartSame(){
+    scrollController!.animateTo(0, duration: const Duration(milliseconds: 700), curve: Curves.easeInOut);
   }
 
   final Function(Book)? callBack;

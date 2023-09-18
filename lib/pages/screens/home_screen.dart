@@ -8,6 +8,7 @@ import 'package:book_story/pages/list_views/new_book_list_view.dart';
 import 'package:book_story/pages/screens/book_info_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
+import 'package:book_story/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -309,11 +310,15 @@ class HomeScreenState extends State<HomeScreen> {
                   .get5BooksByCategory(categoryTypeData)
                   .then((bookList) {
                     safePrint('[Home - Category] query result: [${bookList.map((book) => book.title).toList().join(' / ')}]');
+                    if(HomeScreen.categoryType != categoryTypeData){
+                      CategoryListView.scrollToStartChange();
+                    } else {
+                      CategoryListView.scrollToStartSame();
+                    }
                     setState(() {
                       HomeScreen.categoryType = categoryTypeData;
                     });
               });
-              CategoryListView.scrollToStart();
             },
             child: Padding(
               padding: const EdgeInsets.only(
