@@ -14,8 +14,10 @@ class CategoryListView extends StatefulWidget {
 
   // 카테고리 버튼 클릭 시, 결과를 처음부터 보여주기 위한 친구들
   static ScrollController? scrollController;
+  static AnimationController? animationController;
   static void scrollToStart(){
-    scrollController!.animateTo(0, duration: const Duration(milliseconds: 700), curve: Curves.easeInOut);
+    scrollController!.jumpTo(0);
+    animationController!.reset();
   }
 
   final Function(Book)? callBack;
@@ -25,12 +27,11 @@ class CategoryListView extends StatefulWidget {
 
 class CategoryListViewState extends State<CategoryListView>
     with TickerProviderStateMixin {
-  AnimationController? animationController;
 
   @override
   void initState() {
     CategoryListView.scrollController = ScrollController(initialScrollOffset: 0.0);
-    animationController = AnimationController(
+    CategoryListView.animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
   }
@@ -38,7 +39,7 @@ class CategoryListViewState extends State<CategoryListView>
   @override
   void dispose() {
     CategoryListView.scrollController!.dispose();
-    animationController?.dispose();
+    CategoryListView.animationController!.dispose();
     super.dispose();
   }
 
@@ -66,14 +67,14 @@ class CategoryListViewState extends State<CategoryListView>
                   final Animation<double> animation =
                   Tween<double>(begin: 0.0, end: 1.0).animate(
                       CurvedAnimation(
-                          parent: animationController!,
+                          parent: CategoryListView.animationController!,
                           curve: Interval((1 / count) * index, 1.0,
                               curve: Curves.fastOutSlowIn)));
-                  animationController?.forward();
+                  CategoryListView.animationController!.forward();
                   return CategoryView(
                     book: bookList[index],
                     animation: animation,
-                    animationController: animationController,
+                    animationController: CategoryListView.animationController,
                     callback: widget.callBack,
                   );
                 },
