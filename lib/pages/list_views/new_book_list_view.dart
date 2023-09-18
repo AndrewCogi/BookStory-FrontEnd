@@ -1,7 +1,9 @@
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/main.dart';
+import 'package:book_story/pages/screens/home_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
+import 'package:book_story/utils/constants.dart';
 import 'package:book_story/utils/helper_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +79,25 @@ class NewBookListViewState extends State<NewBookListView>
           if(snapshot.hasError){
             return const Text('Failed to fetch data');
           }
-          return const Text('Please wait');
+          return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 10),
+                  FutureBuilder<bool>(
+                    future: Future<bool>.delayed(const Duration(seconds: stillTryingTextSeconds), () => true),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return const Text("Poor internet connection. Still trying..");
+                      } else {
+                        return const SizedBox(); // 아무 것도 표시하지 않음
+                      }
+                    },
+                  ),
+                ],
+              )
+          );
         },
       ),
     );

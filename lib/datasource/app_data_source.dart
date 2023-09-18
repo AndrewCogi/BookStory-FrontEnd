@@ -29,8 +29,14 @@ class AppDataSource extends DataSource{
 
   @override
   Future<List<Book>> get5BooksByCategory(CategoryType categoryType) async {
-    // final url = '$baseUrl${'book/get5BooksByCategory'}';
-    final url = '$baseUrl${'book/all'}';
+    final String url;
+    safePrint('categoryType: ${categoryType.toString().split(".")[1]}');
+    // CategoryAge 인지 체크
+    if(categoryType.toString().contains("age")){
+      url = '$baseUrl${'book/get5BooksByCategoryAge'}/${categoryType.toString().split(".")[1]}';
+    } else {
+      url = '$baseUrl${'book/all'}';
+    }
     try{
       final response = await http.get(Uri.parse(url));
       if(response.statusCode == 200){
@@ -39,7 +45,7 @@ class AppDataSource extends DataSource{
       }
       return [];
     }catch(error){
-      print(error.toString());
+      safePrint(error.toString());
       rethrow;
     }
   }
@@ -64,16 +70,6 @@ class AppDataSource extends DataSource{
   Future<ResponseModel> _getResponseModel(http.Response response) async {
     ResponseStatus status = ResponseStatus.none;
     ResponseModel responseModel = ResponseModel();
-
-
-    // // TODO : 테스트용
-    // responseModel = ResponseModel.fromJson(jsonDecode(response.body));
-    // safePrint("HH");
-    // // 파싱된 데이터를 순회하면서 출력 -> List<Map<String, dynamic>> 말고 Map<String, dynamic>으로 받도록 백프론트 수정해야할듯..
-    // for (var key in responseModel.object.keys) {
-    //   safePrint('key : '+key+', value: '+responseModel.object[key]);
-    // }
-
 
     if(response.statusCode == 200){
       status = ResponseStatus.saved;
