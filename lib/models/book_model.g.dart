@@ -54,10 +54,10 @@ const _$CategoryTypeEnumMap = {
   CategoryType.learning: 'learning',
   CategoryType.sophistication: 'sophistication',
   CategoryType.culture: 'culture',
-  CategoryType.art: 'art',
   CategoryType.society: 'society',
-  CategoryType.history: 'history',
   CategoryType.natural: 'natural',
   CategoryType.science: 'science',
+  CategoryType.masterpiece: 'masterpiece',
+  CategoryType.classic: 'classic',
   CategoryType.none: 'none',
 };

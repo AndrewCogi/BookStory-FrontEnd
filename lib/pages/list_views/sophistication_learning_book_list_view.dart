@@ -1,6 +1,6 @@
+import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/main.dart';
-import 'package:book_story/pages/screens/home_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:book_story/utils/constants.dart';
@@ -9,15 +9,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CreativeBookListView extends StatefulWidget {
-  const CreativeBookListView({Key? key, this.callBack}) : super(key: key);
+class SophisticationLearningBookListView extends StatefulWidget {
+  const SophisticationLearningBookListView({Key? key, this.callBack}) : super(key: key);
 
   final Function(Book)? callBack;
   @override
-  CreativeBookListViewState createState() => CreativeBookListViewState();
+  SophisticationLearningBookListViewState createState() => SophisticationLearningBookListViewState();
 }
 
-class CreativeBookListViewState extends State<CreativeBookListView>
+class SophisticationLearningBookListViewState extends State<SophisticationLearningBookListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   @override
@@ -39,7 +39,7 @@ class CreativeBookListViewState extends State<CreativeBookListView>
       padding: const EdgeInsets.only(top: 8),
       child: FutureBuilder<List<Book>>(
         future: Provider.of<AppDataProvider>(context, listen: false)
-            .get5BooksByCategory(HomeScreen.categoryType),
+            .getBooksByCategory([CategoryType.sophistication,CategoryType.learning], 10),
         builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
           if (snapshot.hasData) {
             List<Book> bookList = snapshot.data!;
@@ -77,7 +77,7 @@ class CreativeBookListViewState extends State<CreativeBookListView>
             );
           }
           if(snapshot.hasError){
-            return const Text('Failed to fetch data');
+            return const Center(child: Text('Failed to fetch data'));
           }
           return Center(
               child: Column(

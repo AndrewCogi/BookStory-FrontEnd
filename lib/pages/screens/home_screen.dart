@@ -101,33 +101,33 @@ class HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   width: 16,
                 ),
-                // 창작
+                // 동화/창작
                 getButtonUI(
-                    CategoryType.creative, HomeScreen.categoryType == CategoryType.creative),
+                    CategoryType.fairyTale, HomeScreen.categoryType == CategoryType.fairyTale),
                 const SizedBox(
                   width: 16,
                 ),
-                // 생활
+                // 교양/학습
+                getButtonUI(
+                    CategoryType.sophistication, HomeScreen.categoryType == CategoryType.sophistication),
+                const SizedBox(
+                  width: 16,
+                ),
+                // 생활/습관
                 getButtonUI(
                     CategoryType.lifeStyle, HomeScreen.categoryType == CategoryType.lifeStyle),
                 const SizedBox(
                   width: 16,
                 ),
-                // 학습
-                getButtonUI(
-                    CategoryType.learning, HomeScreen.categoryType == CategoryType.learning),
-                const SizedBox(
-                  width: 16,
-                ),
-                // 문화/예술
-                getButtonUI(
-                    CategoryType.culture, HomeScreen.categoryType == CategoryType.culture),
-                const SizedBox(
-                  width: 16,
-                ),
-                // 사회/역사
+                // 사회/문화
                 getButtonUI(
                     CategoryType.society, HomeScreen.categoryType == CategoryType.society),
+                const SizedBox(
+                  width: 16,
+                ),
+                // 명작/고전
+                getButtonUI(
+                    CategoryType.masterpiece, HomeScreen.categoryType == CategoryType.masterpiece),
                 const SizedBox(
                   width: 16,
                 ),
@@ -278,16 +278,16 @@ class HomeScreenState extends State<HomeScreen> {
       nowCategory = '4세 이상';
     } else if (CategoryType.age6plus == categoryTypeData) {
       nowCategory = '6세 이상';
-    } else if (CategoryType.creative == categoryTypeData) {
-      nowCategory = '창작';
-    } else if (CategoryType.lifeStyle == categoryTypeData) {
-      nowCategory = '생활';
-    } else if (CategoryType.learning == categoryTypeData) {
-      nowCategory = '학습';
-    } else if (CategoryType.culture == categoryTypeData || CategoryType.art == categoryTypeData) {
-      nowCategory = '문화/예술';
-    } else if (CategoryType.society == categoryTypeData || CategoryType.history == categoryTypeData) {
-      nowCategory = '사회/역사';
+    } else if (CategoryType.fairyTale == categoryTypeData || CategoryType.creative == categoryTypeData) {
+      nowCategory = '동화/창작';
+    } else if (CategoryType.sophistication == categoryTypeData || CategoryType.learning == categoryTypeData) {
+      nowCategory = '교양/학습';
+    } else if (CategoryType.lifeStyle == categoryTypeData || CategoryType.habits == categoryTypeData) {
+      nowCategory = '생활/습관';
+    } else if (CategoryType.society == categoryTypeData || CategoryType.culture == categoryTypeData) {
+      nowCategory = '사회/문화';
+    } else if (CategoryType.masterpiece == categoryTypeData || CategoryType.classic == categoryTypeData) {
+      nowCategory = '명작/고전';
     } else if (CategoryType.natural == categoryTypeData || CategoryType.science == categoryTypeData) {
       nowCategory = '자연/과학';
     }
@@ -307,7 +307,7 @@ class HomeScreenState extends State<HomeScreen> {
             onTap: () {
               safePrint('$nowCategory clicked.');
               Provider.of<AppDataProvider>(context, listen: false)
-                  .get5BooksByCategory(categoryTypeData)
+                  .getBooksByCategory([categoryTypeData], 5)
                   .then((bookList) {
                     safePrint('[Home - Category] query result: [${bookList.map((book) => book.title).toList().join(' / ')}]');
                     if(HomeScreen.categoryType != categoryTypeData){

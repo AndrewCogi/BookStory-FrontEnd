@@ -77,6 +77,15 @@ class HelperFunctions {
     return '$formattedMinutes:$formattedSeconds';
   }
 
+  // CategoryType 리스트를 받아서 이름만 ,로 구분지어 반환하는 함수
+  static String getCategoryNames(List<CategoryType> categoryTypes) {
+    List<String> categoryNames = [];
+    for (CategoryType category in categoryTypes) {
+      categoryNames.add(category.toString().split('.').last);
+    }
+    return categoryNames.join(', ');
+  }
+
   static Future<bool> saveLoginTime(int time) async {
     final pref = await SharedPreferences.getInstance();
     return pref.setInt(loginTime, time);

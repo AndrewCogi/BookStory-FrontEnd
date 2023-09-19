@@ -2,7 +2,12 @@ import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/main.dart';
 import 'package:book_story/models/book_model.dart';
-import 'package:book_story/pages/list_views/creative_book_list_view.dart';
+import 'package:book_story/pages/list_views/fairy_tale_creative_book_list_view.dart';
+import 'package:book_story/pages/list_views/life_style_habits_book_list_view.dart';
+import 'package:book_story/pages/list_views/masterpiece_classic_book_list_view.dart';
+import 'package:book_story/pages/list_views/natural_science_book_list_view.dart';
+import 'package:book_story/pages/list_views/society_culture_book_list_view.dart';
+import 'package:book_story/pages/list_views/sophistication_learning_book_list_view.dart';
 import 'package:book_story/pages/list_views/today_book_list_view.dart';
 import 'package:book_story/pages/screens/book_info_screen.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
@@ -38,13 +43,13 @@ class LibraryScreenState extends State<LibraryScreen> {
                 child: Column(
                   children: <Widget>[
                     getTodayBookUI(),
-                    getCreativeBookUI(),
-                    getCreativeBookUI(),
-                    getCreativeBookUI(),
-                    getCreativeBookUI(),
-                    getCreativeBookUI(),
-                    getCreativeBookUI(),
-                    getCreativeBookUI(),
+                    // TODO : 동화/창작, 교양/학습, 생활/습관, 사회/문화, 명작/고전, 자연/과학 -> 카테고리 변경하기
+                    getFairyTaleCreativeBookUI(),       // 동화/창작
+                    getSophisticationLearningBookUI(),  // 교양/학습
+                    getLifeStyleHabitsBookUI(),         // 생활/습관
+                    getSocietyCultureBookUI(),          // 사회/문화
+                    getMasterpieceClassicBookUI(),      // 명작/고전
+                    getNaturalScienceBookUI(),          // 자연/과학
                     const SizedBox(
                       height: 32,
                     ),
@@ -113,7 +118,7 @@ class LibraryScreenState extends State<LibraryScreen> {
     );
   }
 
-  Widget getCreativeBookUI() {
+  Widget getFairyTaleCreativeBookUI() {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     return Column(
@@ -133,7 +138,7 @@ class LibraryScreenState extends State<LibraryScreen> {
             CrossAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Creative Books',
+                '동화/창작 Books',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
@@ -144,7 +149,7 @@ class LibraryScreenState extends State<LibraryScreen> {
               ),
               InkWell(
                 onTap:() {
-                  safePrint('More Info - Creative Books');
+                  safePrint('More Info - 동화/창작 Books');
                 },
                 child: const Icon(
                   Icons.add,
@@ -158,7 +163,7 @@ class LibraryScreenState extends State<LibraryScreen> {
         ),
         SizedBox(
           height: 200,
-          child: CreativeBookListView(
+          child: FairyTaleCreativeBookListView(
             callBack: (Book c) {
               moveTo(c);
             },
@@ -168,6 +173,280 @@ class LibraryScreenState extends State<LibraryScreen> {
     );
   }
 
+  Widget getSophisticationLearningBookUI() {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const SizedBox(
+          height: 32,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
+          child: Row(
+            mainAxisAlignment:
+            MainAxisAlignment
+                .spaceBetween,
+            crossAxisAlignment:
+            CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                '교양/학습 Books',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 23,
+                  letterSpacing: 0.27,
+                  color: isLightMode ? BookStoryAppTheme.darkerText : BookStoryAppTheme.lightText,
+                ),
+              ),
+              InkWell(
+                onTap:() {
+                  safePrint('More Info - 교양/학습 Books');
+                },
+                child: const Icon(
+                  Icons.add,
+                  color:
+                  Colors.grey,
+                  size: 28,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 200,
+          child: SophisticationLearningBookListView(
+            callBack: (Book c) {
+              moveTo(c);
+            },
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget getLifeStyleHabitsBookUI() {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const SizedBox(
+          height: 32,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
+          child: Row(
+            mainAxisAlignment:
+            MainAxisAlignment
+                .spaceBetween,
+            crossAxisAlignment:
+            CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                '생활/습관 Books',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 23,
+                  letterSpacing: 0.27,
+                  color: isLightMode ? BookStoryAppTheme.darkerText : BookStoryAppTheme.lightText,
+                ),
+              ),
+              InkWell(
+                onTap:() {
+                  safePrint('More Info - 생활/습관 Books');
+                },
+                child: const Icon(
+                  Icons.add,
+                  color:
+                  Colors.grey,
+                  size: 28,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 200,
+          child: LifeStyleHabitsBookListView(
+            callBack: (Book c) {
+              moveTo(c);
+            },
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget getSocietyCultureBookUI() {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const SizedBox(
+          height: 32,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
+          child: Row(
+            mainAxisAlignment:
+            MainAxisAlignment
+                .spaceBetween,
+            crossAxisAlignment:
+            CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                '사회/문화 Books',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 23,
+                  letterSpacing: 0.27,
+                  color: isLightMode ? BookStoryAppTheme.darkerText : BookStoryAppTheme.lightText,
+                ),
+              ),
+              InkWell(
+                onTap:() {
+                  safePrint('More Info - 사회/문화 Books');
+                },
+                child: const Icon(
+                  Icons.add,
+                  color:
+                  Colors.grey,
+                  size: 28,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 200,
+          child: SocietyCultureBookListView(
+            callBack: (Book c) {
+              moveTo(c);
+            },
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget getMasterpieceClassicBookUI() {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const SizedBox(
+          height: 32,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
+          child: Row(
+            mainAxisAlignment:
+            MainAxisAlignment
+                .spaceBetween,
+            crossAxisAlignment:
+            CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                '명작/고전 Books',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 23,
+                  letterSpacing: 0.27,
+                  color: isLightMode ? BookStoryAppTheme.darkerText : BookStoryAppTheme.lightText,
+                ),
+              ),
+              InkWell(
+                onTap:() {
+                  safePrint('More Info - 명작/고전 Books');
+                },
+                child: const Icon(
+                  Icons.add,
+                  color:
+                  Colors.grey,
+                  size: 28,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 200,
+          child: MasterpieceClassicBookListView(
+            callBack: (Book c) {
+              moveTo(c);
+            },
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget getNaturalScienceBookUI() {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const SizedBox(
+          height: 32,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
+          child: Row(
+            mainAxisAlignment:
+            MainAxisAlignment
+                .spaceBetween,
+            crossAxisAlignment:
+            CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                '자연/과학 Books',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 23,
+                  letterSpacing: 0.27,
+                  color: isLightMode ? BookStoryAppTheme.darkerText : BookStoryAppTheme.lightText,
+                ),
+              ),
+              InkWell(
+                onTap:() {
+                  safePrint('More Info - 자연/과학 Books');
+                },
+                child: const Icon(
+                  Icons.add,
+                  color:
+                  Colors.grey,
+                  size: 28,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 200,
+          child: NaturalScienceBookListView(
+            callBack: (Book c) {
+              moveTo(c);
+            },
+          ),
+        )
+      ],
+    );
+  }
 
 
   void moveTo(Book category) {

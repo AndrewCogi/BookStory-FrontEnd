@@ -5,17 +5,17 @@ import 'package:book_story/models/book_model.dart';
 
 class DummyDataSource implements DataSource {
   @override
-  Future<List<Book>> get5BooksByCategory(CategoryType categoryType) async {
+  Future<List<Book>> getBooksByCategory(List<CategoryType> categoryTypes, int limit) async {
     List<Book>? categoryList;
     try {
       // 해당 카테고리에 있는 책 검색
       categoryList = TempDB.bookList.where((book) {
-        return book.categoryType.contains(categoryType) || book.categoryAge==categoryType;
+        return book.categoryType.contains(categoryTypes) || book.categoryAge==categoryTypes; // TODO : 형식에 맞게 고쳐야 함
       }).toList();
       // playCount 순으로 정렬
       categoryList.sort((a, b) => b.playCount.compareTo(a.playCount));
       // 상위 5개의 책 선택
-      categoryList = categoryList.take(5).toList();
+      categoryList = categoryList.take(limit).toList();
       // 반환
       return categoryList;
     } on StateError {

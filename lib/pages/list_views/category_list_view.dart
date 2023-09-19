@@ -17,7 +17,7 @@ class CategoryListView extends StatefulWidget {
   static AnimationController? animationController;
   static void scrollToStartChange(){
     animationController!.reset();
-    scrollController!.animateTo(0, duration: Duration(milliseconds: 100),curve: Curves.linear);
+    // scrollController!.animateTo(0, duration: const Duration(milliseconds: 100),curve: Curves.linear);
     scrollController!.jumpTo(0);
   }
   static void scrollToStartSame(){
@@ -56,7 +56,7 @@ class CategoryListViewState extends State<CategoryListView>
         width: double.infinity,
         child: FutureBuilder<List<Book>>(
           future: Provider.of<AppDataProvider>(context, listen: false)
-              .get5BooksByCategory(HomeScreen.categoryType),
+              .getBooksByCategory([HomeScreen.categoryType], 5),
           builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
             if(snapshot.hasData){
               List<Book> bookList = snapshot.data!;
@@ -311,7 +311,7 @@ class CategoryView extends StatelessWidget {
                               child: AspectRatio(
                                 aspectRatio: 1.0,
                                 child: CachedNetworkImage(
-                                  placeholder: null,
+                                  placeholder: (context, url) => const SizedBox(),
                                   imageUrl: book.imagePath,
                                   errorWidget: (context, url, error) => const Icon(Icons.cancel_outlined),
                                 ),

@@ -1,3 +1,4 @@
+import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/main.dart';
 import 'package:book_story/provider/app_data_provider.dart';
@@ -8,15 +9,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class TodayBookListView extends StatefulWidget {
-  const TodayBookListView({Key? key, this.callBack}) : super(key: key);
+class MasterpieceClassicBookListView extends StatefulWidget {
+  const MasterpieceClassicBookListView({Key? key, this.callBack}) : super(key: key);
 
   final Function(Book)? callBack;
   @override
-  TodayBookListViewState createState() => TodayBookListViewState();
+  MasterpieceClassicBookListViewState createState() => MasterpieceClassicBookListViewState();
 }
 
-class TodayBookListViewState extends State<TodayBookListView>
+class MasterpieceClassicBookListViewState extends State<MasterpieceClassicBookListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   @override
@@ -35,21 +36,21 @@ class TodayBookListViewState extends State<TodayBookListView>
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 1),
+      padding: const EdgeInsets.only(top: 8),
       child: FutureBuilder<List<Book>>(
         future: Provider.of<AppDataProvider>(context, listen: false)
-            .get10BooksByPlayCount(),
+            .getBooksByCategory([CategoryType.masterpiece,CategoryType.classic], 10),
         builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
           if (snapshot.hasData) {
             List<Book> bookList = snapshot.data!;
             return GridView(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(8),
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
-                mainAxisSpacing: 15.0, // 가로 간 padding
-                crossAxisSpacing: 12.0, // 세로 간 padding
+                mainAxisSpacing: 10.0,
+                crossAxisSpacing: 30.0,
                 childAspectRatio: 1.0,
               ),
               children: List<Widget>.generate(
@@ -169,7 +170,7 @@ class CategoryView extends StatelessWidget {
                                               textAlign: TextAlign.left,
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
-                                                fontSize: 18,
+                                                fontSize: 14,
                                                 letterSpacing: 0.27,
                                                 color: BookStoryAppTheme
                                                     .darkerText,
@@ -192,22 +193,23 @@ class CategoryView extends StatelessWidget {
                                               CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  HelperFunctions.makeBookInfo(book.categoryAge,book.categoryType,2,book.bookPage),
+                                                  HelperFunctions.makeBookInfo(book.categoryAge,book.categoryType,1,book.bookPage),
                                                   textAlign: TextAlign.left,
                                                   style: const TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 9,
                                                     letterSpacing: 0.27,
                                                     color: BookStoryAppTheme
                                                         .grey,
                                                   ),
                                                 ),
-                                                const SizedBox(width: 20),
+                                                const SizedBox(width: 23),
                                                 const Icon(
                                                   Icons.timelapse_rounded,
                                                   color:
-                                                  BookStoryAppTheme.nearlyBlue,
-                                                  size: 15,
+                                                  BookStoryAppTheme
+                                                      .nearlyBlue,
+                                                  size: 12,
                                                 ),
                                                 Text(
                                                   HelperFunctions.formatSecondsToMinutesAndSeconds(book.playTime),
@@ -216,10 +218,11 @@ class CategoryView extends StatelessWidget {
                                                   style: const TextStyle(
                                                     fontWeight:
                                                     FontWeight.w600,
-                                                    fontSize: 18,
+                                                    fontSize: 16,
                                                     letterSpacing: 0.27,
                                                     color:
-                                                    BookStoryAppTheme.nearlyBlue,
+                                                    BookStoryAppTheme
+                                                        .nearlyBlue,
                                                   ),
                                                 ),
                                               ],

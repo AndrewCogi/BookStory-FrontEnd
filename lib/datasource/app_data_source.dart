@@ -28,14 +28,17 @@ class AppDataSource extends DataSource{
   };
 
   @override
-  Future<List<Book>> get5BooksByCategory(CategoryType categoryType) async {
+  Future<List<Book>> getBooksByCategory(List<CategoryType> categoryTypes, int limit) async {
     final String url;
-    safePrint('categoryType: ${categoryType.toString().split(".")[1]}');
+    final String categoryTypeStr = HelperFunctions.getCategoryNames(categoryTypes);
+    safePrint('categoryTypeStr: $categoryTypeStr');
     // CategoryAge 인지 체크
-    if(categoryType.toString().contains("age")){
-      url = '$baseUrl${'book/get5BooksByCategoryAge'}/${categoryType.toString().split(".")[1]}';
-    } else {
-      url = '$baseUrl${'book/all'}';
+    if(categoryTypeStr.contains("age")){
+      url = '$baseUrl${'book/getBooksByCategoryAge'}/$categoryTypeStr?limit=$limit';
+    }
+    // CategoryAge가 아니라면 CategoryType 실시
+    else {
+      url = '$baseUrl${'book/getBooksByCategoryType'}/$categoryTypeStr?limit=$limit';
     }
     try{
       final response = await http.get(Uri.parse(url));
