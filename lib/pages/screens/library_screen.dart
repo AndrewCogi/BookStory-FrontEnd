@@ -42,8 +42,7 @@ class LibraryScreenState extends State<LibraryScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    getTodayBookUI(),
-                    // TODO : 동화/창작, 교양/학습, 생활/습관, 사회/문화, 명작/고전, 자연/과학 -> 카테고리 변경하기
+                    getTodayBookUI(),                   // 오늘의 책 추천
                     getFairyTaleCreativeBookUI(),       // 동화/창작
                     getSophisticationLearningBookUI(),  // 교양/학습
                     getLifeStyleHabitsBookUI(),         // 생활/습관
@@ -162,7 +161,7 @@ class LibraryScreenState extends State<LibraryScreen> {
           ),
         ),
         SizedBox(
-          height: 200,
+          height: 170,
           child: FairyTaleCreativeBookListView(
             callBack: (Book c) {
               moveTo(c);
@@ -217,7 +216,7 @@ class LibraryScreenState extends State<LibraryScreen> {
           ),
         ),
         SizedBox(
-          height: 200,
+          height: 170,
           child: SophisticationLearningBookListView(
             callBack: (Book c) {
               moveTo(c);
@@ -272,7 +271,7 @@ class LibraryScreenState extends State<LibraryScreen> {
           ),
         ),
         SizedBox(
-          height: 200,
+          height: 170,
           child: LifeStyleHabitsBookListView(
             callBack: (Book c) {
               moveTo(c);
@@ -327,7 +326,7 @@ class LibraryScreenState extends State<LibraryScreen> {
           ),
         ),
         SizedBox(
-          height: 200,
+          height: 170,
           child: SocietyCultureBookListView(
             callBack: (Book c) {
               moveTo(c);
@@ -382,7 +381,7 @@ class LibraryScreenState extends State<LibraryScreen> {
           ),
         ),
         SizedBox(
-          height: 200,
+          height: 170,
           child: MasterpieceClassicBookListView(
             callBack: (Book c) {
               moveTo(c);
@@ -437,7 +436,7 @@ class LibraryScreenState extends State<LibraryScreen> {
           ),
         ),
         SizedBox(
-          height: 200,
+          height: 170,
           child: NaturalScienceBookListView(
             callBack: (Book c) {
               moveTo(c);
