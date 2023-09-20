@@ -39,20 +39,25 @@ class LibraryScreenState extends State<LibraryScreen> {
             ),
             getAppBarUI(),
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    getTodayBookUI(),                   // 오늘의 책 추천
-                    getFairyTaleCreativeBookUI(),       // 동화/창작
-                    getSophisticationLearningBookUI(),  // 교양/학습
-                    getLifeStyleHabitsBookUI(),         // 생활/습관
-                    getSocietyCultureBookUI(),          // 사회/문화
-                    getMasterpieceClassicBookUI(),      // 명작/고전
-                    getNaturalScienceBookUI(),          // 자연/과학
-                    const SizedBox(
-                      height: 32,
-                    ),
-                  ],
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  setState(() {});
+                },
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      getTodayBookUI(),                   // 오늘의 책 추천
+                      getFairyTaleCreativeBookUI(),       // 동화/창작
+                      getSophisticationLearningBookUI(),  // 교양/학습
+                      getLifeStyleHabitsBookUI(),         // 생활/습관
+                      getSocietyCultureBookUI(),          // 사회/문화
+                      getMasterpieceClassicBookUI(),      // 명작/고전
+                      getNaturalScienceBookUI(),          // 자연/과학
+                      const SizedBox(
+                        height: 32,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

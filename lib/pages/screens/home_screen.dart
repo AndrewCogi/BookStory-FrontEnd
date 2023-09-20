@@ -39,7 +39,11 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             getAppBarUI(),
             Expanded(
-              child: SingleChildScrollView(
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  setState(() {});
+                },
+                child: SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
                       getSearchBarUI(),
@@ -51,6 +55,7 @@ class HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
+                ),
               ),
             ),
           ],
