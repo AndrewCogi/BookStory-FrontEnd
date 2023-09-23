@@ -166,6 +166,22 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
+  Future<String> getCurrentUserEmail() async {
+    try {
+      final authUser = await Amplify.Auth.getCurrentUser();
+      final signInDetails = authUser.signInDetails as CognitoSignInDetailsApiBased;
+      final username = signInDetails.username;
+      safePrint('aa: $username');
+      if (authUser != null) {
+        return username;
+      }
+    } catch (e) {
+      print("Error fetching current user: $e");
+    }
+    return "";
+  }
+
+  @override
   Future<String?> getCurrentUserAccessToken() async {
     final result = await Amplify.Auth.fetchAuthSession(
         options: const FetchAuthSessionOptions());

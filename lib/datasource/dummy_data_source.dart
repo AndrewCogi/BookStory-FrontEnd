@@ -39,4 +39,21 @@ class DummyDataSource implements DataSource {
       return [];
     }
   }
+
+  @override
+  Future<List<Book>> getBooksByUserEmailFavorite(String userEmail) async {
+    List<Book>? popularList;
+    try{
+      // 모든 책 검색
+      popularList = TempDB.bookList;
+      // playCount 순으로 정렬
+      popularList.sort((a, b) => b.playCount.compareTo(a.playCount));
+      // 상위 10개의 책 선택
+      popularList = popularList.take(10).toList();
+      // 반환
+      return popularList;
+    } on StateError {
+      return [];
+    }
+  }
 }

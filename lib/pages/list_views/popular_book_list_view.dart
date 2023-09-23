@@ -1,5 +1,6 @@
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/main.dart';
+import 'package:book_story/pages/screens/home_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:book_story/utils/constants.dart';
@@ -38,7 +39,7 @@ class PopularBookListViewState extends State<PopularBookListView>
       padding: const EdgeInsets.only(top: 8),
       child: FutureBuilder<List<Book>>(
         future: Provider.of<AppDataProvider>(context, listen: false)
-            .get10BooksByPlayCount(),
+            .getBooksByCategory([HomeScreen.categoryType], 10),
         builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
           if (snapshot.hasData) {
             List<Book> bookList = snapshot.data!;
@@ -211,7 +212,7 @@ class CategoryView extends StatelessWidget {
                                                   size: 12,
                                                 ),
                                                 Text(
-                                                  '${book.playCount}',
+                                                  '${book.favoriteCount}',
                                                   textAlign:
                                                   TextAlign.left,
                                                   style: const TextStyle(

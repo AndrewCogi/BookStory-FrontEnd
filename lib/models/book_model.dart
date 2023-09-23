@@ -19,7 +19,7 @@ class Book with _$Book{
     required String description,
     DateTime? creationTime,
     @Default(0)int playCount,
-    // @Default(0)int favorite,
+    @Default(0)int favoriteCount,
     // @Default(0.0)double rate,
 }) = _Book;
 

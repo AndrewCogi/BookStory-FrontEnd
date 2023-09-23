@@ -20,6 +20,8 @@ abstract class AuthController{
   Future<String> verifyCode(User data, String code);
   // 현재 로그인 상태 확인.
   Future<bool> checkAuthState();
+  // 로그인한 유저 email 반환. 로그인 정보가 없다면 "" 반환
+  Future<String> getCurrentUserEmail();
   // 로그인한 유저 token 반환. Token에는 사용자 정보들이 왕창 들어있음! TODO : 백엔드에서 이 token과 비교해서 로그인한 사람을 찾을 예정!
   Future<String?> getCurrentUserAccessToken();
   // 유효한 이메일 형식인지 검사

@@ -23,6 +23,7 @@ _$_Book _$$_BookFromJson(Map<String, dynamic> json) => _$_Book(
           ? null
           : DateTime.parse(json['creationTime'] as String),
       playCount: json['playCount'] as int? ?? 0,
+      favoriteCount: json['favoriteCount'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$$_BookToJson(_$_Book instance) => <String, dynamic>{
@@ -39,6 +40,7 @@ Map<String, dynamic> _$$_BookToJson(_$_Book instance) => <String, dynamic>{
       'description': instance.description,
       'creationTime': instance.creationTime?.toIso8601String(),
       'playCount': instance.playCount,
+      'favoriteCount': instance.favoriteCount,
     };
 
 const _$CategoryTypeEnumMap = {

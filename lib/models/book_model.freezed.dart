@@ -45,6 +45,8 @@ mixin _$Book {
   set creationTime(DateTime? value) => throw _privateConstructorUsedError;
   int get playCount => throw _privateConstructorUsedError;
   set playCount(int value) => throw _privateConstructorUsedError;
+  int get favoriteCount => throw _privateConstructorUsedError;
+  set favoriteCount(int value) => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -68,7 +70,8 @@ abstract class $BookCopyWith<$Res> {
       String imagePath,
       String description,
       DateTime? creationTime,
-      int playCount});
+      int playCount,
+      int favoriteCount});
 }
 
 /// @nodoc
@@ -96,6 +99,7 @@ class _$BookCopyWithImpl<$Res, $Val extends Book>
     Object? description = null,
     Object? creationTime = freezed,
     Object? playCount = null,
+    Object? favoriteCount = null,
   }) {
     return _then(_value.copyWith(
       bookId: null == bookId
@@ -146,6 +150,10 @@ class _$BookCopyWithImpl<$Res, $Val extends Book>
           ? _value.playCount
           : playCount // ignore: cast_nullable_to_non_nullable
               as int,
+      favoriteCount: null == favoriteCount
+          ? _value.favoriteCount
+          : favoriteCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -168,7 +176,8 @@ abstract class _$$_BookCopyWith<$Res> implements $BookCopyWith<$Res> {
       String imagePath,
       String description,
       DateTime? creationTime,
-      int playCount});
+      int playCount,
+      int favoriteCount});
 }
 
 /// @nodoc
@@ -192,6 +201,7 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
     Object? description = null,
     Object? creationTime = freezed,
     Object? playCount = null,
+    Object? favoriteCount = null,
   }) {
     return _then(_$_Book(
       bookId: null == bookId
@@ -242,6 +252,10 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
           ? _value.playCount
           : playCount // ignore: cast_nullable_to_non_nullable
               as int,
+      favoriteCount: null == favoriteCount
+          ? _value.favoriteCount
+          : favoriteCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -261,7 +275,8 @@ class _$_Book implements _Book {
       required this.imagePath,
       required this.description,
       this.creationTime,
-      this.playCount = 0});
+      this.playCount = 0,
+      this.favoriteCount = 0});
 
   factory _$_Book.fromJson(Map<String, dynamic> json) => _$$_BookFromJson(json);
 
@@ -290,10 +305,13 @@ class _$_Book implements _Book {
   @override
   @JsonKey()
   int playCount;
+  @override
+  @JsonKey()
+  int favoriteCount;
 
   @override
   String toString() {
-    return 'Book(bookId: $bookId, title: $title, drawer: $drawer, writer: $writer, bookPage: $bookPage, categoryAge: $categoryAge, categoryType: $categoryType, playTime: $playTime, imagePath: $imagePath, description: $description, creationTime: $creationTime, playCount: $playCount)';
+    return 'Book(bookId: $bookId, title: $title, drawer: $drawer, writer: $writer, bookPage: $bookPage, categoryAge: $categoryAge, categoryType: $categoryType, playTime: $playTime, imagePath: $imagePath, description: $description, creationTime: $creationTime, playCount: $playCount, favoriteCount: $favoriteCount)';
   }
 
   @JsonKey(ignore: true)
@@ -323,7 +341,8 @@ abstract class _Book implements Book {
       required String imagePath,
       required String description,
       DateTime? creationTime,
-      int playCount}) = _$_Book;
+      int playCount,
+      int favoriteCount}) = _$_Book;
 
   factory _Book.fromJson(Map<String, dynamic> json) = _$_Book.fromJson;
 
@@ -363,6 +382,9 @@ abstract class _Book implements Book {
   @override
   int get playCount;
   set playCount(int value);
+  @override
+  int get favoriteCount;
+  set favoriteCount(int value);
   @override
   @JsonKey(ignore: true)
   _$$_BookCopyWith<_$_Book> get copyWith => throw _privateConstructorUsedError;
