@@ -1,4 +1,3 @@
-import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/enums/drawer_index.dart';
 import 'package:book_story/models/drawer_menu_model.dart';
@@ -276,7 +275,7 @@ class HomeDrawerState extends State<HomeDrawer> {
           // String? result = await _authController.getCurrentUserAccessToken();
           // safePrint('[User Token]: $result'); // TODO : 테스트용
           // _authController.validateToken(result!);
-          navigationtoScreen(listData.index!);
+          navigationToScreen(listData.index!);
         },
         child: Stack(
           children: <Widget>[
@@ -371,7 +370,7 @@ class HomeDrawerState extends State<HomeDrawer> {
     );
   }
 
-  Future<void> navigationtoScreen(DrawerIndex indexScreen) async {
+  Future<void> navigationToScreen(DrawerIndex indexScreen) async {
     widget.callBackIndex!(indexScreen);
   }
 }

@@ -5,6 +5,7 @@ import 'package:book_story/enums/drawer_index.dart';
 import 'package:book_story/pages/custom_drawer/drawer_user_controller.dart';
 import 'package:book_story/pages/custom_drawer/home_drawer.dart';
 import 'package:book_story/pages/popups/record_tips_popup.dart';
+import 'package:book_story/pages/screens/favorite_screen.dart';
 import 'package:book_story/pages/screens/feedback_screen.dart';
 import 'package:book_story/pages/screens/home_screen.dart';
 import 'package:book_story/pages/screens/library_screen.dart';
@@ -89,7 +90,7 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
           break;
         case DrawerIndex.favorite:
           setState(() {
-            // screenView = FavoriteScreen();
+            screenView = const FavoriteScreen();
           });
           break;
         case DrawerIndex.voice:

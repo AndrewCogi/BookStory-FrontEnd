@@ -9,40 +9,28 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CategoryListView extends StatefulWidget {
-  const CategoryListView({Key? key, this.callBack}) : super(key: key);
-
-  // 카테고리 버튼 클릭 시, 결과를 처음부터 보여주기 위한 친구들
-  static ScrollController? scrollController;
-  static AnimationController? animationController;
-  static void scrollToStartChange(){
-    animationController!.reset();
-    scrollController!.jumpTo(0);
-  }
-  static void scrollToStartSame(){
-    scrollController!.animateTo(0, duration: const Duration(milliseconds: 700), curve: Curves.easeInOut);
-  }
+class FavoriteListView extends StatefulWidget {
+  const FavoriteListView({Key? key, this.callBack}) : super(key: key);
 
   final Function(Book)? callBack;
   @override
-  CategoryListViewState createState() => CategoryListViewState();
+  FavoriteListViewState createState() => FavoriteListViewState();
 }
 
-class CategoryListViewState extends State<CategoryListView>
+class FavoriteListViewState extends State<FavoriteListView>
     with TickerProviderStateMixin {
+  AnimationController? animationController;
 
   @override
   void initState() {
-    CategoryListView.scrollController = ScrollController(initialScrollOffset: 0.0);
-    CategoryListView.animationController = AnimationController(
+    animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
   }
 
   @override
   void dispose() {
-    CategoryListView.scrollController!.dispose();
-    CategoryListView.animationController!.dispose();
+    animationController!.dispose();
     super.dispose();
   }
 
@@ -50,34 +38,30 @@ class CategoryListViewState extends State<CategoryListView>
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 16),
-      child: SizedBox(
-        height: 134,
-        width: double.infinity,
-        child: FutureBuilder<List<Book>>(
+      child: FutureBuilder<List<Book>>(
           future: Provider.of<AppDataProvider>(context, listen: false)
               .getBooksByCategory([HomeScreen.categoryType], 5),
           builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
             if(snapshot.hasData){
               List<Book> bookList = snapshot.data!;
               return ListView.builder(
-                controller: CategoryListView.scrollController,
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
                 itemCount: bookList.length,
-                scrollDirection: Axis.horizontal,
+                scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
                   int count = bookList.length;
                   final Animation<double> animation =
                   Tween<double>(begin: 0.0, end: 1.0).animate(
                       CurvedAnimation(
-                          parent: CategoryListView.animationController!,
+                          parent: animationController!,
                           curve: Interval((1 / count) * index, 1.0,
                               curve: Curves.fastOutSlowIn)));
-                  CategoryListView.animationController!.forward();
+                  animationController!.forward();
                   return CategoryView(
                     book: bookList[index],
                     animation: animation,
-                    animationController: CategoryListView.animationController,
+                    animationController: animationController,
                     callback: widget.callBack,
                   );
                 },
@@ -87,27 +71,26 @@ class CategoryListViewState extends State<CategoryListView>
               return const Center(child: Text('Failed to fetch data'));
             }
             return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const CircularProgressIndicator(),
-                  const SizedBox(height: 10),
-                  FutureBuilder<bool>(
-                    future: Future<bool>.delayed(const Duration(seconds: stillTryingTextSeconds), () => true),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return const Text("Poor internet connection. Still trying..");
-                      } else {
-                        return const SizedBox(); // 아무 것도 표시하지 않음
-                      }
-                    },
-                  ),
-                ],
-              )
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const CircularProgressIndicator(),
+                    const SizedBox(height: 10),
+                    FutureBuilder<bool>(
+                      future: Future<bool>.delayed(const Duration(seconds: stillTryingTextSeconds), () => true),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return const Text("Poor internet connection. Still trying..");
+                        } else {
+                          return const SizedBox(); // 아무 것도 표시하지 않음
+                        }
+                      },
+                    ),
+                  ],
+                )
             );
           },
         ),
-      ),
     );
   }
 }
@@ -115,10 +98,10 @@ class CategoryListViewState extends State<CategoryListView>
 class CategoryView extends StatelessWidget {
   const CategoryView(
       {Key? key,
-      required this.book,
-      this.animationController,
-      this.animation,
-      this.callback})
+        required this.book,
+        this.animationController,
+        this.animation,
+        this.callback})
       : super(key: key);
 
   final void Function(Book)? callback;
@@ -304,15 +287,18 @@ class CategoryView extends StatelessWidget {
                             top: 24, bottom: 24, left: 16),
                         child: Row(
                           children: <Widget>[
-                            ClipRRect(
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(16.0)),
-                              child: AspectRatio(
-                                aspectRatio: 1.0,
-                                child: CachedNetworkImage(
-                                  placeholder: (context, url) => const SizedBox(),
-                                  imageUrl: book.imagePath,
-                                  errorWidget: (context, url, error) => const Icon(Icons.cancel_outlined),
+                            SizedBox(
+                              height: 100,
+                              child: ClipRRect(
+                                borderRadius:
+                                const BorderRadius.all(Radius.circular(16.0)),
+                                child: AspectRatio(
+                                  aspectRatio: 1.0,
+                                  child: CachedNetworkImage(
+                                    placeholder: (context, url) => const SizedBox(),
+                                    imageUrl: book.imagePath,
+                                    errorWidget: (context, url, error) => const Icon(Icons.cancel_outlined),
+                                  ),
                                 ),
                               ),
                             ),
@@ -328,6 +314,5 @@ class CategoryView extends StatelessWidget {
         },
       ),
     );
-
   }
 }

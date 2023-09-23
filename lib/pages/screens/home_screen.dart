@@ -8,7 +8,6 @@ import 'package:book_story/pages/list_views/new_book_list_view.dart';
 import 'package:book_story/pages/screens/book_info_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
-import 'package:book_story/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -358,6 +357,7 @@ class HomeScreenState extends State<HomeScreen> {
           SizedBox(
             width: MediaQuery.of(context).size.width - 20,
             height: 64,
+            // height: MediaQuery.of(context).size.height * 0.09,
             child: Padding(
               padding: const EdgeInsets.only(top: 8, bottom: 8),
               child: Container(
