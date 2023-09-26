@@ -6,7 +6,6 @@ import 'package:book_story/models/book_model.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:book_story/utils/helper_functions.dart';
-import 'package:book_story/utils/main_app_theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -334,7 +333,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                             child: Center(
                               child: Icon(
                                 Icons.favorite,
-                                color: AppTheme.nearlyWhite,
+                                color: Colors.white,
                                 size: 30,
                               ),
                             ),
@@ -372,7 +371,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                     // UnAuthorized
                     else if(snapshot.data == null){
                       return Card(
-                        color: Colors.transparent,
+                        color: BookStoryAppTheme.nearlyBlue,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50.0)),
                         elevation: 10.0,
@@ -388,7 +387,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                             child: Center(
                               child: Icon(
                                 Icons.favorite,
-                                color: Colors.transparent,
+                                color: Colors.grey,
                                 size: 30,
                               ),
                             ),
@@ -418,30 +417,6 @@ class BookInfoScreenState extends State<BookInfoScreen>
                     }
                   },
                 )
-                // Card(
-                //   // color: BookStoryAppTheme.nearlyBlue,
-                //   color: Colors.blueGrey,
-                //   shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(50.0)),
-                //   elevation: 10.0,
-                //   child: InkWell(
-                //     borderRadius: BorderRadius.circular(50),
-                //     onTap: (){
-                //       safePrint('Favorite!');
-                //     },
-                //     child: const SizedBox(
-                //       width: 60,
-                //       height: 60,
-                //       child: Center(
-                //         child: Icon(
-                //           Icons.favorite,
-                //           color: BookStoryAppTheme.nearlyWhite,
-                //           size: 30,
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
               ),
             ),
             Padding(
