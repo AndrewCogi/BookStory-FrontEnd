@@ -56,4 +56,10 @@ class DummyDataSource implements DataSource {
       return [];
     }
   }
+
+  @override
+  Future<bool> updateUser(String cmd, String userEmail) {
+    // TODO: implement updateUser
+    throw UnimplementedError();
+  }
 }

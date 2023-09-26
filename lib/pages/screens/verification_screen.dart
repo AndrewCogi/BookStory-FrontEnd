@@ -126,7 +126,6 @@ class VerificationScreenState extends State<VerificationScreen> {
     );
   }
 
-  // TODO : auth_controller로 이전하는 작업 해야함.
   void _verificationButtonPressed() async {
     // Show loading screen and deactivate the main content
     setState(() {

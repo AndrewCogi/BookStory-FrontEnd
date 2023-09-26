@@ -231,7 +231,7 @@ class HomeDrawerState extends State<HomeDrawer> {
               color: Colors.red,
             ),
             onTap: () {
-              _authController.onLogout();
+              _authController.onLogout(context);
               setState(() {
                 HomeDrawer.isLogin = false;
               });
@@ -272,9 +272,6 @@ class HomeDrawerState extends State<HomeDrawer> {
         splashColor: Colors.grey.withOpacity(0.1),
         highlightColor: Colors.transparent,
         onTap: () {
-          // String? result = await _authController.getCurrentUserAccessToken();
-          // safePrint('[User Token]: $result'); // TODO : 테스트용
-          // _authController.validateToken(result!);
           navigationToScreen(listData.index!);
         },
         child: Stack(

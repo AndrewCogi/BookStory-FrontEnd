@@ -85,30 +85,30 @@ class HelperFunctions {
     }
     return categoryNames.join(', ');
   }
-
-  static Future<bool> saveLoginTime(int time) async {
-    final pref = await SharedPreferences.getInstance();
-    return pref.setInt(loginTime, time);
-  }
-
-  static Future<int> getLoginTime() async {
-    final pref = await SharedPreferences.getInstance();
-    return pref.getInt(loginTime) ?? 0;
-  }
-
-  static Future<bool> saveExpirationDuration(int duration) async {
-    final pref = await SharedPreferences.getInstance();
-    return pref.setInt(expirationDuration, duration);
-  }
-
-  static Future<int> getExpirationDuration() async {
-    final pref = await SharedPreferences.getInstance();
-    return pref.getInt(expirationDuration) ?? 0;
-  }
-
-  static Future<bool> hasTokenExpired() async {
-    final loginTime = await getLoginTime();
-    final expDuration = await getExpirationDuration();
-    return DateTime.now().millisecondsSinceEpoch - loginTime > expDuration;
-  }
+  //
+  // static Future<bool> saveLoginTime(int time) async {
+  //   final pref = await SharedPreferences.getInstance();
+  //   return pref.setInt(loginTime, time);
+  // }
+  //
+  // static Future<int> getLoginTime() async {
+  //   final pref = await SharedPreferences.getInstance();
+  //   return pref.getInt(loginTime) ?? 0;
+  // }
+  //
+  // static Future<bool> saveExpirationDuration(int duration) async {
+  //   final pref = await SharedPreferences.getInstance();
+  //   return pref.setInt(expirationDuration, duration);
+  // }
+  //
+  // static Future<int> getExpirationDuration() async {
+  //   final pref = await SharedPreferences.getInstance();
+  //   return pref.getInt(expirationDuration) ?? 0;
+  // }
+  //
+  // static Future<bool> hasTokenExpired() async {
+  //   final loginTime = await getLoginTime();
+  //   final expDuration = await getExpirationDuration();
+  //   return DateTime.now().millisecondsSinceEpoch - loginTime > expDuration;
+  // }
 }

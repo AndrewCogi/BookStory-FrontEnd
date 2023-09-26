@@ -13,9 +13,9 @@ abstract class AuthController{
   // 로그인 요청
   Future<String> onLogin(User data);
   // 로그아웃 요청
-  Future<bool> onLogout();
+  Future<bool> onLogout(BuildContext context);
   // 계정 삭제 요청
-  Future<bool> onDeleteAccount();
+  Future<bool> onDeleteAccount(BuildContext context);
   // 이메일 인증 요청
   Future<String> verifyCode(User data, String code);
   // 현재 로그인 상태 확인.
@@ -31,9 +31,9 @@ abstract class AuthController{
   // 로그인 문자열 검증 절차 진행 - 이 문자열(email,pw)로 Cognito에 로그인/회원가입을 시도해 봐도 되는가를 확인함
   Future<Map<String, dynamic>?> verificationProcessIDPW(BuildContext context, User appUserData);
   // access Token 검증 진행
-  Future<void> validateToken(String accessToken);
+  // Future<void> validateToken(String accessToken);
   // 로그인 절차 진행
-  Future<Map<String, dynamic>?> loginProcess(User appUserData);
+  Future<Map<String, dynamic>?> loginProcess(User appUserData, BuildContext context);
   // 회원가입 절차 진행
-  Future<Map<String, dynamic>?> signUpProcess(User appUserData);
+  Future<Map<String, dynamic>?> signUpProcess(User appUserData, BuildContext context);
 }

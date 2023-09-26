@@ -17,4 +17,7 @@ class AppDataProvider extends ChangeNotifier {
   Future<List<Book>> get10BooksByPlayCount(){
     return _dataSource.get10BooksByPlayCount();
   }
+  Future<bool> updateUser(String cmd, String userEmail){
+    return _dataSource.updateUser(cmd, userEmail);
+  }
 }

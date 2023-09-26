@@ -1,6 +1,5 @@
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/main.dart';
-import 'package:book_story/pages/screens/home_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:book_story/utils/constants.dart';

@@ -60,7 +60,7 @@ class DeleteAccountPopupState extends State<DeleteAccountPopup> {
           onPressed: _isEmailValid
               ? () {
             // text가 일치하는 경우 회원 탈퇴 로직 실행
-            _authController.onDeleteAccount();
+            _authController.onDeleteAccount(context);
             setState(() {
               HomeDrawer.isLogin = false;
             });

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -6,13 +5,14 @@ import 'package:book_story/amplifyconfiguration.dart';
 import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/models/user_model.dart';
 import 'package:book_story/pages/custom_drawer/home_drawer.dart';
-import 'package:book_story/utils/constants.dart';
+import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/helper_functions.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AuthControllerImpl implements AuthController {
+  // final AppDataSource _appDataSource = AppDataSource();
 
   @override
   Future<String?> configureAmplify() async {
@@ -113,17 +113,23 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
-  Future<bool> onLogout() async {
-    Amplify.Auth.signOut().then((_) {
+  Future<bool> onLogout(BuildContext context) async {
+    // TODO : DB에 로그아웃 알림
+    Provider.of<AppDataProvider>(context, listen: false).updateUser('logout',await getCurrentUserEmail()).then((_) => {
+      Amplify.Auth.signOut().then((_) {
       return true;
+      })
     });
     return false;
   }
 
   @override
-  Future<bool> onDeleteAccount() async {
-    Amplify.Auth.deleteUser().then((_) {
-      return true;
+  Future<bool> onDeleteAccount(BuildContext context) async {
+    // TODO : DB에 회원탈퇴 알림
+    Provider.of<AppDataProvider>(context, listen: false).updateUser('remove',await getCurrentUserEmail()).then((_) => {
+      Amplify.Auth.deleteUser().then((_) {
+        return true;
+      })
     });
     return false;
   }
@@ -195,29 +201,29 @@ class AuthControllerImpl implements AuthController {
     return accessToken;
   }
 
-  @override
-  Future<void> validateToken(String accessToken) async {
-    final url = Uri.parse('http://sgm.cloudsoft-bookstory.com/api/auth/validate-token');
-    final response = await http.post(url, body: json.encode({'accessToken': accessToken}), headers: {
-      'Content-Type': 'application/json',
-    });
-
-    safePrint('[response]: ${response.body}');
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final message = data['message'];
-      final username = data['username'];
-      print('Message: $message');
-      if (message == 'Token is valid') {
-        print('Authenticated user: $username');
-      } else {
-        print('Token validation failed.');
-      }
-    } else {
-      print('Failed to validate token.');
-    }
-  }
+  // @override
+  // Future<void> validateToken(String accessToken) async {
+  //   final url = Uri.parse('http://sgm.cloudsoft-bookstory.com/api/auth/validate-token');
+  //   final response = await http.post(url, body: json.encode({'accessToken': accessToken}), headers: {
+  //     'Content-Type': 'application/json',
+  //   });
+  //
+  //   safePrint('[response]: ${response.body}');
+  //
+  //   if (response.statusCode == 200) {
+  //     final data = json.decode(response.body);
+  //     final message = data['message'];
+  //     final username = data['username'];
+  //     print('Message: $message');
+  //     if (message == 'Token is valid') {
+  //       print('Authenticated user: $username');
+  //     } else {
+  //       print('Token validation failed.');
+  //     }
+  //   } else {
+  //     print('Failed to validate token.');
+  //   }
+  // }
 
   @override
   bool isEmailValid(String email) {
@@ -286,7 +292,7 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
-  Future<Map<String, dynamic>?> signUpProcess(User appUserData) async {
+  Future<Map<String, dynamic>?> signUpProcess(User appUserData, BuildContext context) async {
     // errorMessage 2쌍을 저장해서 반환할 결과
     Map<String, dynamic> result = {
       'errorMessageEmail': "",
@@ -297,6 +303,8 @@ class AuthControllerImpl implements AuthController {
     String signUpResult = await onSignUp(appUserData);
     // 회원가입 성공
     if(signUpResult == '') {
+      // TODO : DB에 회원가입 알림
+      Provider.of<AppDataProvider>(context, listen: false).updateUser('add',appUserData.userEmail);
       return null;
     }
     // 회원가입 실패. 사유 작성해서 반환.
@@ -307,7 +315,7 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
-  Future<Map<String, dynamic>?> loginProcess(User appUserData) async {
+  Future<Map<String, dynamic>?> loginProcess(User appUserData, BuildContext context) async {
     // errorMessage 2쌍을 저장해서 반환할 결과
     Map<String, dynamic> result = {
       'errorMessageEmail': "",
@@ -318,10 +326,8 @@ class AuthControllerImpl implements AuthController {
     String loginResult = await  onLogin(appUserData);
     // 로그인 성공
     if (loginResult == '') {
-      // TODO : DB에 로그인함을 알림
-      // SharedPreference에 loginTime, expiration 정보 저장
-      HelperFunctions.saveLoginTime(DateTime.now().millisecondsSinceEpoch);
-      HelperFunctions.saveExpirationDuration(expirationTimeMilliseconds); // 1시간으로 설정
+      // TODO : DB에 로그인 알림
+      Provider.of<AppDataProvider>(context, listen: false).updateUser('login',appUserData.userEmail);
       return null;
     }
     // 로그인 실패. 사유 작성해서 반환.

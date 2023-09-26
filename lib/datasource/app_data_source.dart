@@ -6,10 +6,7 @@ import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/datasource/data_source.dart';
 import 'package:book_story/datasource/temp_db.dart';
 import 'package:book_story/enums/category_type.dart';
-import 'package:book_story/enums/response_status.dart';
 import 'package:book_story/models/book_model.dart';
-import 'package:book_story/models/error_details_model.dart';
-import 'package:book_story/models/response_model.dart';
 import 'package:book_story/utils/helper_functions.dart';
 import 'package:http/http.dart' as http;
 
@@ -41,7 +38,10 @@ class AppDataSource extends DataSource{
       url = '$baseUrl${'book/getBooksByCategoryType'}/$categoryTypeStr?limit=$limit';
     }
     try{
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(
+          Uri.parse(url),
+          headers: header
+      );
       if(response.statusCode == 200){
         final mapList = json.decode(const Utf8Decoder().convert(response.bodyBytes)) as List;
         return List.generate(mapList.length, (index) => Book.fromJson(mapList[index]));
@@ -58,7 +58,10 @@ class AppDataSource extends DataSource{
     final String url = '$baseUrl${'favorite/'}$userEmail';
     safePrint(url);
     try{
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(
+          Uri.parse(url),
+          headers: header
+      );
       if(response.statusCode == 200){
         final mapList = json.decode(const Utf8Decoder().convert(response.bodyBytes)) as List;
         final List<Book> books = mapList.map((map) {
@@ -68,6 +71,37 @@ class AppDataSource extends DataSource{
         return books;
       }
       return [];
+    }catch(error){
+      safePrint(error.toString());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool> updateUser(String cmd, String userEmail) async {
+    final String url = '$baseUrl${'auth/'}$cmd';
+    safePrint(url);
+    try{
+      final http.Response response;
+      if(cmd != "remove") {
+        response = await http.post(
+        Uri.parse(url),
+        headers: header,
+        body: json.encode({'userEmail': userEmail})
+      );
+      } else {
+        response = await http.post(
+            Uri.parse(url),
+            headers: await authHeader,
+            body: json.encode({'userEmail': userEmail})
+        );
+      }
+      safePrint("response.body: ${response.body}");
+      if(response.statusCode == 200){
+        safePrint(response.body);
+        return true;
+      }
+      return false;
     }catch(error){
       safePrint(error.toString());
       rethrow;
@@ -89,37 +123,5 @@ class AppDataSource extends DataSource{
     } on StateError {
       return [];
     }
-  }
-
-  Future<ResponseModel> _getResponseModel(http.Response response) async {
-    ResponseStatus status = ResponseStatus.none;
-    ResponseModel responseModel = ResponseModel();
-
-    if(response.statusCode == 200){
-      status = ResponseStatus.saved;
-      responseModel = ResponseModel.fromJson(jsonDecode(response.body));
-      responseModel.responseStatus = status;
-    } else if(response.statusCode == 401 || response.statusCode == 403){
-      if(await HelperFunctions.hasTokenExpired()){
-        status = ResponseStatus.expired;
-      } else {
-        status = ResponseStatus.unauthorized;
-      }
-      responseModel = ResponseModel(
-        responseStatus: status,
-        statusCode: 401,
-        message: 'Access denied. Please login as admin.',
-      );
-    } else if(response.statusCode == 500 || response.statusCode == 400){
-      final json = jsonDecode(response.body);
-      final errorDetails = ErrorDetails.fromJson(json);
-      status = ResponseStatus.failed;
-      responseModel = ResponseModel(
-        responseStatus: status,
-        statusCode: 500,
-        message: errorDetails.errorMessage,
-      );
-    }
-    return responseModel;
   }
 }

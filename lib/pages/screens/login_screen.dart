@@ -233,7 +233,8 @@ class LoginScreenState extends State<LoginScreen> {
           isComplete = false;
         });
         // 로그인 실시!
-        Map<String,dynamic>? result = await _authController.loginProcess(appUserData!);
+        // ignore: use_build_context_synchronously
+        Map<String,dynamic>? result = await _authController.loginProcess(appUserData!, context);
         // 로그인 성공
         if(result == null){
           // ignore: use_build_context_synchronously
@@ -274,7 +275,8 @@ class LoginScreenState extends State<LoginScreen> {
           isComplete = false;
         });
         // 회원가입 실시!
-        Map<String, dynamic>? result = await _authController.signUpProcess(appUserData!);
+        // ignore: use_build_context_synchronously
+        Map<String, dynamic>? result = await _authController.signUpProcess(appUserData!, context);
         // 회원가입 성공
         if(result == null){
           // ignore: use_build_context_synchronously
