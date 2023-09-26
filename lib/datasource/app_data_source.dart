@@ -60,7 +60,7 @@ class AppDataSource extends DataSource{
     try{
       final response = await http.get(
           Uri.parse(url),
-          headers: header
+          headers: await authHeader
       );
       if(response.statusCode == 200){
         final mapList = json.decode(const Utf8Decoder().convert(response.bodyBytes)) as List;
@@ -124,4 +124,62 @@ class AppDataSource extends DataSource{
       return [];
     }
   }
+
+  @override
+  Future<bool?> getIsBookFavorite(String userEmail, int bookId) async {
+    final String url = '$baseUrl${'favorite/'}$userEmail/$bookId';
+    safePrint(url);
+    try{
+      final http.Response response;
+        response = await http.get(
+            Uri.parse(url),
+            headers: await authHeader
+        );
+
+      safePrint("response.body: ${response.body}");
+      if(response.statusCode == 200){
+        // JSON 문자열을 Map으로 파싱
+        Map<String, dynamic> parsedJson = json.decode(response.body);
+        bool responseValue = parsedJson['response'];
+        safePrint(responseValue);
+        return responseValue;
+      }
+      safePrint("[getIsBookFavorite]: UnAuthorized");
+      return null;
+    }catch(error){
+      safePrint(error.toString());
+      rethrow;
+    }
+  }
+
+  // @override
+  // Future<bool> getIsBookFavorite(String userEmail, String bookId) {
+  //   final String url = '$baseUrl${'auth/'}$cmd';
+  //   safePrint(url);
+  //   try{
+  //     final http.Response response;
+  //     if(cmd != "remove") {
+  //       response = await http.post(
+  //           Uri.parse(url),
+  //           headers: header,
+  //           body: json.encode({'userEmail': userEmail})
+  //       );
+  //     } else {
+  //       response = await http.post(
+  //           Uri.parse(url),
+  //           headers: await authHeader,
+  //           body: json.encode({'userEmail': userEmail})
+  //       );
+  //     }
+  //     safePrint("response.body: ${response.body}");
+  //     if(response.statusCode == 200){
+  //       safePrint(response.body);
+  //       return true;
+  //     }
+  //     return false;
+  //   }catch(error){
+  //     safePrint(error.toString());
+  //     rethrow;
+  //   }
+  // }
 }

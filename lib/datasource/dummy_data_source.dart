@@ -62,4 +62,10 @@ class DummyDataSource implements DataSource {
     // TODO: implement updateUser
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> getIsBookFavorite(String userEmail, int bookId) {
+    // TODO: implement getIsBookFavorite
+    throw UnimplementedError();
+  }
 }

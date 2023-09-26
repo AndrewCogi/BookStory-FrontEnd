@@ -20,4 +20,7 @@ class AppDataProvider extends ChangeNotifier {
   Future<bool> updateUser(String cmd, String userEmail){
     return _dataSource.updateUser(cmd, userEmail);
   }
+  Future<bool?> getIsBookFavorite(String userEmail, int bookId){
+    return _dataSource.getIsBookFavorite(userEmail, bookId);
+  }
 }

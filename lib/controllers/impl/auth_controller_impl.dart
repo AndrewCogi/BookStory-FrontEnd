@@ -177,7 +177,7 @@ class AuthControllerImpl implements AuthController {
       final authUser = await Amplify.Auth.getCurrentUser();
       final signInDetails = authUser.signInDetails as CognitoSignInDetailsApiBased;
       final username = signInDetails.username;
-      safePrint('aa: $username');
+      safePrint('[getCurrentUserEmail]: $username');
       if (authUser != null) {
         return username;
       }

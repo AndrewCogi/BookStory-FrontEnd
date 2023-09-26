@@ -6,4 +6,5 @@ abstract class DataSource {
   Future<List<Book>> getBooksByUserEmailFavorite(String userEmail);
   Future<List<Book>> get10BooksByPlayCount();
   Future<bool> updateUser(String cmd, String userEmail);
+  Future<bool?> getIsBookFavorite(String userEmail, int bookId);
 }

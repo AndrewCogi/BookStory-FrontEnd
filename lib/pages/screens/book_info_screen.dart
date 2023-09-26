@@ -1,10 +1,15 @@
 import 'package:amplify_core/amplify_core.dart';
+import 'package:book_story/controllers/auth_controller.dart';
+import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/models/book_model.dart';
+import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:book_story/utils/helper_functions.dart';
+import 'package:book_story/utils/main_app_theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BookInfoScreen extends StatefulWidget {
   const BookInfoScreen(this.book, {super.key});
@@ -23,6 +28,8 @@ class BookInfoScreenState extends State<BookInfoScreen>
   double opacity1 = 0.0;
   double opacity2 = 0.0;
   double opacity3 = 0.0;
+  final AuthController _authController = AuthControllerImpl();
+  String userEmail = "";
 
   @override
   void initState() {
@@ -36,6 +43,9 @@ class BookInfoScreenState extends State<BookInfoScreen>
   }
 
   Future<void> setData() async {
+    // userEmail을 받아놓기
+    userEmail = await _authController.getCurrentUserEmail();
+
     animationController?.forward();
     await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     setState(() {
@@ -300,29 +310,138 @@ class BookInfoScreenState extends State<BookInfoScreen>
                 alignment: Alignment.center,
                 scale: CurvedAnimation(
                     parent: animationController!, curve: Curves.fastOutSlowIn),
-                child: Card(
-                  color: BookStoryAppTheme.nearlyBlue,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0)),
-                  elevation: 10.0,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(50),
-                    onTap: (){
-                      safePrint('Favorite!');
-                    },
-                    child: const SizedBox(
-                      width: 60,
-                      height: 60,
-                      child: Center(
-                        child: Icon(
-                          Icons.favorite,
-                          color: BookStoryAppTheme.nearlyWhite,
-                          size: 30,
+                child: FutureBuilder<bool?>(
+                  future: Provider.of<AppDataProvider>(context, listen: false)
+                      .getIsBookFavorite(userEmail, widget.book.bookId),
+                  builder: (context, AsyncSnapshot<bool?> snapshot) {
+                    safePrint('snapshot: $snapshot');
+                    // 하트를 누르지 않은 상태
+                    if (snapshot.data == false){
+                      return Card(
+                        color: BookStoryAppTheme.nearlyBlue,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50.0)),
+                        elevation: 10.0,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(50),
+                          onTap: (){
+                            // TODO : 하트를 누르게 하기
+                            safePrint('Favorite!');
+                          },
+                          child: const SizedBox(
+                            width: 60,
+                            height: 60,
+                            child: Center(
+                              child: Icon(
+                                Icons.favorite,
+                                color: AppTheme.nearlyWhite,
+                                size: 30,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                ),
+                      );
+                    }
+                    // 하트를 누른 상태
+                    else if(snapshot.data == true){
+                      return Card(
+                        color: BookStoryAppTheme.nearlyBlue,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50.0)),
+                        elevation: 10.0,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(50),
+                          onTap: (){
+                            // TODO : 하트 취소하기
+                            safePrint('Favorite!');
+                          },
+                          child: const SizedBox(
+                            width: 60,
+                            height: 60,
+                            child: Center(
+                              child: Icon(
+                                Icons.favorite,
+                                color: Colors.redAccent,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                    // UnAuthorized
+                    else if(snapshot.data == null){
+                      return Card(
+                        color: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50.0)),
+                        elevation: 10.0,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(50),
+                          onTap: (){
+                            // TODO : 로그인 유도하기
+                            safePrint('Login first!');
+                          },
+                          child: const SizedBox(
+                            width: 60,
+                            height: 60,
+                            child: Center(
+                              child: Icon(
+                                Icons.favorite,
+                                color: Colors.transparent,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                    // 셋 다 아닌 상태. 로딩중 등
+                    else {
+                      return Card(
+                        color: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50.0)),
+                        elevation: 10.0,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(50),
+                          onTap: (){
+                            safePrint('Favorite!');
+                          },
+                          child: const SizedBox(
+                            width: 60,
+                            height: 60,
+                            child: Center(),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                )
+                // Card(
+                //   // color: BookStoryAppTheme.nearlyBlue,
+                //   color: Colors.blueGrey,
+                //   shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(50.0)),
+                //   elevation: 10.0,
+                //   child: InkWell(
+                //     borderRadius: BorderRadius.circular(50),
+                //     onTap: (){
+                //       safePrint('Favorite!');
+                //     },
+                //     child: const SizedBox(
+                //       width: 60,
+                //       height: 60,
+                //       child: Center(
+                //         child: Icon(
+                //           Icons.favorite,
+                //           color: BookStoryAppTheme.nearlyWhite,
+                //           size: 30,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ),
             ),
             Padding(
