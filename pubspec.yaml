@@ -139,7 +139,7 @@ flutter_native_splash:
   #              />
   # ------------------------------------------------------------------------------------
 
-flutter_icons:
+flutter_launcher_icons:
   ios: true
   android: true
   image_path: "assets/icons/mainIconNoBG.png"
