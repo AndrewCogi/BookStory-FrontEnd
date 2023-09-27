@@ -313,7 +313,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                     if(snapshot.data == null) {
                       animationController!.reset();
                       animationController!.forward();
-                      return SizedBox();
+                      return const SizedBox();
                     }
                   return ScaleTransition(
                     alignment: Alignment.center,
@@ -411,7 +411,12 @@ class BookInfoScreenState extends State<BookInfoScreen>
           borderRadius: BorderRadius.circular(50),
           onTap: (){
             // TODO : 하트를 누르게 하기
-            safePrint('Favorite!');
+            Provider.of<AppDataProvider>(context, listen: false).updateFavorite(userEmail, widget.book.bookId, 'add').then((result) => {
+              if(result == true){
+                setState(() {}),
+                safePrint('Add Favorite!')
+              }
+            });
           },
           child: const SizedBox(
             width: 60,
@@ -438,7 +443,12 @@ class BookInfoScreenState extends State<BookInfoScreen>
           borderRadius: BorderRadius.circular(50),
           onTap: (){
             // TODO : 하트 취소하기
-            safePrint('Favorite!');
+            Provider.of<AppDataProvider>(context, listen: false).updateFavorite(userEmail, widget.book.bookId, 'remove').then((result) => {
+              if(result == true){
+                setState(() {}),
+                safePrint('Remove Favorite!')
+              }
+            });
           },
           child: const SizedBox(
             width: 60,
@@ -464,7 +474,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
         child: InkWell(
           borderRadius: BorderRadius.circular(50),
           onTap: (){
-            safePrint('Favorite!');
+            safePrint('Unknown.. Loading..?');
           },
           child: const SizedBox(
             width: 60,

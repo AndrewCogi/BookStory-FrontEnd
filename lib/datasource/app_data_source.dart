@@ -18,7 +18,6 @@ class AppDataSource extends DataSource{
     'Content-Type' : 'application/json'
   };
 
-  // TODO : 나중에 로그인 후 사용 가능한 서비스 이용할 때 사용
   Future<Map<String, String>> get authHeader async => {
     'Content-Type' : 'application/json',
     'Authorization' : 'Bearer ${await _authController.getCurrentUserAccessToken()}',
@@ -98,7 +97,6 @@ class AppDataSource extends DataSource{
       }
       safePrint("response.body: ${response.body}");
       if(response.statusCode == 200){
-        safePrint(response.body);
         return true;
       }
       return false;
@@ -152,34 +150,25 @@ class AppDataSource extends DataSource{
     }
   }
 
-  // @override
-  // Future<bool> getIsBookFavorite(String userEmail, String bookId) {
-  //   final String url = '$baseUrl${'auth/'}$cmd';
-  //   safePrint(url);
-  //   try{
-  //     final http.Response response;
-  //     if(cmd != "remove") {
-  //       response = await http.post(
-  //           Uri.parse(url),
-  //           headers: header,
-  //           body: json.encode({'userEmail': userEmail})
-  //       );
-  //     } else {
-  //       response = await http.post(
-  //           Uri.parse(url),
-  //           headers: await authHeader,
-  //           body: json.encode({'userEmail': userEmail})
-  //       );
-  //     }
-  //     safePrint("response.body: ${response.body}");
-  //     if(response.statusCode == 200){
-  //       safePrint(response.body);
-  //       return true;
-  //     }
-  //     return false;
-  //   }catch(error){
-  //     safePrint(error.toString());
-  //     rethrow;
-  //   }
-  // }
+  @override
+  Future<bool> updateFavorite(String userEmail, int bookId, String cmd) async {
+    final String url = '$baseUrl${'favorite/'}$cmd';
+    safePrint(url);
+    try{
+      final http.Response response;
+      response = await http.post(
+        Uri.parse(url),
+        headers: header,
+        body: json.encode({'user':{'userEmail':userEmail}, 'book':{'bookId':bookId}})
+      );
+      safePrint("response.body: ${response.body}");
+      if(response.statusCode == 200){
+        return true;
+      }
+      return false;
+    }catch(error){
+      safePrint(error.toString());
+      rethrow;
+    }
+  }
 }
