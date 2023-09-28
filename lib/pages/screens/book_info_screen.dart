@@ -159,33 +159,6 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                 ),
                                 Row(
                                   children: [
-                                    ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                        overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                        shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                        foregroundColor: MaterialStateProperty.all<Color>(Colors.grey), // 글씨 색상 설정
-                                      ),
-                                      child: const Text(
-                                        "Rate book",
-                                        style: TextStyle(
-                                          decorationThickness: 1,
-                                          decoration: TextDecoration.underline, // 밑줄 추가
-                                        ),
-                                      ),
-                                      onPressed: () async {
-                                        final result = await showDialog<double>(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return const RatingPopup();
-                                          },
-                                        );
-                                        if (result != null) {
-                                          // 팝업에서 반환된 점수를 사용합니다.
-                                          print("Selected Rating: $result");
-                                        }
-                                      },
-                                    ),
                                     Row(
                                       children: <Widget>[
                                         Text(
@@ -232,7 +205,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
 
                             ),
                           ),
-                          Divider(thickness: 1),
+                          const Divider(thickness: 1),
                           Expanded(
                             child: Card(
                               elevation: 2,
@@ -240,19 +213,19 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                   duration: const Duration(milliseconds: 500),
                                   opacity: opacity2,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 10, right: 10),
+                                    padding: const EdgeInsets.only(left: 10, right: 10),
                                     child: DefaultTabController(
                                       length: 3, // TabBar에 표시될 탭 수
                                       child: Column(
                                         children: <Widget>[
-                                          TabBar(
+                                          const TabBar(
                                             tabs: <Widget>[
                                               Tab(child: Text('책 소개',style: TextStyle(color: Colors.black))),
-                                              Tab(child: Text('저자 소개',style: TextStyle(color: Colors.black))),
+                                              Tab(child: Text('출판사 리뷰',style: TextStyle(color: Colors.black))),
                                               Tab(child: Text('평가 n개',style: TextStyle(color: Colors.black))),
                                             ],
-                                            labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blue), // 선택된 탭 텍스트 스타일
-                                            unselectedLabelStyle: TextStyle(fontSize: 16, color: Colors.grey), // 선택되지 않은 탭 텍스트 스타일
+                                            labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blue),
+                                            unselectedLabelStyle: TextStyle(fontSize: 16, color: Colors.grey),
                                             indicatorColor: BookStoryAppTheme.nearlyBlue,
                                           ),
                                           Expanded(
@@ -260,47 +233,298 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                               children: <Widget>[
                                                 Padding(
                                                   padding: const EdgeInsets.only(
-                                                      left: 16, right: 16, top: 8, bottom: 8),
+                                                      left: 15, right: 15, top: 15),
                                                   child: SingleChildScrollView(
-                                                    child: Text(
-                                                      widget.book.description,
-                                                      textAlign: TextAlign.justify,
-                                                      style: const TextStyle(
-                                                        fontWeight: FontWeight.w200,
-                                                        fontSize: 16,
-                                                        letterSpacing: 0.27,
-                                                        color: BookStoryAppTheme.grey,
-                                                      ),
-                                                    ),
+                                                    child: Column(
+                                                      children: [
+                                                        FittedBox(
+                                                          child: Text(
+                                                            "책 소개",
+                                                            textAlign: TextAlign.start,
+                                                            style: const TextStyle(
+                                                              fontWeight: FontWeight.bold,
+                                                              fontSize: 20,
+                                                              letterSpacing: 0.27,
+                                                              color: Colors.grey,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 10),
+                                                        Text(
+                                                          widget.book.description,
+                                                          textAlign: TextAlign.justify,
+                                                          style: const TextStyle(
+                                                            fontWeight: FontWeight.w200,
+                                                            fontSize: 16,
+                                                            letterSpacing: 0.27,
+                                                            color: BookStoryAppTheme.grey,
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 40),
+                                                        FittedBox(
+                                                          child: Text(
+                                                            "저자 소개 (${widget.book.writer})",
+                                                            textAlign: TextAlign.start,
+                                                            style: const TextStyle(
+                                                              fontWeight: FontWeight.bold,
+                                                              fontSize: 20,
+                                                              letterSpacing: 0.27,
+                                                              color: Colors.grey,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 10),
+                                                        Text(
+                                                          '저자 김정민은 어릴 땐 책을 많이 읽지 않았어요. '
+                                                          '재미없다고 생각했거든요. 어른이 되고 나서야 책 맛을 알았어요. '
+                                                          '그리고 그림에책 빠져들었어요. 그림책 속에는 많은 이야기가 숨어 있었어요. '
+                                                          '위로해 주기도 하고, 하하하 웃게도 해주고, 내가 주인공이라면 어떻게 할까민 고하게 하기도 했지요. '
+                                                          '그림책을 만난 일이 제게는 정말 행복한 일이었어요. 그래서 그림책 작가가 되기로 했어요. '
+                                                          '위로가 되어주고, 웃게 해주고, 때로는 고민하게도 하는, 그런 그림책을 만들고 싶습니다.',
+                                                          textAlign: TextAlign.justify,
+                                                          style: const TextStyle(
+                                                            fontWeight: FontWeight.w200,
+                                                            fontSize: 16,
+                                                            letterSpacing: 0.27,
+                                                            color: BookStoryAppTheme.grey,
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 30)
+                                                      ],
+                                                    )
                                                   ),
                                                 ),
                                                 Center(
-                                                    child: Text('탭 2 내용 - 저자 소개')
+                                                  child: SingleChildScrollView(
+                                                    child: Padding(
+                                                        padding: EdgeInsets.only(top: 15, left: 15, right: 15),
+                                                        child: SingleChildScrollView(
+                                                          child: Column(
+                                                            children: [
+                                                              FittedBox(
+                                                                child: Text(
+                                                                  "책의 즐거움을 알려주는 그림책",
+                                                                  textAlign: TextAlign.start,
+                                                                  style: const TextStyle(
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 18,
+                                                                    letterSpacing: 0.27,
+                                                                    color: Colors.grey,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 10),
+                                                              Text(
+                                                                '책을 읽다가 어느새 두세 시간이 지나가 있는 것을 알고 깜짝 놀란 적이 있나요? '
+                                                                '집중을 잘하지 못하는 어린이들도 재미있는 책을 읽으면 깜짝 놀랄 만큼 집중하게 됩니다. '
+                                                                '친구들이나 가족들이 뭐라고 해도 들리지 않습니다. 『곰곰아, 괜찮아?』는 어린이들에게 책의 즐거움을 알려줍니다.',
+                                                                textAlign: TextAlign.justify,
+                                                                style: const TextStyle(
+                                                                  fontWeight: FontWeight.w200,
+                                                                  fontSize: 15,
+                                                                  letterSpacing: 0.23,
+                                                                  color: BookStoryAppTheme.grey,
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 40),
+                                                              FittedBox(
+                                                                child: Text(
+                                                                  "아픈 친구를 병원으로 데려가는 모험 그림책",
+                                                                  textAlign: TextAlign.start,
+                                                                  style: const TextStyle(
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 18,
+                                                                    letterSpacing: 0.27,
+                                                                    color: Colors.grey,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 10),
+                                                              Text(
+                                                                '곰곰이가 넘어지자 토끼 콩콩이가 나타나 괜찮냐고 묻습니다. '
+                                                                '어려움에 처한 친구를 돕는 일은 아름답습니다. 하지만 쉽지만은 않습니다. '
+                                                                '곰곰이가 너무 무거워서 씽씽이가 부러져버립니다. '
+                                                                '이제부터 곰곰이를 병원에 데려가기 위한 모험이 펼쳐집니다. '
+                                                                '과연 친구들은 곰곰이를 병원에 무사히 데려갈 수 있을까요?',
+                                                                textAlign: TextAlign.justify,
+                                                                style: const TextStyle(
+                                                                  fontWeight: FontWeight.w200,
+                                                                  fontSize: 15,
+                                                                  letterSpacing: 0.23,
+                                                                  color: BookStoryAppTheme.grey,
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 40),
+                                                              FittedBox(
+                                                                child: Text(
+                                                                  "그림 속에 숨겨진 또 다른 모험을 찾아보세요!",
+                                                                  textAlign: TextAlign.start,
+                                                                  style: const TextStyle(
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 18,
+                                                                    letterSpacing: 0.27,
+                                                                    color: Colors.grey,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 10),
+                                                              Text(
+                                                                '언뜻 보면 『곰곰아, 괜찮아?』에는 두 가지 모험이 그려지고 있습니다. '
+                                                                    '바로 곰곰이가 읽는 책 속의 모험 이야기와 곰곰이를 병원에 데려가는 친구들의 모험 이야기입니다. '
+                                                                    '하지만 그림책 자세히 보면 또 다른 등장인물의 모험이 담겨 있습니다. '
+                                                                    '동물 친구들의 이야기 외에도 작은 이야기가 숨어있습니다. '
+                                                                    '김정민 작가가 독자들에게 선사하는 세 번째 모험 이야기를 찾아보세요!',
+                                                                textAlign: TextAlign.justify,
+                                                                style: const TextStyle(
+                                                                  fontWeight: FontWeight.w200,
+                                                                  fontSize: 15,
+                                                                  letterSpacing: 0.23,
+                                                                  color: BookStoryAppTheme.grey,
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 40),
+                                                              FittedBox(
+                                                                child: Text(
+                                                                  "신인 김정민 작가의 재기 넘치는 그림책",
+                                                                  textAlign: TextAlign.start,
+                                                                  style: const TextStyle(
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 18,
+                                                                    letterSpacing: 0.27,
+                                                                    color: Colors.grey,
+                                                                  ),
+                                                                ),
+                                                              ),
+
+                                                              SizedBox(height: 10),
+                                                              Text(
+                                                                '곰곰이는 어떤 상황에서도 손에서 책을 놓지 않습니다. '
+                                                                '친구들은 넘어져서 아무 말도 못하고 울다가 찡그리다가 웃기도 하는 곰곰이가 걱정됩니다. '
+                                                                '분명 같은 공간에 있는데 서로의 생각이 다릅니다. '
+                                                                '김정민 작가는 그 생각의 차이에서 나오는 웃음에 주목해서 한 편의 멋진 그림책을 완성했습니다.',
+                                                                textAlign: TextAlign.justify,
+                                                                style: const TextStyle(
+                                                                  fontWeight: FontWeight.w200,
+                                                                  fontSize: 15,
+                                                                  letterSpacing: 0.23,
+                                                                  color: BookStoryAppTheme.grey,
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 40),
+                                                              FittedBox(
+                                                                child: Text(
+                                                                  "제11회 서울와우북페스티벌 상상만찬 일러스트展 당선작가",
+                                                                  textAlign: TextAlign.start,
+                                                                  style: const TextStyle(
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 18,
+                                                                    letterSpacing: 0.27,
+                                                                    color: Colors.grey,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 10),
+                                                              Text(
+                                                                '김정민 작가는 11회 서울와우북페스티벌 상상만찬 일러스트展에 당선되면서 북극곰과 인연을 맺었습니다. '
+                                                                '당선 작가들의 전시회에서 북극곰 이루리 편집장이 『곰곰아, 괜찮아?』의 더미북을 보고 첫눈에 반한 것입니다. '
+                                                                '늦깎이 작가 김정민의 신선한 활약을 기대해 봅니다.',
+                                                                // textAlign: TextAlign.justify,
+                                                                style: const TextStyle(
+                                                                  fontWeight: FontWeight.w200,
+                                                                  fontSize: 15,
+                                                                  letterSpacing: 0.23,
+                                                                  color: BookStoryAppTheme.grey,
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 40),
+                                                              Text(
+                                                                "전 세계 독자들을 위한 영문 페이지",
+                                                                textAlign: TextAlign.start,
+                                                                style: const TextStyle(
+                                                                  fontWeight: FontWeight.w600,
+                                                                  fontSize: 18,
+                                                                  letterSpacing: 0.27,
+                                                                  color: Colors.grey,
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 10),
+                                                              Text(
+                                                                '『곰곰아, 괜찮아?』에는 본문이 끝나면 썸네일 이미지와 함께 영문 텍스트가 실려 있습니다. '
+                                                                '전 세계 독자들과 소통하기 위해 북극곰이 정성껏 마련한 지면입니다. '
+                                                                '이미 북극곰이 출간한 많은 도서가 세계인의 사랑을 받고 있습니다. '
+                                                                'BGC ENGLISH PICTUREBOOK 이라고 이름 지어진 영문 페이지를 통해 '
+                                                                '온 세상 부모들과 어린이들의 마음이 더욱 가깝게 이어지기를 희망합니다.',
+                                                                textAlign: TextAlign.justify,
+                                                                style: const TextStyle(
+                                                                  fontWeight: FontWeight.w200,
+                                                                  fontSize: 15,
+                                                                  letterSpacing: 0.23,
+                                                                  color: BookStoryAppTheme.grey,
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 30),
+                                                            ],
+                                                          ),
+                                                        )
+                                                    ),
+                                                  )
                                                 ),
                                                 Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        left: 16, right: 16, top: 8, bottom: 8),
-                                                    child: SingleChildScrollView(
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: <Widget>[
-                                                          Center(
-                                                            child: SizedBox(
-                                                              width: MediaQuery.of(context).size.width * 0.1,
-                                                              child: Center(
-                                                                child: Text(
-                                                                  _calculateWeightedAverage(bardata).toString().substring(0,3),
-                                                                  style: TextStyle(fontSize: MediaQuery.of(context).size.width*0.06),
-                                                                ),
-                                                              )
+                                                  padding: const EdgeInsets.only(
+                                                      left: 16, right: 16, top: 8, bottom: 8),
+                                                  child: SingleChildScrollView(
+                                                    child: Column(
+                                                      children: [
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: <Widget>[
+                                                            Center(
+                                                              child: SizedBox(
+                                                                  width: MediaQuery.of(context).size.width * 0.1,
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      _calculateWeightedAverage(bardata).toString().substring(0,3),
+                                                                      style: TextStyle(fontSize: MediaQuery.of(context).size.width*0.06),
+                                                                    ),
+                                                                  )
+                                                              ),
+                                                            ),
+                                                            Expanded(
+                                                              child: _buildGraph(bardata),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const Divider(thickness: 1),
+                                                        ElevatedButton(
+                                                          style: ButtonStyle(
+                                                            backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                                            overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                                            shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                                            foregroundColor: MaterialStateProperty.all<Color>(Colors.grey), // 글씨 색상 설정
+                                                          ),
+                                                          child: const Text(
+                                                            "Rate book",
+                                                            style: TextStyle(
+                                                              decorationThickness: 1,
+                                                              decoration: TextDecoration.underline, // 밑줄 추가
                                                             ),
                                                           ),
-                                                          Expanded(
-                                                            child: _buildGraph(bardata),
-                                                          ),
-                                                        ],
-                                                      ),
+                                                          onPressed: () async {
+                                                            final result = await showDialog<double>(
+                                                              context: context,
+                                                              builder: (BuildContext context) {
+                                                                return const RatingPopup();
+                                                              },
+                                                            );
+                                                            if (result != null) {
+                                                              // 팝업에서 반환된 점수를 사용합니다.
+                                                              print("Selected Rating: $result");
+                                                            }
+                                                          },
+                                                        ),
+                                                      ],
                                                     )
+                                                  )
                                                 ),
                                               ],
                                             ),
@@ -312,7 +536,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                               ),
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           AnimatedOpacity(
                             duration: const Duration(milliseconds: 500),
                             opacity: opacity3,
