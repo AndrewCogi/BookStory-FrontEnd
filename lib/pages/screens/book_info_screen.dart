@@ -8,6 +8,7 @@ import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:book_story/utils/helper_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vertical_barchart/vertical-barchart.dart';
@@ -33,6 +34,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
   final AuthController _authController = AuthControllerImpl();
   String userEmail = "";
   int maxX=0;
+  bool autoSwipe = true;
 
   @override
   void initState() {
@@ -86,14 +88,31 @@ class BookInfoScreenState extends State<BookInfoScreen>
             Column(
               children: <Widget>[
                 AspectRatio(
-                  aspectRatio: 1.5,
-                  child: CachedNetworkImage(
-                    placeholder: null,
-                    imageUrl: widget.book.imagePath,
-                    errorWidget: (context, url, error) => const Icon(Icons.cancel_outlined),
+                    aspectRatio: 1.5,
+                  child: Swiper(
+                    autoplay: autoSwipe,
+                    itemCount: imgList.length,
+                    pagination: SwiperPagination(
+                      alignment: Alignment.topCenter,
+                      builder: DotSwiperPaginationBuilder(
+                          color: Colors.grey, activeColor: BookStoryAppTheme.nearlyBlue
+                      ),
+                    ),
+                    duration: 1000,
+                    autoplayDelay: 7000,
+                    control: SwiperControl(
+                      color: Colors.transparent
+                    ),
+                    itemBuilder: (BuildContext context,int index){
+                      return CachedNetworkImage(
+                        placeholder: null,
+                        imageUrl: imgList[index],
+                        errorWidget: (context, url, error) => const Icon(Icons.cancel_outlined),
+                      );
+                    },
                   ),
                 ),
-              ],
+              ]
             ),
             Positioned(
               top: (MediaQuery.of(context).size.width / 1.5) - 24.0,
@@ -161,6 +180,33 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                   children: [
                                     Row(
                                       children: <Widget>[
+                                        ElevatedButton(
+                                          style: ButtonStyle(
+                                            backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                            overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                            shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                            foregroundColor: MaterialStateProperty.all<Color>(Colors.grey), // 글씨 색상 설정
+                                          ),
+                                          child: const Text(
+                                            "Rate book",
+                                            style: TextStyle(
+                                              decorationThickness: 1,
+                                              decoration: TextDecoration.underline, // 밑줄 추가
+                                            ),
+                                          ),
+                                          onPressed: () async {
+                                            final result = await showDialog<double>(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return const RatingPopup();
+                                              },
+                                            );
+                                            if (result != null) {
+                                              // 팝업에서 반환된 점수를 사용합니다.
+                                              print("Selected Rating: $result");
+                                            }
+                                          },
+                                        ),
                                         Text(
                                           // '${widget.book.rate}', TODO : 원상복구하기
                                           '0.0',
@@ -208,7 +254,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                           const Divider(thickness: 1),
                           Expanded(
                             child: Card(
-                              elevation: 2,
+                              elevation: 1,
                               child: AnimatedOpacity(
                                   duration: const Duration(milliseconds: 500),
                                   opacity: opacity2,
@@ -277,7 +323,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                                         Text(
                                                           '저자 김정민은 어릴 땐 책을 많이 읽지 않았어요. '
                                                           '재미없다고 생각했거든요. 어른이 되고 나서야 책 맛을 알았어요. '
-                                                          '그리고 그림에책 빠져들었어요. 그림책 속에는 많은 이야기가 숨어 있었어요. '
+                                                          '그리고 그림책에 빠져들었어요. 그림책 속에는 많은 이야기가 숨어 있었어요. '
                                                           '위로해 주기도 하고, 하하하 웃게도 해주고, 내가 주인공이라면 어떻게 할까민 고하게 하기도 했지요. '
                                                           '그림책을 만난 일이 제게는 정말 행복한 일이었어요. 그래서 그림책 작가가 되기로 했어요. '
                                                           '위로가 되어주고, 웃게 해주고, 때로는 고민하게도 하는, 그런 그림책을 만들고 싶습니다.',
@@ -495,33 +541,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                                           ],
                                                         ),
                                                         const Divider(thickness: 1),
-                                                        ElevatedButton(
-                                                          style: ButtonStyle(
-                                                            backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                                            overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                                            shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                                            foregroundColor: MaterialStateProperty.all<Color>(Colors.grey), // 글씨 색상 설정
-                                                          ),
-                                                          child: const Text(
-                                                            "Rate book",
-                                                            style: TextStyle(
-                                                              decorationThickness: 1,
-                                                              decoration: TextDecoration.underline, // 밑줄 추가
-                                                            ),
-                                                          ),
-                                                          onPressed: () async {
-                                                            final result = await showDialog<double>(
-                                                              context: context,
-                                                              builder: (BuildContext context) {
-                                                                return const RatingPopup();
-                                                              },
-                                                            );
-                                                            if (result != null) {
-                                                              // 팝업에서 반환된 점수를 사용합니다.
-                                                              print("Selected Rating: $result");
-                                                            }
-                                                          },
-                                                        ),
+
                                                       ],
                                                     )
                                                   )
@@ -628,7 +648,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
               ),
             ),
             Positioned(
-              top: (MediaQuery.of(context).size.width / 1.2) - 24.0 - 35,
+              top: (MediaQuery.of(context).size.width / 1.5) - 24.0 - 35,
               right: 35,
                 child: FutureBuilder<bool?>(
                   future: Provider.of<AppDataProvider>(context, listen: false)
@@ -896,5 +916,11 @@ class BookInfoScreenState extends State<BookInfoScreen>
       jumlah: 7,
       tooltip: "7개",
     ),
+  ];
+
+  final List<String> imgList = [
+    'https://img.freepik.com/premium-vector/cute-colorfull-spring-flowers-illustration_116089-327.jpg',
+    'https://image.yes24.com/momo/TopCate670/MidCate008/66977475.jpg',
+    'https://img.freepik.com/premium-vector/cute-colorfull-spring-flowers-illustration_116089-327.jpg',
   ];
 }
