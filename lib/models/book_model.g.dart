@@ -6,7 +6,7 @@ part of 'book_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Book _$$_BookFromJson(Map<String, dynamic> json) => _$_Book(
+_$BookImpl _$$BookImplFromJson(Map<String, dynamic> json) => _$BookImpl(
       bookId: json['bookId'] as int,
       title: json['title'] as String,
       drawer: json['drawer'] as String,
@@ -18,7 +18,9 @@ _$_Book _$$_BookFromJson(Map<String, dynamic> json) => _$_Book(
           .toList(),
       playTime: json['playTime'] as int,
       imagePath: json['imagePath'] as String,
-      description: json['description'] as String,
+      bookDescriptionPath: json['bookDescriptionPath'] as String,
+      writerDescriptionPath: json['writerDescriptionPath'] as String,
+      publisherDescriptionPath: json['publisherDescriptionPath'] as String,
       creationTime: json['creationTime'] == null
           ? null
           : DateTime.parse(json['creationTime'] as String),
@@ -26,7 +28,8 @@ _$_Book _$$_BookFromJson(Map<String, dynamic> json) => _$_Book(
       favoriteCount: json['favoriteCount'] as int? ?? 0,
     );
 
-Map<String, dynamic> _$$_BookToJson(_$_Book instance) => <String, dynamic>{
+Map<String, dynamic> _$$BookImplToJson(_$BookImpl instance) =>
+    <String, dynamic>{
       'bookId': instance.bookId,
       'title': instance.title,
       'drawer': instance.drawer,
@@ -37,7 +40,9 @@ Map<String, dynamic> _$$_BookToJson(_$_Book instance) => <String, dynamic>{
           instance.categoryType.map((e) => _$CategoryTypeEnumMap[e]!).toList(),
       'playTime': instance.playTime,
       'imagePath': instance.imagePath,
-      'description': instance.description,
+      'bookDescriptionPath': instance.bookDescriptionPath,
+      'writerDescriptionPath': instance.writerDescriptionPath,
+      'publisherDescriptionPath': instance.publisherDescriptionPath,
       'creationTime': instance.creationTime?.toIso8601String(),
       'playCount': instance.playCount,
       'favoriteCount': instance.favoriteCount,

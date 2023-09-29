@@ -74,4 +74,10 @@ class DummyDataSource implements DataSource {
     // TODO: implement updateFavorite
     throw UnimplementedError();
   }
+
+  @override
+  Future<String> getDescription(String descriptionPath) {
+    // TODO: implement getDescription
+    throw UnimplementedError();
+  }
 }

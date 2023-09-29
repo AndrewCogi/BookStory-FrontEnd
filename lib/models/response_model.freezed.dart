@@ -89,11 +89,11 @@ class _$ResponseModelCopyWithImpl<$Res, $Val extends ResponseModel>
 }
 
 /// @nodoc
-abstract class _$$_ResponseModelCopyWith<$Res>
+abstract class _$$ResponseModelImplCopyWith<$Res>
     implements $ResponseModelCopyWith<$Res> {
-  factory _$$_ResponseModelCopyWith(
-          _$_ResponseModel value, $Res Function(_$_ResponseModel) then) =
-      __$$_ResponseModelCopyWithImpl<$Res>;
+  factory _$$ResponseModelImplCopyWith(
+          _$ResponseModelImpl value, $Res Function(_$ResponseModelImpl) then) =
+      __$$ResponseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -104,11 +104,11 @@ abstract class _$$_ResponseModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ResponseModelCopyWithImpl<$Res>
-    extends _$ResponseModelCopyWithImpl<$Res, _$_ResponseModel>
-    implements _$$_ResponseModelCopyWith<$Res> {
-  __$$_ResponseModelCopyWithImpl(
-      _$_ResponseModel _value, $Res Function(_$_ResponseModel) _then)
+class __$$ResponseModelImplCopyWithImpl<$Res>
+    extends _$ResponseModelCopyWithImpl<$Res, _$ResponseModelImpl>
+    implements _$$ResponseModelImplCopyWith<$Res> {
+  __$$ResponseModelImplCopyWithImpl(
+      _$ResponseModelImpl _value, $Res Function(_$ResponseModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -119,7 +119,7 @@ class __$$_ResponseModelCopyWithImpl<$Res>
     Object? message = null,
     Object? object = null,
   }) {
-    return _then(_$_ResponseModel(
+    return _then(_$ResponseModelImpl(
       responseStatus: null == responseStatus
           ? _value.responseStatus
           : responseStatus // ignore: cast_nullable_to_non_nullable
@@ -142,15 +142,15 @@ class __$$_ResponseModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ResponseModel implements _ResponseModel {
-  _$_ResponseModel(
+class _$ResponseModelImpl implements _ResponseModel {
+  _$ResponseModelImpl(
       {this.responseStatus = ResponseStatus.saved,
       this.statusCode = 200,
       this.message = 'Saved',
       this.object = const {}});
 
-  factory _$_ResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$$_ResponseModelFromJson(json);
+  factory _$ResponseModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResponseModelImplFromJson(json);
 
   @override
   @JsonKey()
@@ -173,12 +173,12 @@ class _$_ResponseModel implements _ResponseModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ResponseModelCopyWith<_$_ResponseModel> get copyWith =>
-      __$$_ResponseModelCopyWithImpl<_$_ResponseModel>(this, _$identity);
+  _$$ResponseModelImplCopyWith<_$ResponseModelImpl> get copyWith =>
+      __$$ResponseModelImplCopyWithImpl<_$ResponseModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ResponseModelToJson(
+    return _$$ResponseModelImplToJson(
       this,
     );
   }
@@ -189,10 +189,10 @@ abstract class _ResponseModel implements ResponseModel {
       {ResponseStatus responseStatus,
       int statusCode,
       String message,
-      Map<String, dynamic> object}) = _$_ResponseModel;
+      Map<String, dynamic> object}) = _$ResponseModelImpl;
 
   factory _ResponseModel.fromJson(Map<String, dynamic> json) =
-      _$_ResponseModel.fromJson;
+      _$ResponseModelImpl.fromJson;
 
   @override
   ResponseStatus get responseStatus;
@@ -208,6 +208,6 @@ abstract class _ResponseModel implements ResponseModel {
   set object(Map<String, dynamic> value);
   @override
   @JsonKey(ignore: true)
-  _$$_ResponseModelCopyWith<_$_ResponseModel> get copyWith =>
+  _$$ResponseModelImplCopyWith<_$ResponseModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

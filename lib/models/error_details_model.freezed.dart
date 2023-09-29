@@ -88,11 +88,11 @@ class _$ErrorDetailsCopyWithImpl<$Res, $Val extends ErrorDetails>
 }
 
 /// @nodoc
-abstract class _$$_ErrorDetailsCopyWith<$Res>
+abstract class _$$ErrorDetailsImplCopyWith<$Res>
     implements $ErrorDetailsCopyWith<$Res> {
-  factory _$$_ErrorDetailsCopyWith(
-          _$_ErrorDetails value, $Res Function(_$_ErrorDetails) then) =
-      __$$_ErrorDetailsCopyWithImpl<$Res>;
+  factory _$$ErrorDetailsImplCopyWith(
+          _$ErrorDetailsImpl value, $Res Function(_$ErrorDetailsImpl) then) =
+      __$$ErrorDetailsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -103,11 +103,11 @@ abstract class _$$_ErrorDetailsCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ErrorDetailsCopyWithImpl<$Res>
-    extends _$ErrorDetailsCopyWithImpl<$Res, _$_ErrorDetails>
-    implements _$$_ErrorDetailsCopyWith<$Res> {
-  __$$_ErrorDetailsCopyWithImpl(
-      _$_ErrorDetails _value, $Res Function(_$_ErrorDetails) _then)
+class __$$ErrorDetailsImplCopyWithImpl<$Res>
+    extends _$ErrorDetailsCopyWithImpl<$Res, _$ErrorDetailsImpl>
+    implements _$$ErrorDetailsImplCopyWith<$Res> {
+  __$$ErrorDetailsImplCopyWithImpl(
+      _$ErrorDetailsImpl _value, $Res Function(_$ErrorDetailsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -118,7 +118,7 @@ class __$$_ErrorDetailsCopyWithImpl<$Res>
     Object? devErrorMessage = null,
     Object? timestamp = null,
   }) {
-    return _then(_$_ErrorDetails(
+    return _then(_$ErrorDetailsImpl(
       errorCode: null == errorCode
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
@@ -141,15 +141,15 @@ class __$$_ErrorDetailsCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ErrorDetails implements _ErrorDetails {
-  _$_ErrorDetails(
+class _$ErrorDetailsImpl implements _ErrorDetails {
+  _$ErrorDetailsImpl(
       {required this.errorCode,
       required this.errorMessage,
       required this.devErrorMessage,
       required this.timestamp});
 
-  factory _$_ErrorDetails.fromJson(Map<String, dynamic> json) =>
-      _$$_ErrorDetailsFromJson(json);
+  factory _$ErrorDetailsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ErrorDetailsImplFromJson(json);
 
   @override
   int errorCode;
@@ -168,12 +168,12 @@ class _$_ErrorDetails implements _ErrorDetails {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ErrorDetailsCopyWith<_$_ErrorDetails> get copyWith =>
-      __$$_ErrorDetailsCopyWithImpl<_$_ErrorDetails>(this, _$identity);
+  _$$ErrorDetailsImplCopyWith<_$ErrorDetailsImpl> get copyWith =>
+      __$$ErrorDetailsImplCopyWithImpl<_$ErrorDetailsImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ErrorDetailsToJson(
+    return _$$ErrorDetailsImplToJson(
       this,
     );
   }
@@ -184,10 +184,10 @@ abstract class _ErrorDetails implements ErrorDetails {
       {required int errorCode,
       required String errorMessage,
       required String devErrorMessage,
-      required int timestamp}) = _$_ErrorDetails;
+      required int timestamp}) = _$ErrorDetailsImpl;
 
   factory _ErrorDetails.fromJson(Map<String, dynamic> json) =
-      _$_ErrorDetails.fromJson;
+      _$ErrorDetailsImpl.fromJson;
 
   @override
   int get errorCode;
@@ -203,6 +203,6 @@ abstract class _ErrorDetails implements ErrorDetails {
   set timestamp(int value);
   @override
   @JsonKey(ignore: true)
-  _$$_ErrorDetailsCopyWith<_$_ErrorDetails> get copyWith =>
+  _$$ErrorDetailsImplCopyWith<_$ErrorDetailsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

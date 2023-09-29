@@ -6,8 +6,8 @@ part of 'response_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ResponseModel _$$_ResponseModelFromJson(Map<String, dynamic> json) =>
-    _$_ResponseModel(
+_$ResponseModelImpl _$$ResponseModelImplFromJson(Map<String, dynamic> json) =>
+    _$ResponseModelImpl(
       responseStatus: $enumDecodeNullable(
               _$ResponseStatusEnumMap, json['responseStatus']) ??
           ResponseStatus.saved,
@@ -16,7 +16,7 @@ _$_ResponseModel _$$_ResponseModelFromJson(Map<String, dynamic> json) =>
       object: json['object'] as Map<String, dynamic>? ?? const {},
     );
 
-Map<String, dynamic> _$$_ResponseModelToJson(_$_ResponseModel instance) =>
+Map<String, dynamic> _$$ResponseModelImplToJson(_$ResponseModelImpl instance) =>
     <String, dynamic>{
       'responseStatus': _$ResponseStatusEnumMap[instance.responseStatus]!,
       'statusCode': instance.statusCode,

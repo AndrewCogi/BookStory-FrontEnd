@@ -171,4 +171,15 @@ class AppDataSource extends DataSource{
       rethrow;
     }
   }
+
+  @override
+  Future<String> getDescription(String descriptionPath) async {
+    final String url = descriptionPath;
+    safePrint(url);
+    try{
+      return utf8.decode(await http.readBytes(Uri.parse(url)));
+    }catch(error){
+      return "Failed to fetch data";
+    }
+  }
 }

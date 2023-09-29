@@ -6,15 +6,15 @@ part of 'error_details_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ErrorDetails _$$_ErrorDetailsFromJson(Map<String, dynamic> json) =>
-    _$_ErrorDetails(
+_$ErrorDetailsImpl _$$ErrorDetailsImplFromJson(Map<String, dynamic> json) =>
+    _$ErrorDetailsImpl(
       errorCode: json['errorCode'] as int,
       errorMessage: json['errorMessage'] as String,
       devErrorMessage: json['devErrorMessage'] as String,
       timestamp: json['timestamp'] as int,
     );
 
-Map<String, dynamic> _$$_ErrorDetailsToJson(_$_ErrorDetails instance) =>
+Map<String, dynamic> _$$ErrorDetailsImplToJson(_$ErrorDetailsImpl instance) =>
     <String, dynamic>{
       'errorCode': instance.errorCode,
       'errorMessage': instance.errorMessage,
