@@ -252,7 +252,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                     getBookInfoBoxUI(HelperFunctions.makeBookCategoryToString(widget.book.categoryType, widget.book.categoryType.length), 'Category'),
                                     widget.book.writer == widget.book.drawer ?
                                       getBookInfoBoxUI(widget.book.writer, 'Writer/Drawer') :
-                                      getBookInfoBoxUI('${widget.book.writer}, ${widget.book.drawer}', 'Writer/Drawer'),
+                                      getBookInfoBoxUI('${widget.book.writer}/${widget.book.drawer}', 'Writer/Drawer'),
                                     getBookInfoBoxUI('${widget.book.bookPage}', 'Page'),
                                   ],
                                 ),
@@ -275,8 +275,8 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                         children: <Widget>[
                                           const TabBar(
                                             tabs: <Widget>[
-                                              Tab(child: Text('책 소개',style: TextStyle(color: Colors.black))),
-                                              Tab(child: Text('출판사 리뷰',style: TextStyle(color: Colors.black))),
+                                              Tab(child: Text('작품 소개',style: TextStyle(color: Colors.black))),
+                                              Tab(child: Text('출판사 서평',style: TextStyle(color: Colors.black))),
                                               Tab(child: Text('평가 n개',style: TextStyle(color: Colors.black))),
                                             ],
                                             labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blue),
@@ -721,7 +721,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
     return totalScore / totalReviews;
   }
 
-  List<VBarChartModel> bardata = [
+  List<VBarChartModel> bardata = [ // TODO : barData 서버에서 가져오도록 하기
     VBarChartModel(
       index: 0,
       label: "5.0",
@@ -759,7 +759,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
     ),
   ];
 
-  final List<String> imgList = [
+  final List<String> imgList = [ // TODO : imgList cloudfront에서 가져오도록 하기
     'https://img.freepik.com/premium-vector/cute-colorfull-spring-flowers-illustration_116089-327.jpg',
     'https://image.yes24.com/momo/TopCate670/MidCate008/66977475.jpg',
     'https://img.freepik.com/premium-vector/cute-colorfull-spring-flowers-illustration_116089-327.jpg',
@@ -805,9 +805,15 @@ class BookInfoScreenState extends State<BookInfoScreen>
             ),
           )
         );
-        widgets.add(
-          const SizedBox(height: 40)
-        );
+        if(i-1==length) {
+          widgets.add(
+            const SizedBox(height: 30)
+          );
+        } else {
+          widgets.add(
+            const SizedBox(height: 40)
+          );
+        }
       }
     }
 
