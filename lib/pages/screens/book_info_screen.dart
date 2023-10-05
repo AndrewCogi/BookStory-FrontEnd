@@ -760,8 +760,8 @@ class BookInfoScreenState extends State<BookInfoScreen>
   ];
 
   final List<String> imgList = [ // TODO : imgList cloudfront에서 가져오도록 하기
-    'https://img.freepik.com/premium-vector/cute-colorfull-spring-flowers-illustration_116089-327.jpg',
     'https://image.yes24.com/momo/TopCate670/MidCate008/66977475.jpg',
+    'https://contents.kyobobook.co.kr/sih/fit-in/814x0/dtl/illustrate/020/i9791186797020.jpg',
     'https://img.freepik.com/premium-vector/cute-colorfull-spring-flowers-illustration_116089-327.jpg',
   ];
 
