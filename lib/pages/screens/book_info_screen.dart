@@ -37,7 +37,6 @@ class BookInfoScreenState extends State<BookInfoScreen>
   String writerDescription = "";
   String publisherDescription = "";
   int maxX = 0;
-  bool autoSwipe = true;
 
   @override
   void initState() {
@@ -97,18 +96,21 @@ class BookInfoScreenState extends State<BookInfoScreen>
             Column(
               children: <Widget>[
                 AspectRatio(
-                    aspectRatio: 1.5,
+                    aspectRatio: 1.6,
                   child: Swiper(
-                    autoplay: autoSwipe,
+                    autoplay: true,
                     itemCount: imgList.length,
                     pagination: const SwiperPagination(
                       alignment: Alignment.topCenter,
                       builder: DotSwiperPaginationBuilder(
-                          color: Colors.grey, activeColor: BookStoryAppTheme.nearlyBlue
+                        size: 8,
+                        activeSize: 10,
+                        color: Colors.grey,
+                        activeColor: BookStoryAppTheme.nearlyBlue
                       ),
                     ),
                     duration: 1000,
-                    autoplayDelay: 7000,
+                    autoplayDelay: 5000,
                     control: const SwiperControl(
                       color: Colors.transparent
                     ),
@@ -116,6 +118,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                       return CachedNetworkImage(
                         placeholder: null,
                         imageUrl: imgList[index],
+                        fit: BoxFit.contain,
                         errorWidget: (context, url, error) => const Icon(Icons.cancel_outlined),
                       );
                     },
@@ -136,7 +139,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                       topRight: Radius.circular(32.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: BookStoryAppTheme.grey.withOpacity(0.2),
+                        color: BookStoryAppTheme.grey.withOpacity(0.5),
                         offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -760,9 +763,10 @@ class BookInfoScreenState extends State<BookInfoScreen>
   ];
 
   final List<String> imgList = [ // TODO : imgList cloudfront에서 가져오도록 하기
-    'https://image.yes24.com/momo/TopCate670/MidCate008/66977475.jpg',
-    'https://contents.kyobobook.co.kr/sih/fit-in/814x0/dtl/illustrate/020/i9791186797020.jpg',
-    'https://img.freepik.com/premium-vector/cute-colorfull-spring-flowers-illustration_116089-327.jpg',
+    'https://d1uuv72cpfayuq.cloudfront.net/books/images/1.png',
+    'https://d1uuv72cpfayuq.cloudfront.net/books/images/1_1.png',
+    'https://d1uuv72cpfayuq.cloudfront.net/books/images/1_2.png',
+    'https://d1uuv72cpfayuq.cloudfront.net/books/images/1_3.png',
   ];
 
   List<Widget> makePublisherText(String publisherDescription) {

@@ -10,7 +10,7 @@ class RatingPopup extends StatefulWidget {
 
 class RatingPopupState extends State<RatingPopup> {
   double _currentRating = 5.0;
-  String _ratingText = "Perfect!";
+  String _ratingText = "최고에요!";
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -18,7 +18,7 @@ class RatingPopupState extends State<RatingPopup> {
         "Rate This Book",
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 18
+          fontSize: 20
         ),
       ),
       content: Column(
@@ -28,7 +28,7 @@ class RatingPopupState extends State<RatingPopup> {
             initialRating: _currentRating,
             minRating: 1,
             direction: Axis.horizontal,
-            allowHalfRating: true,
+            allowHalfRating: false,
             itemCount: 5,
             itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
             itemBuilder: (context, _) => const Icon(
@@ -44,7 +44,7 @@ class RatingPopupState extends State<RatingPopup> {
             },
           ),
           const SizedBox(height: 10),
-          Text(_ratingText, style: const TextStyle(fontSize: 18)),
+          Text(_ratingText, style: const TextStyle(fontSize: 16)),
         ],
       ),
       actions: <Widget>[
@@ -54,6 +54,12 @@ class RatingPopupState extends State<RatingPopup> {
             Navigator.of(context).pop(_currentRating);
           },
         ),
+        ElevatedButton(
+          child: Text("취소"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ],
     );
   }
@@ -61,15 +67,15 @@ class RatingPopupState extends State<RatingPopup> {
   // 점수에 따라 텍스트 업데이트 함수
   void _updateRatingText() {
     if (_currentRating <= 1) {
-      _ratingText = "Bad";
+      _ratingText = "나빠요";
     } else if (_currentRating <= 2){
-      _ratingText = "Poor";
+      _ratingText = "별로에요";
     } else if (_currentRating <= 3){
-      _ratingText = "Average";
+      _ratingText = "보통이에요";
     } else if (_currentRating <= 4){
-      _ratingText = "Good";
+      _ratingText = "좋아요";
     } else {
-      _ratingText = "Perfect!";
+      _ratingText = "최고에요!";
     }
   }
 }
