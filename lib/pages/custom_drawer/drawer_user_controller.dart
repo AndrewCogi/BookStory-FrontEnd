@@ -23,7 +23,7 @@ class DrawerUserController extends StatefulWidget {
   final AnimatedIconData? animatedIconData;
   final Widget? menuView;
   final DrawerIndex? screenIndex;
-  bool firstTime = true;
+  static bool firstTime = true;
 
   @override
   DrawerUserControllerState createState() => DrawerUserControllerState();
@@ -102,9 +102,9 @@ class DrawerUserControllerState extends State<DrawerUserController>
 
     // TODO : profile, release mode로 실행했을 때, 열려있는 네비게이션 메뉴 닫아줌 (최초 1회만 실행)
     // TODO : 해당 코드는 RUN 모드일 때, 에러를 일으킴. 개발 시에는 주석처리 필요.
-    // if(widget.firstTime){
+    // if(DrawerUserController.firstTime){
     //   getInitState();
-    //   widget.firstTime = false;
+    //   DrawerUserController.firstTime = false;
     // }
 
     return Scaffold(

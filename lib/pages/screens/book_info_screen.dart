@@ -200,7 +200,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                             foregroundColor: MaterialStateProperty.all<Color>(Colors.grey), // 글씨 색상 설정
                                           ),
                                           child: const Text(
-                                            "Rate book",
+                                            "평가하기",
                                             style: TextStyle(
                                               decorationThickness: 1,
                                               decoration: TextDecoration.underline, // 밑줄 추가
@@ -684,7 +684,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
           label: data.label,
           colors: data.colors,
           jumlah: maxX.toDouble(), // maxX 값을 초과하는 값을 maxX로 수정
-          tooltip: "${maxX}+", // 툴팁도 수정할 수 있습니다.
+          tooltip: "$maxX+", // 툴팁도 수정할 수 있습니다.
         );
       }
     }).toList();

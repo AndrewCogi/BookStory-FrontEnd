@@ -39,7 +39,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   vertical_barchart: ^2.0.0+2
   card_swiper: ^3.0.0
-#  wtf_sliding_sheet: ^1.1.0
+  wtf_sliding_sheet: ^1.1.0
   intl: ^0.18.0
   animations: ^2.0.3
   speech_to_text: ^6.0.0

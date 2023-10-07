@@ -21,6 +21,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
+  final searchController = TextEditingController();
+
+  @override
+  void dispose(){
+    searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -376,6 +383,7 @@ class HomeScreenState extends State<HomeScreen> {
                       child: Container(
                         padding: const EdgeInsets.only(left: 16, right: 16),
                         child: TextFormField(
+                          controller: searchController,
                           style: const TextStyle(
                             fontFamily: 'WorkSans',
                             fontWeight: FontWeight.bold,
@@ -398,14 +406,26 @@ class HomeScreenState extends State<HomeScreen> {
                               color: HexColor('#B9BABC'),
                             ),
                           ),
-                          onEditingComplete: () {safePrint('Searching...');},
+                          onEditingComplete: () {
+                            safePrint('Searching...${searchController.text}');
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 60,
-                      height: 60,
-                      child: Icon(Icons.search, color: HexColor('#B9BABC')),
+                    InkWell(
+                      onTap: () {
+                        safePrint('Searching...(icon)');
+                        FocusManager.instance.primaryFocus?.unfocus();
+                      },
+                      child: SizedBox(
+                        width: 60,
+                        height: 60,
+                        child: Icon(
+                          Icons.search,
+                          color: HexColor('#B9BABC'),
+                        ),
+                      ),
                     )
                   ],
                 ),
