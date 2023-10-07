@@ -10,6 +10,7 @@ import 'package:book_story/pages/list_views/society_culture_book_list_view.dart'
 import 'package:book_story/pages/list_views/sophistication_learning_book_list_view.dart';
 import 'package:book_story/pages/list_views/today_book_list_view.dart';
 import 'package:book_story/pages/screens/book_info_screen.dart';
+import 'package:book_story/pages/screens/search_result_screen.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,13 @@ class LibraryScreen extends StatefulWidget {
 }
 
 class LibraryScreenState extends State<LibraryScreen> {
+  final searchController = TextEditingController();
 
+  @override
+  void dispose(){
+    searchController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
@@ -499,7 +506,7 @@ class LibraryScreenState extends State<LibraryScreen> {
                           ),
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                            labelText: 'Search for book',
+                            labelText: 'Search for book title',
                             border: InputBorder.none,
                             helperStyle: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -513,14 +520,42 @@ class LibraryScreenState extends State<LibraryScreen> {
                               color: HexColor('#B9BABC'),
                             ),
                           ),
-                          onEditingComplete: () {safePrint('Searching...');},
+                          onEditingComplete: () {
+                            String title = searchController.text;
+                            safePrint('Searching(LibScreen)...$title');
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            Navigator.push<dynamic>(
+                              context,
+                              MaterialPageRoute<dynamic>(
+                                builder: (BuildContext context) => SearchResultScreen(title),
+                              ),
+                            );
+                            searchController.clear();
+                          },
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 60,
-                      height: 60,
-                      child: Icon(Icons.search, color: HexColor('#B9BABC')),
+                    InkWell(
+                      onTap: () {
+                        String title = searchController.text;
+                        safePrint('Searching(LibScreen)...(icon)...$title');
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        Navigator.push<dynamic>(
+                          context,
+                          MaterialPageRoute<dynamic>(
+                            builder: (BuildContext context) => SearchResultScreen(title),
+                          ),
+                        );
+                        searchController.clear();
+                      },
+                      child: SizedBox(
+                        width: 60,
+                        height: 60,
+                        child: Icon(
+                          Icons.search,
+                          color: HexColor('#B9BABC'),
+                        ),
+                      ),
                     )
                   ],
                 ),

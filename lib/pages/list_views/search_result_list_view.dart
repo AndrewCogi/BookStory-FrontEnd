@@ -1,3 +1,4 @@
+import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/models/book_model.dart';
@@ -10,17 +11,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class FavoriteListView extends StatefulWidget {
-  const FavoriteListView({Key? key, this.callBack}) : super(key: key);
+class SearchResultListView extends StatefulWidget {
+  const SearchResultListView(this.title, {Key? key, this.callBack}) : super(key: key);
+  final String title;
   final Function(Book)? callBack;
   @override
-  FavoriteListViewState createState() => FavoriteListViewState();
+  SearchResultListViewState createState() => SearchResultListViewState();
 }
 
-class FavoriteListViewState extends State<FavoriteListView>
+class SearchResultListViewState extends State<SearchResultListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
-  final AuthController _authController = AuthControllerImpl();
 
   @override
   void initState() {
@@ -40,11 +41,9 @@ class FavoriteListViewState extends State<FavoriteListView>
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 16),
       child: FutureBuilder<List<Book>>(
-          future: () async {
-            final email = await _authController.getCurrentUserEmail();
-            // ignore: use_build_context_synchronously
+          future: () {
             return Provider.of<AppDataProvider>(context, listen: false)
-                .getBooksByUserEmailFavorite(email);
+                .getBooksByTitle(widget.title);
           }(),
           builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
             if(snapshot.hasData){

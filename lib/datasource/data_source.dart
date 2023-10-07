@@ -9,4 +9,5 @@ abstract class DataSource {
   Future<bool?> getIsBookFavorite(String userEmail, int bookId);
   Future<bool> updateFavorite(String userEmail, int bookId, String cmd);
   Future<String> getDescription(String descriptionPath);
+  Future<List<Book>> getBooksByTitle(String title);
 }

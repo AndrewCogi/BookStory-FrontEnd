@@ -52,6 +52,28 @@ class AppDataSource extends DataSource{
     }
   }
 
+
+  @override
+  Future<List<Book>> getBooksByTitle(String title) async {
+    final url = '$baseUrl${'book'}/$title';
+    safePrint(url);
+    try{
+      final response = await http.get(
+        Uri.parse(url),
+        headers: header
+      );
+      if(response.statusCode == 200){
+        final mapList = json.decode(const Utf8Decoder().convert(response.bodyBytes)) as List;
+        safePrint(mapList);
+        return List.generate(mapList.length, (index) => Book.fromJson(mapList[index]));
+      }
+      return [];
+    }catch(error){
+      safePrint(error.toString());
+      rethrow;
+    }
+  }
+
   @override
   Future<List<Book>> getBooksByUserEmailFavorite(String userEmail) async {
     final String url = '$baseUrl${'favorite/'}$userEmail';

@@ -80,4 +80,10 @@ class DummyDataSource implements DataSource {
     // TODO: implement getDescription
     throw UnimplementedError();
   }
+
+  @override
+  Future<List<Book>> getBooksByTitle(String title) {
+    // TODO: implement getBooksByTitle
+    throw UnimplementedError();
+  }
 }
