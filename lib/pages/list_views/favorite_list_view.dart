@@ -49,6 +49,7 @@ class FavoriteListViewState extends State<FavoriteListView>
           builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
             if(snapshot.hasData){
               List<Book> bookList = snapshot.data!;
+              if(bookList.isEmpty) return const Center(child: Text('책장이 비어있어요.'));
               return ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),

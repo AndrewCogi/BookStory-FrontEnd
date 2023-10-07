@@ -59,6 +59,7 @@ class CategoryListViewState extends State<CategoryListView>
           builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
             if(snapshot.hasData){
               List<Book> bookList = snapshot.data!;
+              if(bookList.isEmpty) return const Center(child: Text('책장이 비어있어요.'));
               return ListView.builder(
                 controller: CategoryListView.scrollController,
                 padding: const EdgeInsets.only(

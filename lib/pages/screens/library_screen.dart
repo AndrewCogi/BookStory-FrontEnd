@@ -173,7 +173,7 @@ class LibraryScreenState extends State<LibraryScreen> {
           ),
         ),
         SizedBox(
-          height: 170,
+          height: 190,
           child: FairyTaleCreativeBookListView(
             callBack: (Book c) {
               moveTo(c);
@@ -228,7 +228,7 @@ class LibraryScreenState extends State<LibraryScreen> {
           ),
         ),
         SizedBox(
-          height: 170,
+          height: 190,
           child: SophisticationLearningBookListView(
             callBack: (Book c) {
               moveTo(c);
@@ -283,7 +283,7 @@ class LibraryScreenState extends State<LibraryScreen> {
           ),
         ),
         SizedBox(
-          height: 170,
+          height: 190,
           child: LifeStyleHabitsBookListView(
             callBack: (Book c) {
               moveTo(c);
@@ -338,7 +338,7 @@ class LibraryScreenState extends State<LibraryScreen> {
           ),
         ),
         SizedBox(
-          height: 170,
+          height: 190,
           child: SocietyCultureBookListView(
             callBack: (Book c) {
               moveTo(c);
@@ -393,7 +393,7 @@ class LibraryScreenState extends State<LibraryScreen> {
           ),
         ),
         SizedBox(
-          height: 170,
+          height: 190,
           child: MasterpieceClassicBookListView(
             callBack: (Book c) {
               moveTo(c);
@@ -448,7 +448,7 @@ class LibraryScreenState extends State<LibraryScreen> {
           ),
         ),
         SizedBox(
-          height: 170,
+          height: 190,
           child: NaturalScienceBookListView(
             callBack: (Book c) {
               moveTo(c);
@@ -498,6 +498,7 @@ class LibraryScreenState extends State<LibraryScreen> {
                       child: Container(
                         padding: const EdgeInsets.only(left: 16, right: 16),
                         child: TextFormField(
+                          controller: searchController,
                           style: const TextStyle(
                             fontFamily: 'WorkSans',
                             fontWeight: FontWeight.bold,
@@ -524,12 +525,17 @@ class LibraryScreenState extends State<LibraryScreen> {
                             String title = searchController.text;
                             safePrint('Searching(LibScreen)...$title');
                             FocusManager.instance.primaryFocus?.unfocus();
-                            Navigator.push<dynamic>(
+                            if(title.trim()=="") {
+                              return;
+                            }
+                            else {
+                              Navigator.push<dynamic>(
                               context,
                               MaterialPageRoute<dynamic>(
-                                builder: (BuildContext context) => SearchResultScreen(title),
-                              ),
-                            );
+                                  builder: (BuildContext context) => SearchResultScreen(title),
+                                ),
+                              );
+                            }
                             searchController.clear();
                           },
                         ),
@@ -540,12 +546,17 @@ class LibraryScreenState extends State<LibraryScreen> {
                         String title = searchController.text;
                         safePrint('Searching(LibScreen)...(icon)...$title');
                         FocusManager.instance.primaryFocus?.unfocus();
-                        Navigator.push<dynamic>(
-                          context,
-                          MaterialPageRoute<dynamic>(
-                            builder: (BuildContext context) => SearchResultScreen(title),
-                          ),
-                        );
+                        if(title.trim()=="") {
+                          return;
+                        }
+                        else {
+                          Navigator.push<dynamic>(
+                            context,
+                            MaterialPageRoute<dynamic>(
+                              builder: (BuildContext context) => SearchResultScreen(title),
+                            ),
+                          );
+                        }
                         searchController.clear();
                       },
                       child: SizedBox(

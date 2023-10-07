@@ -48,6 +48,7 @@ class SearchResultListViewState extends State<SearchResultListView>
           builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
             if(snapshot.hasData){
               List<Book> bookList = snapshot.data!;
+              if(bookList.isEmpty) return const Center(child: Text('검색 결과가 없습니다.'));
               return ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),

@@ -42,6 +42,7 @@ class TodayBookListViewState extends State<TodayBookListView>
         builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
           if (snapshot.hasData) {
             List<Book> bookList = snapshot.data!;
+            if(bookList.isEmpty) return const Center(child: Text('책장이 비어있어요.'));
             return GridView(
               padding: const EdgeInsets.all(10),
               physics: const BouncingScrollPhysics(),

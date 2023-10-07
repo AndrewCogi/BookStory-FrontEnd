@@ -202,6 +202,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                           child: const Text(
                                             "평가하기",
                                             style: TextStyle(
+                                              fontWeight: FontWeight.w600,
                                               decorationThickness: 1,
                                               decoration: TextDecoration.underline, // 밑줄 추가
                                             ),
@@ -368,24 +369,39 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                                         Row(
                                                           mainAxisAlignment: MainAxisAlignment.center,
                                                           children: <Widget>[
-                                                            Center(
-                                                              child: SizedBox(
-                                                                  width: MediaQuery.of(context).size.width * 0.1,
-                                                                  child: Center(
-                                                                    child: Text(
-                                                                      _calculateWeightedAverage(bardata).toString().substring(0,3),
-                                                                      style: TextStyle(fontSize: MediaQuery.of(context).size.width*0.06),
-                                                                    ),
-                                                                  )
-                                                              ),
+                                                            Column(
+                                                              children: [
+                                                                const Icon(
+                                                                  Icons.star,
+                                                                  color: Colors.yellow,
+                                                                  size: 40,
+                                                                ),
+                                                                Center(
+                                                                  child: SizedBox(
+                                                                      width: MediaQuery.of(context).size.width * 0.1,
+                                                                      child: Center(
+                                                                        child: Text(
+                                                                          _calculateWeightedAverage(bardata).toString().substring(0,3),
+                                                                          style: TextStyle(fontSize: MediaQuery.of(context).size.width*0.03+10, fontWeight: FontWeight.bold),
+                                                                        ),
+                                                                      )
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
+
                                                             Expanded(
                                                               child: _buildGraph(bardata),
                                                             ),
                                                           ],
                                                         ),
                                                         const Divider(thickness: 1),
-
+                                                          Column(
+                                                            children: [
+                                                              // TODO : 댓글 리스트 만들기
+                                                              ElevatedButton(onPressed: (){}, child: Text('x'))
+                                                            ],
+                                                          ),
                                                       ],
                                                     )
                                                   )

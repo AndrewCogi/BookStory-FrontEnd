@@ -5,7 +5,6 @@ import 'package:book_story/models/book_model.dart';
 import 'package:book_story/pages/list_views/popular_book_list_view.dart';
 import 'package:book_story/main.dart';
 import 'package:book_story/pages/list_views/new_book_list_view.dart';
-import 'package:book_story/pages/list_views/search_result_list_view.dart';
 import 'package:book_story/pages/screens/book_info_screen.dart';
 import 'package:book_story/pages/screens/search_result_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
@@ -412,12 +411,17 @@ class HomeScreenState extends State<HomeScreen> {
                             String title = searchController.text;
                             safePrint('Searching(HomeScreen)...$title');
                             FocusManager.instance.primaryFocus?.unfocus();
-                            Navigator.push<dynamic>(
-                              context,
-                              MaterialPageRoute<dynamic>(
-                                builder: (BuildContext context) => SearchResultScreen(title),
-                              ),
-                            );
+                            if(title.trim()=="") {
+                              return;
+                            }
+                            else {
+                              Navigator.push<dynamic>(
+                                context,
+                                MaterialPageRoute<dynamic>(
+                                  builder: (BuildContext context) => SearchResultScreen(title),
+                                ),
+                              );
+                            }
                             searchController.clear();
                           },
                         ),
@@ -428,12 +432,17 @@ class HomeScreenState extends State<HomeScreen> {
                         String title = searchController.text;
                         safePrint('Searching(HomeScreen)...(icon)...$title');
                         FocusManager.instance.primaryFocus?.unfocus();
-                        Navigator.push<dynamic>(
-                          context,
-                          MaterialPageRoute<dynamic>(
-                            builder: (BuildContext context) => SearchResultScreen(title),
-                          ),
-                        );
+                        if(title.trim()=="") {
+                          return;
+                        }
+                        else {
+                          Navigator.push<dynamic>(
+                            context,
+                            MaterialPageRoute<dynamic>(
+                              builder: (BuildContext context) => SearchResultScreen(title),
+                            ),
+                          );
+                        }
                         searchController.clear();
                       },
                       child: SizedBox(
