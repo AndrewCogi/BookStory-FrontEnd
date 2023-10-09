@@ -211,7 +211,7 @@ class CategoryView extends StatelessWidget {
                                                 HelperFunctions.makeBookInfo(book.categoryAge,book.categoryType,1,book.bookPage),
                                                 textAlign: TextAlign.left,
                                                 style: const TextStyle(
-                                                  fontWeight: FontWeight.w200,
+                                                  fontWeight: FontWeight.w500,
                                                   fontSize: 12,
                                                   letterSpacing: 0.27,
                                                   color: BookStoryAppTheme
