@@ -10,9 +10,14 @@ import 'package:book_story/utils/helper_functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class AuthControllerImpl implements AuthController {
-  // final AppDataSource _appDataSource = AppDataSource();
+
+  Future<Map<String, String>> get authHeader async => {
+    'Content-Type' : 'application/json',
+    'Authorization' : 'Bearer ${await getCurrentUserAccessToken()}',
+  };
 
   @override
   Future<String?> configureAmplify() async {
@@ -21,7 +26,7 @@ class AuthControllerImpl implements AuthController {
     final analytics = AmplifyAnalyticsPinpoint();
 
     try{
-      Amplify.addPlugins([auth, analytics]);
+      Amplify.addPlugins([auth,analytics]);
       await Amplify.configure(amplifyconfig);
       configured = true;
     } on UnknownException catch(e) {
@@ -33,9 +38,38 @@ class AuthControllerImpl implements AuthController {
       safePrint('Successfully configured Amplify!');
       safePrint('Check auth state...');
       HomeDrawer.isLogin = await checkAuthState();
+      String userEmail = await getCurrentUserEmail();
+      String nowUserID = userEmail.split('@')[0];
+      nowUserID == "" ? HomeDrawer.userID="Guest User" : HomeDrawer.userID=nowUserID;
       safePrint("HomeDrawer.isLogin : ${HomeDrawer.isLogin}");
+      // 로그인 만료 확인
+      if(HomeDrawer.isLogin == true && await tokenIsValid(userEmail) == false){
+        safePrint("로그인 만료임!");
+        // TODO : 만료를 팝업으로 알리고 로그아웃 실시
+      } else {safePrint("로그인 만료 아님! 아니면 로그인 안함!");}
     }
     return null;
+  }
+
+  @override
+  Future<bool> tokenIsValid(String userEmail) async {
+    final String url = 'http://sgm.cloudsoft-bookstory.com/api/auth/tokenValid?userEmail=$userEmail';
+    safePrint(url);
+    try{
+      final http.Response response;
+      response = await http.get(
+          Uri.parse(url),
+          headers: await authHeader
+      );
+      safePrint("response.body: ${response.body}");
+      if(response.statusCode == 200) {
+        return (response.body).toLowerCase() != "false";
+      }
+      return false;
+    }catch(error){
+      safePrint(error.toString());
+      rethrow;
+    }
   }
 
   @override
@@ -69,7 +103,7 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
-  Future<String> onSignUp(User data) async {
+  Future<String> onSignUp(User data, BuildContext context) async {
     try {
       await Amplify.Auth.signUp(
           username: data.userEmail,
@@ -77,7 +111,9 @@ class AuthControllerImpl implements AuthController {
           options: SignUpOptions(
               userAttributes: {CognitoUserAttributeKey.email: data.userEmail})
       );
-      await recordSignUp(data.userEmail); // TODO : 이메일 인증까지 완료하고 호출하도록 변경하기
+
+      // 정상적으로 회원가입이 확인됨
+      await recordSignUp(data.userEmail);
       safePrint('[onSignUp Result] : SUCCESS!');
       return '';
     } on AuthException catch (e) {
@@ -87,8 +123,9 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
-  Future<String> onLogin(User data) async {
+  Future<String> onLogin(User data, BuildContext context) async {
     try {
+      // 로그인 실시
       SignInResult res = await Amplify.Auth.signIn(
           username: data.userEmail, password: data.password);
 
@@ -99,6 +136,17 @@ class AuthControllerImpl implements AuthController {
       if(isSignedIn == false){
         throw Exception('Unconfirmed.');
       }
+
+      // DB에 로그인 등록
+      bool saveDB = await Provider.of<AppDataProvider>(context, listen: false).updateUser('login',data.userEmail);
+
+      // 정상적으로 DB에 등록되지 않음.
+      if(saveDB == false){
+        // cognito에서 로그아웃하고 예외처리
+        onLogout(context);
+        throw Exception('Error in DB. Try again.');
+      }
+
       // 정상적으로 로그인이 확인됨
       await recordLogin(data.userEmail);
       safePrint('[onLogin Result] : SUCCESS!');
@@ -114,7 +162,6 @@ class AuthControllerImpl implements AuthController {
 
   @override
   Future<bool> onLogout(BuildContext context) async {
-    // TODO : DB에 로그아웃 알림
     Provider.of<AppDataProvider>(context, listen: false).updateUser('logout',await getCurrentUserEmail()).then((_) => {
       Amplify.Auth.signOut().then((_) {
       return true;
@@ -125,7 +172,6 @@ class AuthControllerImpl implements AuthController {
 
   @override
   Future<bool> onDeleteAccount(BuildContext context) async {
-    // TODO : DB에 회원탈퇴 알림
     Provider.of<AppDataProvider>(context, listen: false).updateUser('remove',await getCurrentUserEmail()).then((_) => {
       Amplify.Auth.deleteUser().then((_) {
         return true;
@@ -135,21 +181,38 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
-  Future<String> verifyCode(User data, String code) async {
+  Future<String> verifyCode(User data, String code, BuildContext context) async {
     safePrint('email: ${data.userEmail}, code: "+$code');
     String result = "Unknown Error. Try again.";
     try {
+      // DB에 회원가입 등록
+      bool saveDB = await Provider.of<AppDataProvider>(context, listen: false).updateUser('add',data.userEmail);
+
+      // 정상적으로 DB에 등록되지 않음.
+      if(saveDB == false){
+        // cognito에서 회원탈퇴하고 예외처리
+        // onDeleteAccount(context);
+        throw Exception('Error in DB. Try again.');
+      }
+
       SignUpResult res = await Amplify.Auth.confirmSignUp(
           username: data.userEmail, confirmationCode: code);
 
-      if (res.isSignUpComplete) {
-        // 회원 가입 성공!!
-        safePrint('SIGNUP SUCCESS!');
-        result = '';
+      bool isSignedUp = res.isSignUpComplete;
+
+      if(isSignedUp == false){
+        throw Exception('Unconfirmed.');
       }
+
+      // 회원 가입 성공!!
+      safePrint('SIGNUP SUCCESS!');
+      result = '';
     } on AuthException catch (e) {
       // 에러 핸들링
       result = e.message;
+    } on Exception catch (e) {
+      safePrint('[onSignUp Result] : $e');
+      return e.toString();
     }
     return result;
   }
@@ -194,7 +257,7 @@ class AuthControllerImpl implements AuthController {
     // String? idToken = (result as CognitoAuthSession).userPoolTokensResult.valueOrNull?.idToken.raw;
     // safePrint('[IdToken]: $idToken');
     String? accessToken = (result as CognitoAuthSession).userPoolTokensResult.valueOrNull?.accessToken.raw;
-    safePrint('[AccessToken]: $accessToken');
+    // safePrint('[AccessToken]: $accessToken');
     // String? refreshToken = (result as CognitoAuthSession).userPoolTokensResult.valueOrNull?.refreshToken;
     // safePrint('[RefreshToken]: $refreshToken');
 
@@ -300,11 +363,9 @@ class AuthControllerImpl implements AuthController {
     };
 
     safePrint('AUTH!');
-    String signUpResult = await onSignUp(appUserData);
+    String signUpResult = await onSignUp(appUserData, context);
     // 회원가입 성공
     if(signUpResult == '') {
-      // TODO : DB에 회원가입 알림
-      Provider.of<AppDataProvider>(context, listen: false).updateUser('add',appUserData.userEmail);
       return null;
     }
     // 회원가입 실패. 사유 작성해서 반환.
@@ -323,11 +384,10 @@ class AuthControllerImpl implements AuthController {
     };
 
     safePrint('LOGIN!');
-    String loginResult = await  onLogin(appUserData);
+    String loginResult = await onLogin(appUserData, context);
     // 로그인 성공
     if (loginResult == '') {
-      // TODO : DB에 로그인 알림
-      Provider.of<AppDataProvider>(context, listen: false).updateUser('login',appUserData.userEmail);
+      HomeDrawer.userID = (await getCurrentUserEmail()).split('@')[0];
       return null;
     }
     // 로그인 실패. 사유 작성해서 반환.

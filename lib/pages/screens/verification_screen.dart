@@ -104,7 +104,7 @@ class VerificationScreenState extends State<VerificationScreen> {
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                           ),
-                          child: const Text('Verify',),
+                          child: const Text('Verify'),
                         ),
                       ],
                     ),
@@ -151,7 +151,7 @@ class VerificationScreenState extends State<VerificationScreen> {
       errorMessageVerificationCode = "";
     });
     // verification
-    String result = await _authController.verifyCode(widget.appUserData, _verificationCodeController.text);
+    String result = await _authController.verifyCode(widget.appUserData, _verificationCodeController.text, context);
     // if failed
     if(result!=""){
       setState(() {

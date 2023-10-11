@@ -318,18 +318,13 @@ class HomeScreenState extends State<HomeScreen> {
             borderRadius: const BorderRadius.all(Radius.circular(24.0)),
             onTap: () {
               safePrint('$nowCategory clicked.');
-              Provider.of<AppDataProvider>(context, listen: false)
-                  .getBooksByCategory([categoryTypeData], 5)
-                  .then((bookList) {
-                    safePrint('[Home - Category] query result: [${bookList.map((book) => book.title).toList().join(' / ')}]');
-                    if(HomeScreen.categoryType != categoryTypeData){
-                      CategoryListView.scrollToStartChange();
-                    } else {
-                      CategoryListView.scrollToStartSame();
-                    }
-                    setState(() {
-                      HomeScreen.categoryType = categoryTypeData;
-                    });
+              if(HomeScreen.categoryType != categoryTypeData){
+                CategoryListView.scrollToStartChange();
+              } else {
+                CategoryListView.scrollToStartSame();
+              }
+              setState(() {
+                HomeScreen.categoryType = categoryTypeData;
               });
             },
             child: Padding(

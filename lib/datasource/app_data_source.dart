@@ -15,7 +15,7 @@ class AppDataSource extends DataSource{
   final String baseUrl = 'http://sgm.cloudsoft-bookstory.com/api/';
 
   Map<String, String> get header => {
-    'Content-Type' : 'application/json'
+    'Content-Type' : 'application/json',
   };
 
   Future<Map<String, String>> get authHeader async => {
@@ -41,11 +41,17 @@ class AppDataSource extends DataSource{
           Uri.parse(url),
           headers: header
       );
+      safePrint("1. response.body: ${response.body}");
+      safePrint("2. response.statusCode: ${response.statusCode}");
       if(response.statusCode == 200){
-        final mapList = json.decode(const Utf8Decoder().convert(response.bodyBytes)) as List;
-        return List.generate(mapList.length, (index) => Book.fromJson(mapList[index]));
+        final Map<String, dynamic> jsonData = json.decode(const Utf8Decoder().convert(response.bodyBytes));
+        final List<Map<String, dynamic>> responseList = List<Map<String, dynamic>>.from(jsonData['response']);
+        final List<Book> books = responseList.map((map) => Book.fromJson(map)).toList();
+        return books;
       }
-      return [];
+      else{
+        throw Exception('StatusCode: ${response.statusCode}');
+      }
     }catch(error){
       safePrint(error.toString());
       rethrow;
@@ -62,12 +68,17 @@ class AppDataSource extends DataSource{
         Uri.parse(url),
         headers: header
       );
+      safePrint("1. response.body: ${response.body}");
+      safePrint("2. response.statusCode: ${response.statusCode}");
       if(response.statusCode == 200){
-        final mapList = json.decode(const Utf8Decoder().convert(response.bodyBytes)) as List;
-        safePrint(mapList);
-        return List.generate(mapList.length, (index) => Book.fromJson(mapList[index]));
+        final Map<String, dynamic> jsonData = json.decode(const Utf8Decoder().convert(response.bodyBytes));
+        final List<Map<String, dynamic>> responseList = List<Map<String, dynamic>>.from(jsonData['response']);
+        final List<Book> books = responseList.map((map) => Book.fromJson(map)).toList();
+        return books;
       }
-      return [];
+      else{
+        throw Exception('StatusCode: ${response.statusCode}');
+      }
     }catch(error){
       safePrint(error.toString());
       rethrow;
@@ -104,21 +115,17 @@ class AppDataSource extends DataSource{
     safePrint(url);
     try{
       final http.Response response;
-      if(cmd != "remove") {
-        response = await http.post(
+
+      response = await http.post(
         Uri.parse(url),
         headers: header,
         body: json.encode({'userEmail': userEmail})
       );
-      } else {
-        response = await http.post(
-            Uri.parse(url),
-            headers: await authHeader,
-            body: json.encode({'userEmail': userEmail})
-        );
-      }
+
       safePrint("response.body: ${response.body}");
-      if(response.statusCode == 200){
+      // JSON 문자열을 Map으로 파싱
+      Map<String, dynamic> parsedJson = json.decode(response.body);
+      if(parsedJson['statusCode'] == 200){
         return true;
       }
       return false;
@@ -148,20 +155,23 @@ class AppDataSource extends DataSource{
   @override
   Future<bool?> getIsBookFavorite(String userEmail, int bookId) async {
     final String url = '$baseUrl${'favorite/'}$userEmail/$bookId';
+    final headers = await authHeader;
     safePrint(url);
     try{
       final http.Response response;
         response = await http.get(
             Uri.parse(url),
-            headers: await authHeader
+            headers: headers,
         );
 
-      safePrint("response.body: ${response.body}");
-      if(response.statusCode == 200){
-        // JSON 문자열을 Map으로 파싱
-        Map<String, dynamic> parsedJson = json.decode(response.body);
+      safePrint("1. response.body: ${response.body}");
+      safePrint("2. response.statusCode: ${response.statusCode}"); // TODO : 왜 이 1,2번 값이 다른걸까..
+      // JSON 문자열을 Map으로 파싱
+      Map<String, dynamic> parsedJson = json.decode(response.body);
+      safePrint("3. response.statusCode in parsedJson: ${parsedJson['statusCode']}");
+      if(parsedJson['statusCode'] == 200){
         bool responseValue = parsedJson['response'];
-        safePrint(responseValue);
+        safePrint("responseValue: $responseValue");
         return responseValue;
       }
       safePrint("[getIsBookFavorite]: UnAuthorized");
@@ -173,21 +183,19 @@ class AppDataSource extends DataSource{
   }
 
   @override
-  Future<bool> updateFavorite(String userEmail, int bookId, String cmd) async {
+  Future<int> updateFavorite(String userEmail, int bookId, String cmd) async {
     final String url = '$baseUrl${'favorite/'}$cmd';
     safePrint(url);
     try{
       final http.Response response;
       response = await http.post(
         Uri.parse(url),
-        headers: header,
+        headers: await authHeader,
         body: json.encode({'user':{'userEmail':userEmail}, 'book':{'bookId':bookId}})
       );
-      safePrint("response.body: ${response.body}");
-      if(response.statusCode == 200){
-        return true;
-      }
-      return false;
+      safePrint("1. response.body: ${response.body}");
+      safePrint("2. response.statusCode: ${response.statusCode}"); // TODO : 서버 고쳐서 모든 response.body를 response.statusCode와 맞춤..ㅠㅠ 확인하기!
+      return response.statusCode;
     }catch(error){
       safePrint(error.toString());
       rethrow;

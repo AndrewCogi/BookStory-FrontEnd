@@ -78,7 +78,7 @@ class LifeStyleHabitsBookListViewState extends State<LifeStyleHabitsBookListView
             );
           }
           if(snapshot.hasError){
-            return const Center(child: Text('Failed to fetch data'));
+            return Center(child: Text('Failed to fetch data. (${snapshot.error})'));
           }
           return Center(
               child: Column(

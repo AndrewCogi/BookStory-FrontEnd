@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:book_story/datasource/app_data_source.dart';
 import 'package:book_story/datasource/data_source.dart';
-import 'package:book_story/datasource/dummy_data_source.dart';
 import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,7 +24,7 @@ class AppDataProvider extends ChangeNotifier {
   Future<bool?> getIsBookFavorite(String userEmail, int bookId){
     return _dataSource.getIsBookFavorite(userEmail, bookId);
   }
-  Future<bool> updateFavorite(String userEmail, int bookId, String cmd){
+  Future<int> updateFavorite(String userEmail, int bookId, String cmd){
     return _dataSource.updateFavorite(userEmail, bookId, cmd);
   }
   Future<List<Book>> getBooksByTitle(String title){

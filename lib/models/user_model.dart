@@ -4,7 +4,7 @@ class User {
   String userEmail;
   String password;
   UserStatus? userStatus;
-  DateTime? lastLoginTime;
+  DateTime? lastStatusUpdateTime;
 
   User({
     required this.userEmail,

@@ -615,10 +615,17 @@ class BookInfoScreenState extends State<BookInfoScreen>
         child: InkWell(
           borderRadius: BorderRadius.circular(50),
           onTap: (){
-            Provider.of<AppDataProvider>(context, listen: false).updateFavorite(userEmail, widget.book.bookId, 'add').then((result) => {
-              if(result == true){
+            Provider.of<AppDataProvider>(context, listen: false).updateFavorite(userEmail, widget.book.bookId, 'add').then((resultCode) => {
+              safePrint('Add Favorite Result : $resultCode'),
+              if(resultCode == 200){ // 정상적으로 추가가 되었을 때
                 setState(() {}),
                 safePrint('Add Favorite!')
+              }else if(resultCode == 400){ // 중복로그인한 누군가가 이미 추가했을 때
+                // 최신화만 진행
+                setState(() {}),
+              }
+              else{
+                safePrint('[Add Favorite button] : Login first!')
               }
             });
           },
@@ -646,10 +653,17 @@ class BookInfoScreenState extends State<BookInfoScreen>
         child: InkWell(
           borderRadius: BorderRadius.circular(50),
           onTap: (){
-            Provider.of<AppDataProvider>(context, listen: false).updateFavorite(userEmail, widget.book.bookId, 'remove').then((result) => {
-              if(result == true){
+            Provider.of<AppDataProvider>(context, listen: false).updateFavorite(userEmail, widget.book.bookId, 'remove').then((resultCode) => {
+              safePrint('Remove Favorite Result : $resultCode'),
+              if(resultCode == 200){ // 정상적으로 삭제가 되었을 때
                 setState(() {}),
                 safePrint('Remove Favorite!')
+              }else if(resultCode == 400){ // 중복로그인한 누군가가 이미 삭제했을 때 (삭제할게 없을 때)
+                // 최신화만 진행
+                setState(() {}),
+              }
+              else{
+                safePrint('[Remove Favorite button] : Login first!')
               }
             });
           },
@@ -670,22 +684,45 @@ class BookInfoScreenState extends State<BookInfoScreen>
     // 셋 다 아닌 상태. 로딩중 등
     else {
       return Card(
-        color: Colors.transparent,
+        color: BookStoryAppTheme.nearlyBlue,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50.0)),
         elevation: 10.0,
         child: InkWell(
           borderRadius: BorderRadius.circular(50),
-          onTap: (){
-            safePrint('Unknown.. Loading..?');
+          onTap: () {
+            safePrint('Login First! (in _buildHeartIcon func)');
           },
           child: const SizedBox(
             width: 60,
             height: 60,
-            child: Center(),
+            child: Center(
+              child: Icon(
+                Icons.favorite,
+                color: Colors.white,
+                size: 30,
+              ),
+            ),
           ),
         ),
       );
+      // return Card(
+      //   color: Colors.transparent,
+      //   shape: RoundedRectangleBorder(
+      //       borderRadius: BorderRadius.circular(50.0)),
+      //   elevation: 10.0,
+      //   child: InkWell(
+      //     borderRadius: BorderRadius.circular(50),
+      //     onTap: (){
+      //       safePrint('Unknown.. Loading..?');
+      //     },
+      //     child: const SizedBox(
+      //       width: 60,
+      //       height: 60,
+      //       child: Center(),
+      //     ),
+      //   ),
+      // );
     }
   }
 

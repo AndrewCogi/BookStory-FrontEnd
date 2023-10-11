@@ -9,15 +9,15 @@ abstract class AuthController{
   // 회원가입 로그 저장
   Future<void> recordSignUp(String userEmail);
   // 회원가입 요청
-  Future<String> onSignUp(User data);
+  Future<String> onSignUp(User data, BuildContext context);
   // 로그인 요청
-  Future<String> onLogin(User data);
+  Future<String> onLogin(User data, BuildContext context);
   // 로그아웃 요청
   Future<bool> onLogout(BuildContext context);
   // 계정 삭제 요청
   Future<bool> onDeleteAccount(BuildContext context);
   // 이메일 인증 요청
-  Future<String> verifyCode(User data, String code);
+  Future<String> verifyCode(User data, String code, BuildContext context);
   // 현재 로그인 상태 확인.
   Future<bool> checkAuthState();
   // 로그인한 유저 email 반환. 로그인 정보가 없다면 "" 반환
@@ -30,10 +30,10 @@ abstract class AuthController{
   String isPasswordValid(String password);
   // 로그인 문자열 검증 절차 진행 - 이 문자열(email,pw)로 Cognito에 로그인/회원가입을 시도해 봐도 되는가를 확인함
   Future<Map<String, dynamic>?> verificationProcessIDPW(BuildContext context, User appUserData);
-  // access Token 검증 진행
-  // Future<void> validateToken(String accessToken);
   // 로그인 절차 진행
   Future<Map<String, dynamic>?> loginProcess(User appUserData, BuildContext context);
   // 회원가입 절차 진행
   Future<Map<String, dynamic>?> signUpProcess(User appUserData, BuildContext context);
+  // 사용자 토큰 유효성 검사
+  Future<bool> tokenIsValid(String userEmail);
 }

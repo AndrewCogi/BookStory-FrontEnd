@@ -17,10 +17,14 @@ class CategoryListView extends StatefulWidget {
   static AnimationController? animationController;
   static void scrollToStartChange(){
     animationController!.reset();
-    scrollController!.jumpTo(0);
+    if(scrollController!.positions.isNotEmpty) {
+      scrollController!.jumpTo(0);
+    }
   }
   static void scrollToStartSame(){
-    scrollController!.animateTo(0, duration: const Duration(milliseconds: 700), curve: Curves.easeInOut);
+    if(scrollController!.positions.isNotEmpty) {
+      scrollController!.animateTo(0, duration: const Duration(milliseconds: 700), curve: Curves.easeInOut);
+    }
   }
 
   final Function(Book)? callBack;
@@ -85,7 +89,7 @@ class CategoryListViewState extends State<CategoryListView>
               );
             }
             if(snapshot.hasError){
-              return const Center(child: Text('Failed to fetch data'));
+              return Center(child: Text('Failed to fetch data. (${snapshot.error})'));
             }
             return Center(
               child: Column(

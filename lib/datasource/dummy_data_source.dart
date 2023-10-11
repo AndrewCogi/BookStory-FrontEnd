@@ -70,7 +70,7 @@ class DummyDataSource implements DataSource {
   }
 
   @override
-  Future<bool> updateFavorite(String userEmail, int bookId, String cmd) {
+  Future<int> updateFavorite(String userEmail, int bookId, String cmd) {
     // TODO: implement updateFavorite
     throw UnimplementedError();
   }

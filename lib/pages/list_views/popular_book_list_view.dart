@@ -78,7 +78,7 @@ class PopularBookListViewState extends State<PopularBookListView>
             );
           }
           if(snapshot.hasError){
-            return const Text('Failed to fetch data');
+            return Center(child: Text('Failed to fetch data. (${snapshot.error})'));
           }
           return Center(
               child: Column(

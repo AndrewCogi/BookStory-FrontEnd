@@ -19,6 +19,7 @@ class HomeDrawer extends StatefulWidget {
   final DrawerIndex? screenIndex;
   final Function(DrawerIndex)? callBackIndex;
   static bool? isLogin;
+  static String userID = "Checking...";
 
   @override
   HomeDrawerState createState() => HomeDrawerState();
@@ -131,15 +132,17 @@ class HomeDrawerState extends State<HomeDrawer> {
                     },
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 8, left: 13),
-                    child: Text(
-                      'DalMuDee',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: isLightMode ? AppTheme.grey : AppTheme.white,
-                        fontSize: 18,
+                    padding: const EdgeInsets.only(top: 12, left: 10, right: 10),
+                    child: FittedBox(
+                      child: Text(
+                        HomeDrawer.userID,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: isLightMode ? AppTheme.grey : AppTheme.white,
+                          fontSize: 18,
+                        ),
                       ),
-                    ),
+                    )
                   ),
                 ],
               ),
@@ -234,6 +237,7 @@ class HomeDrawerState extends State<HomeDrawer> {
               _authController.onLogout(context);
               setState(() {
                 HomeDrawer.isLogin = false;
+                HomeDrawer.userID = 'Guest User';
               });
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Logout Complete')));
             },
