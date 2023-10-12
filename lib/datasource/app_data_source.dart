@@ -122,10 +122,9 @@ class AppDataSource extends DataSource{
         body: json.encode({'userEmail': userEmail})
       );
 
-      safePrint("response.body: ${response.body}");
-      // JSON 문자열을 Map으로 파싱
-      Map<String, dynamic> parsedJson = json.decode(response.body);
-      if(parsedJson['statusCode'] == 200){
+      safePrint("1. response.body: ${response.body}");
+      safePrint("2. response.statusCode: ${response.statusCode}");
+      if(response.statusCode == 200){
         return true;
       }
       return false;

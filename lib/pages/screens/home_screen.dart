@@ -7,11 +7,9 @@ import 'package:book_story/main.dart';
 import 'package:book_story/pages/list_views/new_book_list_view.dart';
 import 'package:book_story/pages/screens/book_info_screen.dart';
 import 'package:book_story/pages/screens/search_result_screen.dart';
-import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static CategoryType categoryType = CategoryType.age4plus;

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/controllers/impl/auth_controller_impl.dart';
@@ -10,9 +12,13 @@ import 'package:book_story/pages/screens/feedback_screen.dart';
 import 'package:book_story/pages/screens/home_screen.dart';
 import 'package:book_story/pages/screens/library_screen.dart';
 import 'package:book_story/pages/screens/voice_screen.dart';
-import 'package:book_story/utils/helper_functions.dart';
 import 'package:book_story/utils/main_app_theme.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class NavigationHomeScreen extends StatefulWidget{
   const NavigationHomeScreen({super.key});
@@ -27,6 +33,10 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
   bool? isLogin;
   final AuthController _authController = AuthControllerImpl();
 
+  late StreamSubscription subscription;
+  bool isDeviceConnected = false;
+  bool isAlertSet = false;
+
   @override
   void initState(){
     drawerIndex = DrawerIndex.home;
@@ -36,18 +46,66 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
     _asyncTask();
   }
 
+  checkConnectivity({bool terminate = true}) async {
+    safePrint('Check Connectivity...');
+    isDeviceConnected = await InternetConnectionChecker().hasConnection;
+    if (!isDeviceConnected && isAlertSet == false) {
+      showDialogBox(terminate);
+      setState(() => isAlertSet = true);
+      if(terminate == true) FlutterNativeSplash.remove(); // 강제종료할거라면 splash_screen 없애기.
+    }
+  }
+
+  getConnectivity() =>
+      subscription = Connectivity().onConnectivityChanged.listen(
+            (ConnectivityResult result) async {
+              safePrint('Get Connectivity...');
+          isDeviceConnected = await InternetConnectionChecker().hasConnection;
+          if (!isDeviceConnected && isAlertSet == false) {
+            showDialogBox(false);
+            setState(() => isAlertSet = true);
+          }
+        },
+      );
+
+  showDialogBox(bool terminate) => showCupertinoDialog<String>(
+    context: context,
+    builder: (BuildContext context) => CupertinoAlertDialog(
+      title: const Text('No Internet Connection'),
+      content: const Text('Please check your internet connectivity'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () async {
+            if(terminate == true) SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+            Navigator.pop(context, 'Cancel');
+            setState(() => isAlertSet = false);
+            isDeviceConnected =
+            await InternetConnectionChecker().hasConnection;
+            if (!isDeviceConnected && isAlertSet == false) {
+              showDialogBox(terminate);
+              setState(() => isAlertSet = true);
+            }
+          },
+          child: terminate==true ? const Text('Exit',style: TextStyle(fontSize: 17)) : const Text('Retry',style: TextStyle(fontSize: 17)),
+        ),
+      ],
+    ),
+  );
+
   void _asyncTask() async {
-    // 인터넷 연결 확인
-    if(await HelperFunctions.internetConnectionIsAlive(context, true)){
-      String? result = await _authController.configureAmplify();
-      setState(() {
-        HomeDrawer.isLogin = HomeDrawer.isLogin;
-        safePrint('[isLogin] : ${HomeDrawer.isLogin}');
-      });
-      if(result != null){
-        // 오류 발생 원인 출력
-        safePrint('[ERROR _asyncTask()] : $result');
-      }
+    await checkConnectivity(); // 인터넷 연결확인
+    await getConnectivity(); // 인터넷 상태받기
+    // 인터넷 확인 후, splash screen 해제
+    FlutterNativeSplash.remove();
+    // Amplify 구성하기
+    String? result = await _authController.configureAmplify();
+    setState(() {
+      HomeDrawer.isLogin = HomeDrawer.isLogin;
+      safePrint('[isLogin] : ${HomeDrawer.isLogin}');
+    });
+    if(result != null){
+      // 오류 발생 원인 출력
+      safePrint('[ERROR _asyncTask()] : $result');
     }
   }
 

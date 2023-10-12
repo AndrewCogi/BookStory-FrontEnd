@@ -50,8 +50,8 @@ class PopularBookListViewState extends State<PopularBookListView>
               scrollDirection: Axis.horizontal,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 15.0,
-                crossAxisSpacing: 30.0,
+                mainAxisSpacing: 20.0,
+                crossAxisSpacing: 20.0,
                 childAspectRatio: 1.0,
               ),
               children: List<Widget>.generate(
@@ -144,6 +144,7 @@ class CategoryView extends StatelessWidget {
                         children: <Widget>[
                           Expanded(
                             child: Container(
+                              width: 200,
                               decoration: BoxDecoration(
                                 color: HexColor('#F8FAFB'),
                                 borderRadius: const BorderRadius.all(
@@ -206,14 +207,14 @@ class CategoryView extends StatelessWidget {
                                                 ),
                                                 const SizedBox(width: 23),
                                                 const Icon(
-                                                  Icons.recommend_outlined,
+                                                  Icons.play_circle,
                                                   color:
                                                   BookStoryAppTheme
                                                       .nearlyBlue,
                                                   size: 12,
                                                 ),
                                                 Text(
-                                                  '${book.favoriteCount}',
+                                                  '${book.playCount}',
                                                   textAlign:
                                                   TextAlign.left,
                                                   style: const TextStyle(

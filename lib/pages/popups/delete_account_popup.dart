@@ -58,15 +58,27 @@ class DeleteAccountPopupState extends State<DeleteAccountPopup> {
         ),
         ElevatedButton(
           onPressed: _isEmailValid
-              ? () {
-            // text가 일치하는 경우 회원 탈퇴 로직 실행
-            _authController.onDeleteAccount(context);
-            setState(() {
-              HomeDrawer.isLogin = false;
-            });
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('회원탈퇴 완료')));
-
+              ? () async {
+            String result = 'foo';
+            await _authController.onDeleteAccount(context).then((value) => result = value);
+            if(result == ''){ // 회원탈퇴 성공
+              setState(() {
+                HomeDrawer.isLogin = false;
+                HomeDrawer.userID = 'Guest User';
+              });
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('회원탈퇴 완료')));
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
+            }
             Navigator.of(context).pop(); // 팝업 닫기
+            // // text가 일치하는 경우 회원 탈퇴 로직 실행
+            // _authController.onDeleteAccount(context);
+            // setState(() {
+            //   HomeDrawer.isLogin = false;
+            // });
+            // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('회원탈퇴 완료')));
+            //
+            // Navigator.of(context).pop(); // 팝업 닫기
           }
               : null, // text가 일치하지 않으면 버튼 비활성화
           child: const Text('확인'),

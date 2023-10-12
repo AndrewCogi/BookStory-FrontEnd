@@ -1,12 +1,8 @@
 import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/pages/popups/delete_account_popup.dart';
-import 'package:book_story/pages/popups/internet_check_popup.dart';
-import 'package:book_story/utils/constants.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HelperFunctions {
   // 한국 시간 받아오기
@@ -16,30 +12,6 @@ class HelperFunctions {
     String formattedDate = DateFormat.yMMMMd('ko_KR').format(now);
     String formattedTime = DateFormat.Hms('ko_KR').format(now);
     return '[$formattedDate $formattedTime]';
-  }
-
-  // 인터넷 연결 확인 TODO: 나중에 인터넷 연결 없음에 대한 해결방안 잘 생각하기
-  static Future<bool> internetConnectionIsAlive(BuildContext context, bool terminate) async {
-    var connectivityResult = await Connectivity().checkConnectivity();
-    if(connectivityResult == ConnectivityResult.none){
-      // ignore: use_build_context_synchronously
-      _showNoInternetDialog(context, terminate);
-      return false;
-    }
-    else{
-      return true;
-    }
-  }
-
-  // 인터넷 없음 팝업 / terminate에 따라 확인 눌렀을 때 종료 여부 결정
-  static void _showNoInternetDialog(BuildContext context, bool terminate) {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return InternetCheckPopup(terminate);
-      },
-    );
   }
 
   // 계정탈퇴 팝업

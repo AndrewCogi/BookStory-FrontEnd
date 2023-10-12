@@ -233,13 +233,18 @@ class HomeDrawerState extends State<HomeDrawer> {
               Icons.power_settings_new,
               color: Colors.red,
             ),
-            onTap: () {
-              _authController.onLogout(context);
-              setState(() {
-                HomeDrawer.isLogin = false;
-                HomeDrawer.userID = 'Guest User';
-              });
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Logout Complete')));
+            onTap: () async {
+              String result = 'foo';
+              await _authController.onLogout(context).then((value) => result = value);
+              if(result == ''){ // 로그아웃 성공
+                setState(() {
+                  HomeDrawer.isLogin = false;
+                  HomeDrawer.userID = 'Guest User';
+                });
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Logout Complete')));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
+              }
             },
           ),
         ),

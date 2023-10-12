@@ -61,7 +61,8 @@ class AuthControllerImpl implements AuthController {
           Uri.parse(url),
           headers: await authHeader
       );
-      safePrint("response.body: ${response.body}");
+      safePrint("1. response.body: ${response.body}");
+      safePrint("2. response.statusCode: ${response.statusCode}");
       if(response.statusCode == 200) {
         return (response.body).toLowerCase() != "false";
       }
@@ -130,7 +131,7 @@ class AuthControllerImpl implements AuthController {
           username: data.userEmail, password: data.password);
 
       bool isSignedIn = res.isSignedIn;
-      safePrint('Successfully Login? : $isSignedIn');
+      safePrint('Successfully Login in Amplify? : $isSignedIn');
 
       // 정상적인 로그인으로 확인되지 않음.
       if(isSignedIn == false){
@@ -143,7 +144,7 @@ class AuthControllerImpl implements AuthController {
       // 정상적으로 DB에 등록되지 않음.
       if(saveDB == false){
         // cognito에서 로그아웃하고 예외처리
-        onLogout(context);
+        onLogout(context, onlyAmplify: true);
         throw Exception('Error in DB. Try again.');
       }
 
@@ -161,23 +162,32 @@ class AuthControllerImpl implements AuthController {
   }
 
   @override
-  Future<bool> onLogout(BuildContext context) async {
-    Provider.of<AppDataProvider>(context, listen: false).updateUser('logout',await getCurrentUserEmail()).then((_) => {
-      Amplify.Auth.signOut().then((_) {
-      return true;
-      })
-    });
-    return false;
+  Future<String> onLogout(BuildContext context, {bool onlyAmplify = false}) async {
+    try{
+      bool result = false;
+      if(onlyAmplify == false){ // Amplify & DB 둘 다 해야할 때
+        result = await Provider.of<AppDataProvider>(context, listen: false).updateUser('logout',await getCurrentUserEmail());
+        if(result == false) return 'Err in DB. User Not Found.'; // DB에 문제가 생겼을 때
+      }
+      await Amplify.Auth.signOut();
+      return ''; // 문제가 없다면 여기로 넘어옴
+    } catch (error){
+      return 'Err in Amplify.'; // Amplify에 문제가 생겼을 때
+    }
   }
 
   @override
-  Future<bool> onDeleteAccount(BuildContext context) async {
-    Provider.of<AppDataProvider>(context, listen: false).updateUser('remove',await getCurrentUserEmail()).then((_) => {
-      Amplify.Auth.deleteUser().then((_) {
-        return true;
-      })
-    });
-    return false;
+  Future<String> onDeleteAccount(BuildContext context) async {
+    try{
+      bool result = false;
+      result = await Provider.of<AppDataProvider>(context, listen: false).updateUser('remove',await getCurrentUserEmail());
+      if(result == false) return 'Err in DB. User Not Found.'; // DB에 문제가 생겼을 때
+
+      await Amplify.Auth.deleteUser();
+      return ''; // 문제가 없다면 여기로 넘어옴
+    } catch (error){
+      return 'Err in Amplify.'; // Amplify에 문제가 생겼을 때
+    }
   }
 
   @override
@@ -245,7 +255,7 @@ class AuthControllerImpl implements AuthController {
         return username;
       }
     } catch (e) {
-      print("Error fetching current user: $e");
+      safePrint("Error fetching current user: $e");
     }
     return "";
   }

@@ -144,6 +144,7 @@ class CategoryView extends StatelessWidget {
                         children: <Widget>[
                           Expanded(
                             child: Container(
+                              width: 170,
                               decoration: BoxDecoration(
                                 color: HexColor('#F8FAFB'),
                                 borderRadius: const BorderRadius.all(
@@ -204,26 +205,26 @@ class CategoryView extends StatelessWidget {
                                                         .grey,
                                                   ),
                                                 ),
-                                                const SizedBox(width: 23),
+                                                const SizedBox(width: 30),
                                                 const Icon(
-                                                  Icons.timelapse_rounded,
+                                                  Icons.play_circle,
                                                   color:
                                                   BookStoryAppTheme
                                                       .nearlyBlue,
                                                   size: 12,
                                                 ),
                                                 Text(
-                                                  HelperFunctions.formatSecondsToMinutesAndSeconds(book.playTime),
+                                                  '${book.playCount}',
                                                   textAlign:
                                                   TextAlign.left,
                                                   style: const TextStyle(
                                                     fontWeight:
-                                                    FontWeight.w600,
-                                                    fontSize: 16,
+                                                    FontWeight.w400,
+                                                    fontSize: 10,
                                                     letterSpacing: 0.27,
                                                     color:
                                                     BookStoryAppTheme
-                                                        .nearlyBlue,
+                                                        .grey,
                                                   ),
                                                 ),
                                               ],
