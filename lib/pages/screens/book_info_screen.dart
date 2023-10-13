@@ -4,6 +4,7 @@ import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/pages/popups/rating_popup.dart';
+import 'package:book_story/pages/screens/video_player_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:book_story/utils/helper_functions.dart';
@@ -489,6 +490,12 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                       ),
                                       onTap: (){
                                         safePrint('Play Story');
+                                        Navigator.push<dynamic>(
+                                          context,
+                                          MaterialPageRoute<dynamic>(
+                                            builder: (BuildContext context) => VideoPlayerScreen(),
+                                          ),
+                                        );
                                       },
                                     ),
 

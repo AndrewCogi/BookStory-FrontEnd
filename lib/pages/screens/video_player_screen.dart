@@ -5,28 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const CupertinoApp(
-      debugShowCheckedModeBanner: false,
-      theme: CupertinoThemeData(
-        brightness: Brightness.light,
-      ),
-      title: 'Appinio Video Player Demo',
-      home: VideoPlayerScreen(),
-    );
-  }
-}
-
-
 class VideoPlayerScreen extends StatefulWidget {
   const VideoPlayerScreen({Key? key}) : super(key: key);
 
@@ -50,12 +28,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       exitFullscreenButton: ElevatedButton(
         child: const Icon(Icons.exit_to_app),
         onPressed: () async {
+          // 라이브러리 오류로 회전이 안되는 경우가 있어, 강제적 회전을 위해 while을 사용함..
           while(MediaQuery.of(context).orientation != Orientation.portrait){
             safePrint('--------------------------------');
             await SystemChrome.setPreferredOrientations([
               DeviceOrientation.portraitUp,
             ]);
-            setState(() {});
           }
           _customVideoPlayerController.setFullscreen(false);
           _customVideoPlayerController.videoPlayerController.pause();

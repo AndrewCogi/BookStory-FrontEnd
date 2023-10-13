@@ -164,7 +164,7 @@ class AppDataSource extends DataSource{
         );
 
       safePrint("1. response.body: ${response.body}");
-      safePrint("2. response.statusCode: ${response.statusCode}"); // TODO : 왜 이 1,2번 값이 다른걸까..
+      safePrint("2. response.statusCode: ${response.statusCode}");
       // JSON 문자열을 Map으로 파싱
       Map<String, dynamic> parsedJson = json.decode(response.body);
       safePrint("3. response.statusCode in parsedJson: ${parsedJson['statusCode']}");
