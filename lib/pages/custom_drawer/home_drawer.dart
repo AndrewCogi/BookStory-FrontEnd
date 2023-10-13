@@ -235,6 +235,9 @@ class HomeDrawerState extends State<HomeDrawer> {
             ),
             onTap: () async {
               String result = 'foo';
+              setState(() {
+                HomeDrawer.isLogin = null;
+              });
               await _authController.onLogout(context).then((value) => result = value);
               if(result == ''){ // 로그아웃 성공
                 setState(() {
@@ -244,6 +247,9 @@ class HomeDrawerState extends State<HomeDrawer> {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Logout Complete')));
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
+                setState(() {
+                  HomeDrawer.isLogin = true;
+                });
               }
             },
           ),

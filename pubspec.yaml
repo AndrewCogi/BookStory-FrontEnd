@@ -67,6 +67,8 @@ dependencies:
   freezed_annotation:
   json_annotation: ^4.8.1
 
+  appinio_video_player: ^1.2.2
+
 dev_dependencies:
   flutter_native_splash: ^2.3.2
   flutter_launcher_icons: 0.13.1
