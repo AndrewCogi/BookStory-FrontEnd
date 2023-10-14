@@ -26,7 +26,7 @@ class RatingPopupState extends State<RatingPopup> {
               fontSize: 20
           ),
         ),
-        content: Container(
+        content: SizedBox(
           width: MediaQuery.of(context).size.width*0.8,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -65,7 +65,7 @@ class RatingPopupState extends State<RatingPopup> {
                     ),
                   ),
                 ),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 13.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
@@ -77,15 +77,15 @@ class RatingPopupState extends State<RatingPopup> {
         ),
         actions: <Widget>[
           ElevatedButton(
-            child: Text("확인"),
+            child: const Text("취소"),
             onPressed: () {
-              Navigator.of(context).pop(_currentRating);
+              Navigator.of(context).pop();
             },
           ),
           ElevatedButton(
-            child: Text("취소"),
+            child: const Text("확인"),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).pop(_currentRating);
             },
           ),
         ],

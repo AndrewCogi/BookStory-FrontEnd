@@ -185,12 +185,14 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
     // ChewieController를 초기화하고 VideoPlayerController를 전달합니다.
     chewieController = ChewieController(
       fullScreenByDefault: true,
+      showControlsOnInitialize: true,
       allowedScreenSleep: false,
       allowFullScreen: true,
+      looping: true,
       // 전체화면 해제 시 세로로 고정
       deviceOrientationsAfterFullScreen: [
-        DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
+        DeviceOrientation.portraitUp,
       ],
       videoPlayerController: videoPlayerController,
       aspectRatio: 16/9,
