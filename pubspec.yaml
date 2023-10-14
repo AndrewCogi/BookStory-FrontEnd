@@ -68,6 +68,7 @@ dependencies:
   json_annotation: ^4.8.1
 
   appinio_video_player: ^1.2.2
+  chewie: ^1.7.1
 
 dev_dependencies:
   flutter_native_splash: ^2.3.2

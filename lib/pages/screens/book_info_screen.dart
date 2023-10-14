@@ -498,7 +498,6 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                         );
                                       },
                                     ),
-
                                   )
                                 ],
                               ),

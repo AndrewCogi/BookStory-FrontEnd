@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:book_story/pages/screens/navigation_home_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/main_app_theme.dart';
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         textTheme: AppTheme.textTheme,
-        platform: TargetPlatform.iOS,
+        platform: Platform.isAndroid ? TargetPlatform.android : TargetPlatform.iOS,
         // snackbar 테마 설정
         snackBarTheme: const SnackBarThemeData(
           backgroundColor: Colors.blueGrey,

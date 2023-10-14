@@ -112,12 +112,12 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
   @override
   Widget build(BuildContext context){
     return Container(
-      color: AppTheme.white,
+      color: Colors.transparent,
       child: SafeArea(
         top: false,
         bottom: false,
         child: Scaffold(
-          backgroundColor: AppTheme.nearlyWhite,
+          backgroundColor: Colors.transparent,
           body: DrawerUserController(
             screenIndex: drawerIndex,
             drawerWidth: MediaQuery.of(context).size.width < 411 ? MediaQuery.of(context).size.width * 0.70 : 300, // 전체 화면의 x% 사용, 가로길이 450 넘어가면 고정 300 사용

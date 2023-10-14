@@ -1,169 +1,149 @@
 import 'package:amplify_core/amplify_core.dart';
-import 'package:appinio_video_player/appinio_video_player.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:video_player/video_player.dart';
+import 'package:chewie/chewie.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return const CupertinoApp(
-      debugShowCheckedModeBanner: false,
-      theme: CupertinoThemeData(
-        brightness: Brightness.light,
-      ),
-      title: 'Appinio Video Player Demo',
-      home: VideoPlayerScreen(),
+    return MaterialApp(
+        home: ChewieVideoPlayer(),
     );
+
+        // floatingactionbutton: floatingactionbutton(
+        //   onpressed: () {
+        //     duration currentposition = _controller.value.position;
+        //     duration targetposition = currentposition + const duration(seconds: 10);
+        //     _controller.seekto(targetposition);
+        //   },
+        //   child: const icon(
+        //     icons.arrow_forward,
+        //   ),
+        // ),
   }
 }
 
-
-class VideoPlayerScreen extends StatefulWidget {
-  const VideoPlayerScreen({Key? key}) : super(key: key);
-
+class ChewieVideoPlayer extends StatefulWidget {
   @override
-  State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
+  _ChewieVideoPlayerState createState() => _ChewieVideoPlayerState();
 }
 
-class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
-  late VideoPlayerController _videoPlayerController,
-      _videoPlayerController2,
-      _videoPlayerController3;
-
-  late CustomVideoPlayerController _customVideoPlayerController;
-  late CustomVideoPlayerWebController _customVideoPlayerWebController;
-
-  CustomVideoPlayerSettings _customVideoPlayerSettings(BuildContext context) {
-    return CustomVideoPlayerSettings(
-      showSeekButtons: false,
-      enterFullscreenOnStart: true,
-      exitFullscreenOnEnd: true,
-      exitFullscreenButton: ElevatedButton(
-        child: const Icon(Icons.exit_to_app),
-        onPressed: () async {
-          while(MediaQuery.of(context).orientation != Orientation.portrait){
-            safePrint('--------------------------------');
-            await SystemChrome.setPreferredOrientations([
-              DeviceOrientation.portraitUp,
-            ]);
-            setState(() {});
-          }
-          _customVideoPlayerController.setFullscreen(false);
-          _customVideoPlayerController.videoPlayerController.pause();
-          Navigator.of(context).pop();
-        },
-      ),
-    );
-  }
-
-  // final CustomVideoPlayerSettings _customVideoPlayerSettings =
-  // const CustomVideoPlayerSettings(
-  //   showSeekButtons: false,
-  //   enterFullscreenOnStart: false,
-  // );
-
-  final CustomVideoPlayerWebSettings _customVideoPlayerWebSettings =
-  CustomVideoPlayerWebSettings(
-    src: video720,
-  );
+class _ChewieVideoPlayerState extends State<ChewieVideoPlayer> {
+  late VideoPlayerController videoPlayerController;
+  late ChewieController chewieController;
 
   @override
   void initState() {
-
-    _videoPlayerController = VideoPlayerController.networkUrl(
-      Uri.parse(video720),
-    )..initialize().then((value) => setState(() {}));
-    _videoPlayerController2 = VideoPlayerController.networkUrl(Uri.parse(video240));
-    _videoPlayerController3 = VideoPlayerController.networkUrl(Uri.parse(video480));
-    _customVideoPlayerController = CustomVideoPlayerController(
-      context: context,
-      videoPlayerController: _videoPlayerController,
-      customVideoPlayerSettings: _customVideoPlayerSettings(context),
-      additionalVideoSources: {
-        "240p": _videoPlayerController2,
-        "480p": _videoPlayerController3,
-        "720p": _videoPlayerController,
-      },
-    );
-
-    _customVideoPlayerWebController = CustomVideoPlayerWebController(
-      webVideoPlayerSettings: _customVideoPlayerWebSettings,
-    );
     super.initState();
+    // VideoPlayerController를 초기화하고 비디오 파일의 경로를 설정합니다.
+    videoPlayerController = VideoPlayerController.networkUrl(
+        Uri.parse('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'));
 
-    // TODO : 왜 이렇게 해야 전체화면되고 실행되는지 모르겠지만.. 아무튼 된다..ㅎ
-    _customVideoPlayerController.setFullscreen(false);
-    // _customVideoPlayerController.setFullscreen(true);
-    _customVideoPlayerController.videoPlayerController.play();
+    // ChewieController를 초기화하고 VideoPlayerController를 전달합니다.
+    chewieController = ChewieController(
+      fullScreenByDefault: true,
+      autoPlay: true,
+      allowedScreenSleep: false,
+      allowFullScreen: true,
+      // 전체화면 해제 시 세로로 고정
+      deviceOrientationsAfterFullScreen: [
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ],
+      videoPlayerController: videoPlayerController,
+      aspectRatio: 16/9,
+      autoInitialize: true,
+      showControls: true,
+    );
+    chewieController.addListener(() {
+      if (chewieController.isFullScreen) {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.landscapeRight,
+          DeviceOrientation.landscapeLeft,
+        ]);
+      } else {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitDown,
+          DeviceOrientation.portraitUp,
+        ]);
+      }
+    });
+    chewieController.addListener(() {
+      GestureDetector(
+        onHorizontalDragStart: (details) {videoPlayerController.pause();},
+        behavior: HitTestBehavior.translucent,
+        onDoubleTap: () {safePrint("HELLO - onDoubleTap");},
+        onTapDown: (_) {
+          safePrint("HELLO - onTapDown");
+        },
+        onTapUp: (details) {
+          print('hello');
+          if(details.localPosition.direction > 1.0){
+            print("left");
+          }
+          if(details.localPosition.direction < 1.0){
+            print("right");
+          }
+        },
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return
+    //   Scaffold(
+    //   appBar: AppBar(
+    //     title: Text('Chewie Video Player Example'),
+    //   ),
+    //   body: Chewie(
+    //     controller: chewieController,
+    //   ),
+    //   floatingActionButton: FloatingActionButton(
+    //     onPressed: (){
+    //       Duration currentPosition = videoPlayerController.value.position;
+    //       Duration targetPosition = currentPosition + const Duration(seconds: 10);
+    //       videoPlayerController.seekTo(targetPosition);
+    //     },
+    //     child: const Icon(
+    //       Icons.arrow_forward,
+    //     )
+    //   ),
+    // );
+    Scaffold(
+      body: GestureDetector(
+        onHorizontalDragStart: (details) {videoPlayerController.pause();},
+        behavior: HitTestBehavior.translucent,
+        onDoubleTap: () {safePrint("HELLO - onDoubleTap");},
+        onTapDown: (_) {
+          safePrint("HELLO - onTapDown");
+        },
+        onTapUp: (details) {
+          print('hello');
+          if(details.localPosition.direction > 1.0){
+            print("left");
+          }
+          if(details.localPosition.direction < 1.0){
+            print("right");
+          }
+        },
+        child: Chewie(
+          controller: chewieController,
+        ),
+      ),
+    );
+
   }
 
   @override
   void dispose() {
-    _customVideoPlayerController.dispose();
+    videoPlayerController.dispose();
+    chewieController.dispose();
     super.dispose();
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      backgroundColor: Colors.black,
-      navigationBar: const CupertinoNavigationBar(
-        backgroundColor: Colors.transparent,
-        middle: Text(""),
-      ),
-      child: SafeArea(
-        child: ListView(
-          children: [
-            kIsWeb
-                ? Expanded(
-              child: CustomVideoPlayerWeb(
-                customVideoPlayerWebController:
-                _customVideoPlayerWebController,
-              ),
-            )
-                : CustomVideoPlayer(
-              customVideoPlayerController: _customVideoPlayerController,
-            ),
-            // CupertinoButton(
-            //   child: const Text("Play Fullscreen"),
-            //   onPressed: () {
-            //     if (kIsWeb) {
-            //       _customVideoPlayerWebController.setFullscreen(true);
-            //       _customVideoPlayerWebController.play();
-            //     } else {
-            //       _customVideoPlayerController.setFullscreen(true);
-            //       _customVideoPlayerController.videoPlayerController.play();
-            //     }
-            //   },
-            // ),
-          ],
-        ),
-      ),
-    );
-  }
 }
-
-// String videoUrlLandscape =
-//     "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4";
-// String videoUrlPortrait =
-//     'https://assets.mixkit.co/videos/preview/mixkit-a-girl-blowing-a-bubble-gum-at-an-amusement-park-1226-large.mp4';
-// String longVideo =
-// "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-
-String video720 =
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-
-String video480 =
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-
-String video240 =
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
