@@ -4,7 +4,7 @@ import 'package:book_story/pages/screens/home_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:book_story/utils/constants.dart';
-import 'package:book_story/utils/helper_functions.dart';
+import 'package:book_story/utils/helper_function.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -212,7 +212,7 @@ class CategoryView extends StatelessWidget {
                                             CrossAxisAlignment.center,
                                             children: <Widget>[
                                               Text(
-                                                HelperFunctions.makeBookInfo(book.categoryAge,book.categoryType,1,book.bookPage),
+                                                HelperFunction.makeBookInfo(book.categoryAge,book.categoryType,1,book.bookPage),
                                                 textAlign: TextAlign.left,
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.w500,
@@ -261,7 +261,7 @@ class CategoryView extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Text(
-                                                HelperFunctions.formatSecondsToMinutesAndSeconds(book.playTime),
+                                                HelperFunction.formatSecondsToMinutesAndSeconds(book.playTime),
                                                 textAlign: TextAlign.left,
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.w600,

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class DrawerUserController extends StatefulWidget {
-  DrawerUserController({
+  const DrawerUserController({
     Key? key,
     this.drawerWidth = 250,
     this.onDrawerCall,
@@ -23,7 +23,6 @@ class DrawerUserController extends StatefulWidget {
   final AnimatedIconData? animatedIconData;
   final Widget? menuView;
   final DrawerIndex? screenIndex;
-  static bool firstTime = true;
 
   @override
   DrawerUserControllerState createState() => DrawerUserControllerState();
@@ -83,9 +82,9 @@ class DrawerUserControllerState extends State<DrawerUserController>
               curve: Curves.fastOutSlowIn);
         }
       });
+    super.initState();
     // navigation bar 초기 위치 설정
     WidgetsBinding.instance.addPostFrameCallback((_) => getInitState());
-    super.initState();
   }
 
   bool getInitState() {
@@ -99,13 +98,6 @@ class DrawerUserControllerState extends State<DrawerUserController>
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
-
-    // TODO : profile, release mode로 실행했을 때, 열려있는 네비게이션 메뉴 닫아줌 (최초 1회만 실행)
-    // TODO : 해당 코드는 RUN 모드일 때, 에러를 일으킴. 개발 시에는 주석처리 필요.
-    // if(DrawerUserController.firstTime){
-    //   getInitState();
-    //   DrawerUserController.firstTime = false;
-    // }
 
     return Scaffold(
       backgroundColor: isLightMode ? AppTheme.white : AppTheme.nearlyBlack,

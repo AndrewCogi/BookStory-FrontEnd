@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:book_story/pages/screens/navigation_home_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
+import 'package:book_story/utils/helper_function.dart';
 import 'package:book_story/utils/main_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,13 +25,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.transparent,
-      systemNavigationBarDividerColor: Colors.transparent,
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ));
+    HelperFunction.setSystemUIOverlayStyle(context);
 
     return MaterialApp(
       title: 'Book Story',
@@ -38,7 +33,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         textTheme: AppTheme.textTheme,
-        platform: Platform.isAndroid ? TargetPlatform.android : TargetPlatform.iOS,
+        platform: TargetPlatform.iOS,
         // snackbar 테마 설정
         snackBarTheme: const SnackBarThemeData(
           backgroundColor: Colors.blueGrey,

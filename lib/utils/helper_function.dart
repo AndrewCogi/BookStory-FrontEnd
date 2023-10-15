@@ -1,10 +1,11 @@
 import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/pages/popups/delete_account_popup.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-class HelperFunctions {
+class HelperFunction {
   // 한국 시간 받아오기
   static String getKoreanDateTime(){
     initializeDateFormatting('ko_KR', null);
@@ -56,6 +57,31 @@ class HelperFunctions {
       categoryNames.add(category.toString().split('.').last);
     }
     return categoryNames.join(', ');
+  }
+
+  // 다크모드, 라이트모드 시스템 오버레이 스타일 바꿔주는 함수
+  static void setSystemUIOverlayStyle(context){
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    if(isLightMode) {
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarDividerColor: Colors.transparent,
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ));
+    } else {
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarDividerColor: Colors.transparent,
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ));
+    }
   }
   //
   // static Future<bool> saveLoginTime(int time) async {

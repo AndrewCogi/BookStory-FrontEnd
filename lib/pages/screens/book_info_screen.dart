@@ -7,7 +7,7 @@ import 'package:book_story/pages/popups/rating_popup.dart';
 import 'package:book_story/pages/screens/video_player_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
-import 'package:book_story/utils/helper_functions.dart';
+import 'package:book_story/utils/helper_function.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
@@ -180,7 +180,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  HelperFunctions.formatSecondsToMinutesAndSeconds(widget.book.playTime),
+                                  HelperFunction.formatSecondsToMinutesAndSeconds(widget.book.playTime),
                                   textAlign: TextAlign.left,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w600,
@@ -254,7 +254,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                 child: Row(
                                   children: <Widget>[
                                     getBookInfoBoxUI(categoryDescriptionsAge[widget.book.categoryAge]!, 'Target Age'),
-                                    getBookInfoBoxUI(HelperFunctions.makeBookCategoryToString(widget.book.categoryType, widget.book.categoryType.length), 'Category'),
+                                    getBookInfoBoxUI(HelperFunction.makeBookCategoryToString(widget.book.categoryType, widget.book.categoryType.length), 'Category'),
                                     widget.book.writer == widget.book.drawer ?
                                       getBookInfoBoxUI(widget.book.writer, 'Writer/Drawer') :
                                       getBookInfoBoxUI('${widget.book.writer}/${widget.book.drawer}', 'Writer/Drawer'),
@@ -493,7 +493,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                         Navigator.push<dynamic>(
                                           context,
                                           MaterialPageRoute<dynamic>(
-                                            builder: (BuildContext context) => VideoPlayerScreen(),
+                                            builder: (BuildContext context) => VideoPlayerScreen(widget.book.title),
                                           ),
                                         );
                                       },

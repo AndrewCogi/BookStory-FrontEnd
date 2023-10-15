@@ -7,7 +7,7 @@ import 'package:book_story/datasource/data_source.dart';
 import 'package:book_story/datasource/temp_db.dart';
 import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/models/book_model.dart';
-import 'package:book_story/utils/helper_functions.dart';
+import 'package:book_story/utils/helper_function.dart';
 import 'package:http/http.dart' as http;
 
 class AppDataSource extends DataSource{
@@ -26,7 +26,7 @@ class AppDataSource extends DataSource{
   @override
   Future<List<Book>> getBooksByCategory(List<CategoryType> categoryTypes, int limit) async {
     final String url;
-    final String categoryTypeStr = HelperFunctions.getCategoryNames(categoryTypes);
+    final String categoryTypeStr = HelperFunction.getCategoryNames(categoryTypes);
     safePrint('categoryTypeStr: $categoryTypeStr');
     // CategoryAge 인지 체크
     if(categoryTypeStr.contains("age")){

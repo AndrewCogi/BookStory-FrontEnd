@@ -2,7 +2,7 @@ import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/enums/drawer_index.dart';
 import 'package:book_story/models/drawer_menu_model.dart';
 import 'package:book_story/pages/screens/login_screen.dart';
-import 'package:book_story/utils/helper_functions.dart';
+import 'package:book_story/utils/helper_function.dart';
 import 'package:book_story/utils/main_app_theme.dart';
 import 'package:book_story/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
@@ -214,7 +214,7 @@ class HomeDrawerState extends State<HomeDrawer> {
       return GestureDetector(
         onLongPress: () {
           if(widget.screenIndex == DrawerIndex.home){
-            HelperFunctions.showConfirmDeleteAccount(context, "Confirm");
+            HelperFunction.showConfirmDeleteAccount(context, "Confirm");
           }
         },
         child: InkWell(

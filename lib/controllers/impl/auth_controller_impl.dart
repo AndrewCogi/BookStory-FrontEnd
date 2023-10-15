@@ -6,7 +6,7 @@ import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/models/user_model.dart';
 import 'package:book_story/pages/custom_drawer/home_drawer.dart';
 import 'package:book_story/provider/app_data_provider.dart';
-import 'package:book_story/utils/helper_functions.dart';
+import 'package:book_story/utils/helper_function.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -77,7 +77,7 @@ class AuthControllerImpl implements AuthController {
   Future<void> recordLogin(String userEmail) async {
     AnalyticsEvent event = AnalyticsEvent("UserLogin");
     event.customProperties.addStringProperty(
-        userEmail, HelperFunctions.getKoreanDateTime());
+        userEmail, HelperFunction.getKoreanDateTime());
     // Log login event to analytics
     try {
       await Amplify.Analytics.recordEvent(event: event);
@@ -92,7 +92,7 @@ class AuthControllerImpl implements AuthController {
   Future<void> recordSignUp(String userEmail) async {
     AnalyticsEvent event = AnalyticsEvent("UserSignUp");
     event.customProperties.addStringProperty(
-        userEmail, HelperFunctions.getKoreanDateTime());
+        userEmail, HelperFunction.getKoreanDateTime());
     // Log signup event to analytics
     try {
       await Amplify.Analytics.recordEvent(event: event);
