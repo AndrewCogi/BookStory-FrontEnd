@@ -1,4 +1,3 @@
-import 'package:book_story/utils/helper_function.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
@@ -24,10 +23,9 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
     videoPlayerController = VideoPlayerController.networkUrl(
         Uri.parse('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'));
 
-    // ChewieController를 초기화하고 VideoPlayerController를 전달합니다.
-    chewieController = ChewieController( // TODO : autoPlay 안쓰고 자동재생 방법 찾아보기. autoPlay랑 fullScreenByDefault를 같이 쓰니까 전체화면 해제를 두번 눌러야 하는 문제가 발생함..
+    chewieController = ChewieController(
       fullScreenByDefault: true, // TODO : 비디오 플레이어를 빠져나왔을 때, statusBar의 아이콘이 안돌아옴.. 계속 흰색으로 되어있음. 해결하기
-      autoPlay: true,
+      autoPlay: false, // 내가 스스로 구현함. 이거 사용하면 fullScreen 빠져나올 때, 아이콘 두번 눌러야 하는 문제가 있었음.
       showControlsOnInitialize: true,
       allowedScreenSleep: false,
       allowFullScreen: true,
@@ -39,7 +37,7 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
       ],
       videoPlayerController: videoPlayerController,
       aspectRatio: 16/9,
-      autoInitialize: true,
+      autoInitialize: false,
       showControls: true,
     );
     chewieController.addListener(() {
@@ -57,8 +55,16 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
     });
   }
 
+  void initializeAndPlayVideo() async {
+    if(videoPlayerController.value.isInitialized == false){
+      await videoPlayerController.initialize();
+      videoPlayerController.play();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    initializeAndPlayVideo();
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
