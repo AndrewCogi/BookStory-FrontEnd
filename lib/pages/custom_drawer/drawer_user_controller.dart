@@ -1,9 +1,8 @@
-import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/enums/drawer_index.dart';
 import 'package:book_story/pages/custom_drawer/home_drawer.dart';
 import 'package:book_story/utils/main_app_theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 // ignore: must_be_immutable
 class DrawerUserController extends StatefulWidget {
@@ -84,25 +83,26 @@ class DrawerUserControllerState extends State<DrawerUserController>
               curve: Curves.fastOutSlowIn);
         }
       });
-    super.initState();
-    // navigation bar 초기 위치 설정 TODO
+    // navigation bar 초기 위치 설정
     WidgetsBinding.instance.addPostFrameCallback((_) => initScrollController());
-    SchedulerBinding.instance.addPostFrameCallback((_) => initScrollController());
-    // WidgetsBinding.instance!.ensureVisualUpdate();
+    super.initState();
   }
 
   void initScrollController() { // TODO : 얘가 또 말썽이네..
-    if(scrollController?.offset != widget.drawerWidth) {
-      scrollController?.jumpTo(
-        widget.drawerWidth,
-      );
-    }
+    scrollController?.jumpTo(
+      widget.drawerWidth,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
+
+    // profile, release mode로 실행했을 때, 열려있는 네비게이션 메뉴 닫아줌 (최초 1회만 실행)
+    if(!kDebugMode){
+      initScrollController();
+    }
 
     return Scaffold(
       backgroundColor: isLightMode ? AppTheme.white : AppTheme.nearlyBlack,
