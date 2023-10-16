@@ -24,6 +24,7 @@ class DrawerUserController extends StatefulWidget {
   final AnimatedIconData? animatedIconData;
   final Widget? menuView;
   final DrawerIndex? screenIndex;
+  static bool isFirstTime = true;
 
   @override
   DrawerUserControllerState createState() => DrawerUserControllerState();
@@ -100,8 +101,11 @@ class DrawerUserControllerState extends State<DrawerUserController>
     bool isLightMode = brightness == Brightness.light;
 
     // profile, release mode로 실행했을 때, 열려있는 네비게이션 메뉴 닫아줌 (최초 1회만 실행)
-    if(!kDebugMode){
-      initScrollController();
+    if(!kDebugMode && DrawerUserController.isFirstTime == true){
+      if(scrollController!.hasClients){
+        initScrollController();
+        DrawerUserController.isFirstTime = false;
+      }
     }
 
     return Scaffold(
