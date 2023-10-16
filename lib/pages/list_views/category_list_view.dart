@@ -77,7 +77,7 @@ class CategoryListViewState extends State<CategoryListView>
                       CurvedAnimation(
                           parent: CategoryListView.animationController!,
                           curve: Interval((1 / count) * index, 1.0,
-                              curve: Curves.fastOutSlowIn)));
+                              curve: Curves.ease)));
                   CategoryListView.animationController!.forward();
                   return CategoryView(
                     book: bookList[index],

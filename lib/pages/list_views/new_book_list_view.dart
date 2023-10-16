@@ -62,7 +62,7 @@ class NewBookListViewState extends State<NewBookListView>
                     CurvedAnimation(
                       parent: animationController!,
                       curve: Interval((1 / count) * index, 1.0,
-                          curve: Curves.fastOutSlowIn),
+                          curve: Curves.ease),
                     ),
                   );
                   animationController?.forward();

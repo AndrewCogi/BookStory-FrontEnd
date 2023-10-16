@@ -1,7 +1,9 @@
+import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/enums/drawer_index.dart';
 import 'package:book_story/pages/custom_drawer/home_drawer.dart';
 import 'package:book_story/utils/main_app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 // ignore: must_be_immutable
 class DrawerUserController extends StatefulWidget {
@@ -83,15 +85,18 @@ class DrawerUserControllerState extends State<DrawerUserController>
         }
       });
     super.initState();
-    // navigation bar 초기 위치 설정
-    WidgetsBinding.instance.addPostFrameCallback((_) => getInitState());
+    // navigation bar 초기 위치 설정 TODO
+    WidgetsBinding.instance.addPostFrameCallback((_) => initScrollController());
+    SchedulerBinding.instance.addPostFrameCallback((_) => initScrollController());
+    // WidgetsBinding.instance!.ensureVisualUpdate();
   }
 
-  bool getInitState() {
-    scrollController?.jumpTo(
-      widget.drawerWidth,
-    );
-    return true;
+  void initScrollController() { // TODO : 얘가 또 말썽이네..
+    if(scrollController?.offset != widget.drawerWidth) {
+      scrollController?.jumpTo(
+        widget.drawerWidth,
+      );
+    }
   }
 
   @override
