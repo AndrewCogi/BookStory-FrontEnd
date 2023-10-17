@@ -15,6 +15,8 @@ import 'package:provider/provider.dart';
 import 'package:vertical_barchart/vertical-barchart.dart';
 import 'package:vertical_barchart/vertical-barchartmodel.dart';
 
+import '../custom_drawer/home_drawer.dart';
+
 class BookInfoScreen extends StatefulWidget {
   const BookInfoScreen(this.book, {super.key});
 
@@ -29,6 +31,8 @@ class BookInfoScreenState extends State<BookInfoScreen>
   final double infoHeight = 364.0;
   AnimationController? animationController;
   Animation<double>? animation;
+  double opacityOrg = 0.0;
+  double opacity0 = 0.0;
   double opacity1 = 0.0;
   double opacity2 = 0.0;
   double opacity3 = 0.0;
@@ -57,6 +61,9 @@ class BookInfoScreenState extends State<BookInfoScreen>
   }
 
   Future<void> setData() async {
+    // 사진 보여주기
+    await Future<dynamic>.delayed(const Duration(milliseconds: 100));
+    setState(() {opacityOrg = 1.0;});
     // userEmail을 받아놓기
     userEmail = await _authController.getCurrentUserEmail();
     // 리뷰 최대값 계산해두기
@@ -69,7 +76,10 @@ class BookInfoScreenState extends State<BookInfoScreen>
     publisherDescription = await Provider.of<AppDataProvider>(context, listen: false).getDescription(widget.book.publisherDescriptionPath);
 
     animationController?.forward();
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
+    setState(() {
+      opacity0 = 1.0;
+    });
+    await Future<dynamic>.delayed(const Duration(milliseconds: 700));
     setState(() {
       opacity1 = 1.0;
     });
@@ -116,12 +126,17 @@ class BookInfoScreenState extends State<BookInfoScreen>
                       color: Colors.transparent
                     ),
                     itemBuilder: (BuildContext context,int index){
-                      return CachedNetworkImage(
-                        placeholder: null,
-                        imageUrl: imgList[index],
-                        fit: BoxFit.contain,
-                        errorWidget: (context, url, error) => const Icon(Icons.cancel_outlined),
+                      return AnimatedOpacity(
+                        duration: const Duration(milliseconds: 500),
+                        opacity: opacityOrg,
+                        child: CachedNetworkImage(
+                          placeholder: null,
+                          imageUrl: imgList[index],
+                          fit: BoxFit.contain,
+                          errorWidget: (context, url, error) => const Icon(Icons.cancel_outlined),
+                        ),
                       );
+
                     },
                   ),
                 ),
@@ -158,22 +173,29 @@ class BookInfoScreenState extends State<BookInfoScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20.0, left: 18, right: 16),
-                            child: Text(
-                              widget.book.title,
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 22,
-                                letterSpacing: 0.27,
-                                color: BookStoryAppTheme.darkerText,
+                          AnimatedOpacity(
+                            duration: const Duration(milliseconds: 500),
+                            opacity: opacity0,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 20.0, left: 18, right: 16),
+                              child: Text(
+                                widget.book.title,
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 22,
+                                  letterSpacing: 0.27,
+                                  color: BookStoryAppTheme.darkerText,
+                                ),
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
+                          AnimatedOpacity(
+                            duration: const Duration(milliseconds: 500),
+                            opacity: opacity0,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
                                 left: 16, right: 16, top: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -209,6 +231,32 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                             ),
                                           ),
                                           onPressed: () async {
+                                            if(HomeDrawer.isLogin == false){
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: Text('로그인하세요'),
+                                                    content: Text('계속하려면 로그인이 필요합니다.'),
+                                                    actions: <Widget>[
+                                                      ElevatedButton(
+                                                        child: Text('로그인'),
+                                                        onPressed: () {
+                                                          Navigator.of(context).pop(); // 대화 상자 닫기
+                                                        },
+                                                      ),
+                                                      ElevatedButton(
+                                                        child: Text('닫기'),
+                                                        onPressed: () {
+                                                          Navigator.of(context).pop(); // 대화 상자 닫기
+                                                        },
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                              return;
+                                            }
                                             final result = await showDialog<double>(
                                               context: context,
                                               builder: (BuildContext context) {
@@ -216,7 +264,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                               },
                                             );
                                             if (result != null) {
-                                              // 팝업에서 반환된 점수를 사용합니다.
+                                              // 팝업에서 반환된 점수를 사용
                                               print("Selected Rating: $result");
                                             }
                                           },
@@ -243,6 +291,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                 ),
                               ],
                             ),
+                          ),
                           ),
                           AnimatedOpacity(
                             duration: const Duration(milliseconds: 500),
