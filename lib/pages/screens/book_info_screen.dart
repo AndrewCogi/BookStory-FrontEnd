@@ -79,7 +79,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
     setState(() {
       opacity0 = 1.0;
     });
-    await Future<dynamic>.delayed(const Duration(milliseconds: 700));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 400));
     setState(() {
       opacity1 = 1.0;
     });
