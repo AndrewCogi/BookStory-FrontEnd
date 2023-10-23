@@ -7,6 +7,7 @@ import 'package:book_story/pages/popups/rating_popup.dart';
 import 'package:book_story/pages/screens/video_player_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
+import 'package:book_story/utils/constants.dart';
 import 'package:book_story/utils/helper_function.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
@@ -41,6 +42,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
   String bookDescription = "";
   String writerDescription = "";
   String publisherDescription = "";
+  List<String> imageList = List.generate(imageListSize, (index) => '');
   int maxX = 0;
 
   @override
@@ -64,7 +66,9 @@ class BookInfoScreenState extends State<BookInfoScreen>
     // 사진 보여주기
     await Future<dynamic>.delayed(const Duration(milliseconds: 100));
     setState(() {opacityOrg = 1.0;});
-    // userEmail을 받아놓기
+    // 책 미리보기 이미지 경로 세팅
+    imageList = getImages(widget.book.bookId);
+    // userEmail 받아놓기
     userEmail = await _authController.getCurrentUserEmail();
     // 리뷰 최대값 계산해두기
     maxX = bardata.map((data) => data.jumlah.toInt()).reduce((a, b) => a > b ? a : b);
@@ -110,7 +114,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                     aspectRatio: 1.6,
                   child: Swiper(
                     autoplay: true,
-                    itemCount: imgList.length,
+                    itemCount: imageList.length,
                     pagination: const SwiperPagination(
                       alignment: Alignment.topCenter,
                       builder: DotSwiperPaginationBuilder(
@@ -131,7 +135,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                         opacity: opacityOrg,
                         child: CachedNetworkImage(
                           placeholder: null,
-                          imageUrl: imgList[index],
+                          imageUrl: imageList[index],
                           fit: BoxFit.contain,
                           errorWidget: (context, url, error) => const Icon(Icons.cancel_outlined),
                         ),
@@ -832,6 +836,16 @@ class BookInfoScreenState extends State<BookInfoScreen>
     return totalScore / totalReviews;
   }
 
+  List<String> getImages(int bookId){
+    String url = 'https://d1uuv72cpfayuq.cloudfront.net/books/images/';
+    List<String> imageList = [];
+    imageList.add('$url$bookId.png');
+    for(int i=1; i<=this.imageList.length-1; i++){
+      imageList.add('$url$bookId-$i.png');
+    }
+    return imageList;
+  }
+
   List<VBarChartModel> bardata = [ // TODO : barData 서버에서 가져오도록 하기
     VBarChartModel(
       index: 0,
@@ -870,12 +884,6 @@ class BookInfoScreenState extends State<BookInfoScreen>
     ),
   ];
 
-  final List<String> imgList = [ // TODO : imgList cloudfront에서 가져오도록 하기
-    'https://d1uuv72cpfayuq.cloudfront.net/books/images/1.png',
-    'https://d1uuv72cpfayuq.cloudfront.net/books/images/1_1.png',
-    'https://d1uuv72cpfayuq.cloudfront.net/books/images/1_2.png',
-    'https://d1uuv72cpfayuq.cloudfront.net/books/images/1_3.png',
-  ];
 
   List<Widget> makePublisherText(String publisherDescription) {
     List<Widget> widgets = [];
