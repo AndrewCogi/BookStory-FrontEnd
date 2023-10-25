@@ -5,8 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class DrawerUserController extends StatefulWidget {
-  const DrawerUserController({
+class HomeDrawerUserController extends StatefulWidget {
+  const HomeDrawerUserController({
     Key? key,
     this.drawerWidth = 250,
     this.onDrawerCall,
@@ -27,10 +27,10 @@ class DrawerUserController extends StatefulWidget {
   static bool isFirstTime = true;
 
   @override
-  DrawerUserControllerState createState() => DrawerUserControllerState();
+  HomeDrawerUserControllerState createState() => HomeDrawerUserControllerState();
 }
 
-class DrawerUserControllerState extends State<DrawerUserController>
+class HomeDrawerUserControllerState extends State<HomeDrawerUserController>
     with TickerProviderStateMixin {
   ScrollController? scrollController;
   AnimationController? iconAnimationController;
@@ -101,10 +101,10 @@ class DrawerUserControllerState extends State<DrawerUserController>
     bool isLightMode = brightness == Brightness.light;
 
     // profile, release mode로 실행했을 때, 열려있는 네비게이션 메뉴 닫아줌 (최초 1회만 실행)
-    if(!kDebugMode && DrawerUserController.isFirstTime == true){
+    if(!kDebugMode && HomeDrawerUserController.isFirstTime == true){
       if(scrollController!.hasClients){
         initScrollController();
-        DrawerUserController.isFirstTime = false;
+        HomeDrawerUserController.isFirstTime = false;
       }
     }
 

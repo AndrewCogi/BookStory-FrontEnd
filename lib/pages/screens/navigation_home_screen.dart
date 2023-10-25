@@ -4,7 +4,7 @@ import 'package:amplify_core/amplify_core.dart';
 import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/enums/drawer_index.dart';
-import 'package:book_story/pages/custom_drawer/drawer_user_controller.dart';
+import 'package:book_story/pages/custom_drawer/home_drawer_user_controller.dart';
 import 'package:book_story/pages/custom_drawer/home_drawer.dart';
 import 'package:book_story/pages/popups/record_tips_popup.dart';
 import 'package:book_story/pages/screens/favorite_screen.dart';
@@ -117,7 +117,7 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
         bottom: false,
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          body: DrawerUserController(
+          body: HomeDrawerUserController(
             screenIndex: drawerIndex,
             drawerWidth: MediaQuery.of(context).size.width < 411 ? MediaQuery.of(context).size.width * 0.70 : 300, // 전체 화면의 x% 사용, 가로길이 450 넘어가면 고정 300 사용
             onDrawerCall: (DrawerIndex drawerIndexData){
