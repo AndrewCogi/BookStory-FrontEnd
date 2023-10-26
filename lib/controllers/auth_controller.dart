@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 abstract class AuthController{
   // Amplify 초기화
   Future<String?> configureAmplify();
+  // User session 확인
+  Future<bool> checkUserSessionIsExpired(BuildContext context);
   // 로그인 로그 저장
   Future<void> recordLogin(String userEmail);
   // 회원가입 로그 저장

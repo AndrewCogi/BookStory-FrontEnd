@@ -34,21 +34,28 @@ class AuthControllerImpl implements AuthController {
       return e.message;
     }
 
-    if(configured){
+    if(configured == true){
       safePrint('Successfully configured Amplify!');
-      safePrint('Check auth state...');
-      HomeDrawer.isLogin = await checkAuthState();
-      String userEmail = await getCurrentUserEmail();
-      String nowUserID = userEmail.split('@')[0];
-      nowUserID == "" ? HomeDrawer.userID="Guest User" : HomeDrawer.userID=nowUserID;
-      safePrint("HomeDrawer.isLogin : ${HomeDrawer.isLogin}");
-      // 로그인 만료 확인
-      if(HomeDrawer.isLogin == true && await tokenIsValid(userEmail) == false){
-        safePrint("로그인 만료임!");
-        // TODO : 만료를 팝업으로 알리고 로그아웃 실시
-      } else {safePrint("로그인 만료 아님! 아니면 로그인 안함!");}
     }
     return null;
+  }
+
+  @override
+  Future<bool> checkUserSessionIsExpired(BuildContext context) async {
+    safePrint('Check auth state...');
+    HomeDrawer.isLogin = await checkAuthState();
+    String userEmail = await getCurrentUserEmail();
+    String nowUserID = userEmail.split('@')[0];
+    nowUserID == "" ? HomeDrawer.userID="Guest User" : HomeDrawer.userID=nowUserID;
+    safePrint("HomeDrawer.isLogin : ${HomeDrawer.isLogin}");
+    // 로그인 만료 확인
+    if(HomeDrawer.isLogin == true && await tokenIsValid(userEmail) == false){
+      safePrint("로그인 만료임!");
+      return true;
+    } else {
+      safePrint("로그인 만료 아님! 아니면 로그인 안함!");
+      return false;
+    }
   }
 
   @override
@@ -172,6 +179,7 @@ class AuthControllerImpl implements AuthController {
       await Amplify.Auth.signOut();
       return ''; // 문제가 없다면 여기로 넘어옴
     } catch (error){
+      safePrint('Err in Amplify. -> (onLogout)');
       return 'Err in Amplify.'; // Amplify에 문제가 생겼을 때
     }
   }

@@ -11,6 +11,7 @@ import 'package:book_story/pages/screens/favorite_screen.dart';
 import 'package:book_story/pages/screens/feedback_screen.dart';
 import 'package:book_story/pages/screens/home_screen.dart';
 import 'package:book_story/pages/screens/library_screen.dart';
+import 'package:book_story/pages/screens/login_screen.dart';
 import 'package:book_story/pages/screens/voice_screen.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,16 +43,16 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
     screenView = const HomeScreen();
     super.initState();
     // 비동기 작업 수행
-    _asyncTask();
+    _asyncTask(context);
   }
 
   checkConnectivity({bool terminate = true}) async {
     safePrint('Check Connectivity...');
     isDeviceConnected = await InternetConnectionChecker().hasConnection;
     if (!isDeviceConnected && isAlertSet == false) {
-      showDialogBox(terminate);
       setState(() => isAlertSet = true);
       if(terminate == true) FlutterNativeSplash.remove(); // 강제종료할거라면 splash_screen 없애기.
+      await showDialogBoxNoInternetConnection(terminate);
     }
   }
 
@@ -61,17 +62,17 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
               safePrint('Get Connectivity...');
           isDeviceConnected = await InternetConnectionChecker().hasConnection;
           if (!isDeviceConnected && isAlertSet == false) {
-            showDialogBox(false);
             setState(() => isAlertSet = true);
+            await showDialogBoxNoInternetConnection(false);
           }
         },
       );
 
-  showDialogBox(bool terminate) => showCupertinoDialog<String>(
+  showDialogBoxNoInternetConnection(bool terminate) => showCupertinoDialog<String>(
     context: context,
     builder: (BuildContext context) => CupertinoAlertDialog(
-      title: const Text('No Internet Connection'),
-      content: const Text('Please check your internet connectivity'),
+      title: const Text('인터넷 연결 없음'),
+      content: const Text('인터넷에 연결할 수 없습니다.\n인터넷을 확인해 주세요.'),
       actions: <Widget>[
         TextButton(
           onPressed: () async {
@@ -81,8 +82,8 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
             isDeviceConnected =
             await InternetConnectionChecker().hasConnection;
             if (!isDeviceConnected && isAlertSet == false) {
-              showDialogBox(terminate);
               setState(() => isAlertSet = true);
+              await showDialogBoxNoInternetConnection(terminate);
             }
           },
           child: terminate==true ? const Text('Exit',style: TextStyle(fontSize: 17)) : const Text('Retry',style: TextStyle(fontSize: 17)),
@@ -91,20 +92,67 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
     ),
   );
 
-  void _asyncTask() async {
+  showDialogBoxConfigureAmplifyFailed() => showCupertinoDialog<String>(
+    context: context,
+    builder: (BuildContext context) => CupertinoAlertDialog(
+      title: const Text('로그인 구성 실패'),
+      content: const Text('로그인 구성에 실패했습니다.\n앱을 다시 시작해 주세요.'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+            Navigator.pop(context, 'Cancel');
+          },
+          child: const Text('Exit',style: TextStyle(fontSize: 17)),
+        ),
+      ],
+    ),
+  );
+
+  showDialogBoxSessionExpired() => showCupertinoDialog<String>(
+    context: context,
+    builder: (BuildContext context) => CupertinoAlertDialog(
+      title: const Text('세션 만료'),
+      content: const Text('세션이 만료되었습니다.\n다시 로그인 해주세요.'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () async {
+            await Navigator.push<dynamic>(
+              context,
+              MaterialPageRoute<dynamic>(
+                builder: (BuildContext context) => const LoginScreen(),
+              ),
+            );
+            Navigator.of(context).pop();
+          },
+          child: const Text('Login',style: TextStyle(fontSize: 17)),
+        ),
+      ],
+    ),
+  );
+
+  void _asyncTask(BuildContext context) async {
     await checkConnectivity(); // 인터넷 연결확인
     await getConnectivity(); // 인터넷 상태받기
     // 인터넷 확인 후, splash screen 해제
     FlutterNativeSplash.remove();
-    // Amplify 구성하기
-    String? result = await _authController.configureAmplify();
+    // 1. Amplify 구성하기
+    String? amplifyResult = await _authController.configureAmplify();
     setState(() {
       HomeDrawer.isLogin = HomeDrawer.isLogin;
       safePrint('[isLogin] : ${HomeDrawer.isLogin}');
     });
-    if(result != null){
+    if(amplifyResult != null){
       // 오류 발생 원인 출력
-      safePrint('[ERROR _asyncTask()] : $result');
+      safePrint('[ERROR _asyncTask()] : $amplifyResult');
+      await showDialogBoxConfigureAmplifyFailed(); // 여기서 앱 종료되기 때문에 return 필요없음
+    }
+    // 2. 유저 세션 확인하기 (세션이 만료되었다면 true, 그 이외는 false)
+    bool sessionIsExpired = await _authController.checkUserSessionIsExpired(context);
+    // 세션이 만료되었다면, 로그아웃시키고 로그인하도록 팝업 띄우기
+    if(sessionIsExpired == true) {
+      _authController.onLogout(context);
+      await showDialogBoxSessionExpired();
     }
   }
 

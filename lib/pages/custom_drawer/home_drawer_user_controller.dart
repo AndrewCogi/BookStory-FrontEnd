@@ -89,7 +89,7 @@ class HomeDrawerUserControllerState extends State<HomeDrawerUserController>
     super.initState();
   }
 
-  void initScrollController() { // TODO : 얘가 또 말썽이네..
+  void initScrollController() {
     scrollController?.jumpTo(
       widget.drawerWidth,
     );

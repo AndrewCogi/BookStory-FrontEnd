@@ -17,6 +17,7 @@ import 'package:vertical_barchart/vertical-barchart.dart';
 import 'package:vertical_barchart/vertical-barchartmodel.dart';
 
 import '../custom_drawer/home_drawer.dart';
+import 'login_screen.dart';
 
 class BookInfoScreen extends StatefulWidget {
   const BookInfoScreen(this.book, {super.key});
@@ -240,17 +241,23 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                                 context: context,
                                                 builder: (BuildContext context) {
                                                   return AlertDialog(
-                                                    title: Text('로그인하세요'),
-                                                    content: Text('계속하려면 로그인이 필요합니다.'),
+                                                    title: const Text('로그인하세요'),
+                                                    content: const Text('계속하려면 로그인이 필요합니다.'),
                                                     actions: <Widget>[
                                                       ElevatedButton(
-                                                        child: Text('로그인'),
-                                                        onPressed: () {
+                                                        child: const Text('로그인'),
+                                                        onPressed: () async {
+                                                          await Navigator.push<dynamic>(
+                                                            context,
+                                                            MaterialPageRoute<dynamic>(
+                                                              builder: (BuildContext context) => const LoginScreen(),
+                                                            ),
+                                                          );
                                                           Navigator.of(context).pop(); // 대화 상자 닫기
                                                         },
                                                       ),
                                                       ElevatedButton(
-                                                        child: Text('닫기'),
+                                                        child: const Text('닫기'),
                                                         onPressed: () {
                                                           Navigator.of(context).pop(); // 대화 상자 닫기
                                                         },
