@@ -2,6 +2,7 @@ import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/main.dart';
+import 'package:book_story/pages/custom_drawer/home_drawer.dart';
 import 'package:book_story/pages/screens/login_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
@@ -48,8 +49,11 @@ class FavoriteListViewState extends State<FavoriteListView>
                 .getBooksByUserEmailFavorite(email);
           }(),
           builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
-            // safePrint(snapshot.data);
             if(snapshot.data == null && snapshot.connectionState == ConnectionState.done){
+              // 받아온 데이터가 없다 == 세션만료 or 로그인안함 => 자동 로그아웃 시키기
+              _authController.onLogout(context);
+              HomeDrawer.isLogin = false;
+              HomeDrawer.userID = 'Guest User';
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
