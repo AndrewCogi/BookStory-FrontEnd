@@ -200,13 +200,18 @@ class HomeDrawerState extends State<HomeDrawer> {
           color: Colors.green,
           // color: Colors.red,
         ),
-        onTap: () {
-          Navigator.push<dynamic>(
+        onTap: () async {
+          await Navigator.push<dynamic>(
             context,
             MaterialPageRoute<dynamic>(
               builder: (BuildContext context) => const LoginScreen(),
             ),
           );
+          Future.delayed(const Duration(milliseconds: 200)).then((_) {
+            if (HomeDrawer.isLogin == true) {
+              widget.callBackIndex?.call(DrawerIndex.home);
+            }
+          });
         },
       );
     }

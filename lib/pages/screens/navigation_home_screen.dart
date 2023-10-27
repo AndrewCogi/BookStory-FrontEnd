@@ -6,12 +6,12 @@ import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/enums/drawer_index.dart';
 import 'package:book_story/pages/custom_drawer/home_drawer_user_controller.dart';
 import 'package:book_story/pages/custom_drawer/home_drawer.dart';
+import 'package:book_story/pages/popups/book_story_dialog.dart';
 import 'package:book_story/pages/popups/record_tips_popup.dart';
 import 'package:book_story/pages/screens/favorite_screen.dart';
 import 'package:book_story/pages/screens/feedback_screen.dart';
 import 'package:book_story/pages/screens/home_screen.dart';
 import 'package:book_story/pages/screens/library_screen.dart';
-import 'package:book_story/pages/screens/login_screen.dart';
 import 'package:book_story/pages/screens/voice_screen.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
@@ -109,28 +109,6 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
     ),
   );
 
-  showDialogBoxSessionExpired() => showCupertinoDialog<String>(
-    context: context,
-    builder: (BuildContext context) => CupertinoAlertDialog(
-      title: const Text('세션 만료'),
-      content: const Text('세션이 만료되었습니다.\n다시 로그인 해주세요.'),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () async {
-            await Navigator.push<dynamic>(
-              context,
-              MaterialPageRoute<dynamic>(
-                builder: (BuildContext context) => const LoginScreen(),
-              ),
-            );
-            Navigator.of(context).pop();
-          },
-          child: const Text('Login',style: TextStyle(fontSize: 17)),
-        ),
-      ],
-    ),
-  );
-
   void _asyncTask(BuildContext context) async {
     await checkConnectivity(); // 인터넷 연결확인
     await getConnectivity(); // 인터넷 상태받기
@@ -152,7 +130,11 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
     // 세션이 만료되었다면, 로그아웃시키고 로그인하도록 팝업 띄우기
     if(sessionIsExpired == true) {
       _authController.onLogout(context);
-      await showDialogBoxSessionExpired();
+      setState(() {
+        HomeDrawer.isLogin = false;
+        HomeDrawer.userID = 'Guest User';
+      });
+      BookStoryDialog.showDialogBoxSessionExpired(context);
     }
   }
 
@@ -178,7 +160,7 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
     );
   }
 
-  void changeIndex(DrawerIndex drawerIndexData){
+  void changeIndex(DrawerIndex drawerIndexData) async {
     if(drawerIndex != drawerIndexData){
       drawerIndex = drawerIndexData;
       switch(drawerIndex){
@@ -223,6 +205,15 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
         default:
           break;
       }
+    }
+
+    // 만약, 세션이 만료되었다면, 사용자에게 알리고 자동 로그아웃 시키기
+    bool sessionIsExpired = await _authController.checkUserSessionIsExpired(context);
+    if(sessionIsExpired == true){
+      _authController.onLogout(context);
+      HomeDrawer.isLogin = false;
+      HomeDrawer.userID = 'Guest User';
+      BookStoryDialog.showDialogBoxSessionExpired(context);
     }
   }
 }

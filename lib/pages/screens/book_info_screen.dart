@@ -3,6 +3,7 @@ import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/models/book_model.dart';
+import 'package:book_story/pages/popups/book_story_dialog.dart';
 import 'package:book_story/pages/popups/rating_popup.dart';
 import 'package:book_story/pages/screens/video_player_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
@@ -242,18 +243,18 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                                 builder: (BuildContext context) {
                                                   return AlertDialog(
                                                     title: const Text('로그인하세요'),
-                                                    content: const Text('계속하려면 로그인이 필요합니다.'),
+                                                    content: const Text('로그인 후 이용 가능해요.'),
                                                     actions: <Widget>[
                                                       ElevatedButton(
                                                         child: const Text('로그인'),
-                                                        onPressed: () async {
-                                                          await Navigator.push<dynamic>(
+                                                        onPressed: (){
+                                                          Navigator.of(context).pop(); // 대화 상자 닫기
+                                                          Navigator.push<dynamic>(
                                                             context,
                                                             MaterialPageRoute<dynamic>(
                                                               builder: (BuildContext context) => const LoginScreen(),
                                                             ),
                                                           );
-                                                          Navigator.of(context).pop(); // 대화 상자 닫기
                                                         },
                                                       ),
                                                       ElevatedButton(
@@ -460,7 +461,9 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                                           Column(
                                                             children: [
                                                               // TODO : 댓글 리스트 만들기
-                                                              ElevatedButton(onPressed: (){}, child: Text('x'))
+                                                              const Text('내 댓글'),
+                                                              const Divider(thickness: 1),
+                                                              const Text('댓글 리스트'),
                                                             ],
                                                           ),
                                                       ],
@@ -691,7 +694,13 @@ class BookInfoScreenState extends State<BookInfoScreen>
                 setState(() {}),
               }
               else{
-                safePrint('[Add Favorite button] : Login first!')
+                safePrint('[Add Favorite button] : Login first!'),
+                _authController.onLogout(context),
+                setState(() {
+                  HomeDrawer.isLogin = false;
+                  HomeDrawer.userID = 'Guest User';
+                }),
+                BookStoryDialog.showDialogBoxSessionExpired(context)
               }
             });
           },
@@ -729,7 +738,13 @@ class BookInfoScreenState extends State<BookInfoScreen>
                 setState(() {}),
               }
               else{
-                safePrint('[Remove Favorite button] : Login first!')
+                safePrint('[Remove Favorite button] : Login first!'),
+                _authController.onLogout(context),
+                setState(() {
+                  HomeDrawer.isLogin = false;
+                  HomeDrawer.userID = 'Guest User';
+                }),
+                BookStoryDialog.showDialogBoxSessionExpired(context)
               }
             });
           },
@@ -749,46 +764,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
     }
     // 셋 다 아닌 상태. 로딩중 등
     else {
-      return Card(
-        color: BookStoryAppTheme.nearlyBlue,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50.0)),
-        elevation: 10.0,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(50),
-          onTap: () {
-            safePrint('Login First! (in _buildHeartIcon func)');
-          },
-          child: const SizedBox(
-            width: 60,
-            height: 60,
-            child: Center(
-              child: Icon(
-                Icons.favorite,
-                color: Colors.white,
-                size: 30,
-              ),
-            ),
-          ),
-        ),
-      );
-      // return Card(
-      //   color: Colors.transparent,
-      //   shape: RoundedRectangleBorder(
-      //       borderRadius: BorderRadius.circular(50.0)),
-      //   elevation: 10.0,
-      //   child: InkWell(
-      //     borderRadius: BorderRadius.circular(50),
-      //     onTap: (){
-      //       safePrint('Unknown.. Loading..?');
-      //     },
-      //     child: const SizedBox(
-      //       width: 60,
-      //       height: 60,
-      //       child: Center(),
-      //     ),
-      //   ),
-      // );
+      return const SizedBox();
     }
   }
 
