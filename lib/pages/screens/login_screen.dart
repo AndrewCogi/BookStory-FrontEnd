@@ -186,7 +186,7 @@ class LoginScreenState extends State<LoginScreen> {
                           children: [
                             Icon(Icons.circle),
                             SizedBox(width: 10.0),
-                            Text('Sign in with Google',
+                            Text('Sign in with Google (준비중)',
                               style: TextStyle(
                                 fontSize: 15,
                               ),

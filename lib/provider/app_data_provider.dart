@@ -11,7 +11,7 @@ class AppDataProvider extends ChangeNotifier {
   Future<List<Book>> getBooksByCategory(List<CategoryType> categoryTypes, int limit) {
     return _dataSource.getBooksByCategory(categoryTypes, limit);
   }
-  Future<List<Book>> getBooksByUserEmailFavorite(String userEmail){
+  Future<List<Book>?> getBooksByUserEmailFavorite(String userEmail){
     return _dataSource.getBooksByUserEmailFavorite(userEmail);
   }
   Future<List<Book>> get10BooksByPlayCount(){

@@ -50,7 +50,7 @@ class HomeDrawerState extends State<HomeDrawer> {
       ),
       DrawerMenu(
         index: DrawerIndex.favorite,
-        labelName: 'My Favorite',
+        labelName: 'Favorite',
         icon: const Icon(Icons.favorite_border),
       ),
       DrawerMenu(

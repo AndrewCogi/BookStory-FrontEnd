@@ -2,6 +2,7 @@ import 'package:book_story/controllers/auth_controller.dart';
 import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/main.dart';
+import 'package:book_story/pages/screens/login_screen.dart';
 import 'package:book_story/provider/app_data_provider.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:book_story/utils/constants.dart';
@@ -39,17 +40,47 @@ class FavoriteListViewState extends State<FavoriteListView>
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 16),
-      child: FutureBuilder<List<Book>>(
+      child: FutureBuilder<List<Book>?>(
           future: () async {
             final email = await _authController.getCurrentUserEmail();
             // ignore: use_build_context_synchronously
             return Provider.of<AppDataProvider>(context, listen: false)
                 .getBooksByUserEmailFavorite(email);
           }(),
-          builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
+          builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
+            // safePrint(snapshot.data);
+            if(snapshot.data == null && snapshot.connectionState == ConnectionState.done){
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('로그인 후 이용 가능해요.\n'),
+                    ElevatedButton(
+                        onPressed: () async {
+                          await Navigator.push<dynamic>(
+                            context,
+                            MaterialPageRoute<dynamic>(
+                              builder: (BuildContext context) => const LoginScreen(),
+                            ),
+                          );
+                          setState(() {}); // 새로고침을 위해 작성됨
+                        },
+                      child: const Text("로그인")
+                    ),
+                  ],
+                ),
+              );
+            }
             if(snapshot.hasData){
               List<Book> bookList = snapshot.data!;
-              if(bookList.isEmpty) return const Center(child: Text('책장이 비어있어요.'));
+              if(bookList.isEmpty) {
+                return ListView.builder(
+                  itemCount: 1,
+                  itemBuilder: (BuildContext context, int index){
+                    return const Center(child: Text('책장이 비어있어요.'));
+                  }
+                );
+              }
               return ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),

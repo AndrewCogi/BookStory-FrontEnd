@@ -86,7 +86,7 @@ class AppDataSource extends DataSource{
   }
 
   @override
-  Future<List<Book>> getBooksByUserEmailFavorite(String userEmail) async {
+  Future<List<Book>?> getBooksByUserEmailFavorite(String userEmail) async {
     final String url = '$baseUrl${'favorite/'}$userEmail';
     safePrint(url);
     try{
@@ -102,7 +102,7 @@ class AppDataSource extends DataSource{
         }).toList();
         return books;
       }
-      return [];
+      return null;
     }catch(error){
       safePrint(error.toString());
       rethrow;
