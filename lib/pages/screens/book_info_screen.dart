@@ -46,6 +46,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
   String publisherDescription = "";
   List<String> imageList = List.generate(imageListSize, (index) => '');
   int maxX = 0;
+  bool isComplete = true;
 
   @override
   void initState() {
@@ -551,14 +552,27 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                           ),
                                         ),
                                       ),
-                                      onTap: (){
-                                        safePrint('Play Story');
-                                        Navigator.push<dynamic>(
-                                          context,
-                                          MaterialPageRoute<dynamic>(
-                                            builder: (BuildContext context) => VideoPlayerScreen(widget.book.title),
-                                          ),
-                                        );
+                                      onTap: () async {
+                                        safePrint('addView in DB...'); // 게스트 유저의 경우, userEmail="" 으로 view에 저장됨
+                                        setState(() {isComplete = false;});
+                                        int resultStatusCode = await Provider.of<AppDataProvider>(context, listen: false)
+                                            .addView(userEmail, widget.book.bookId);
+                                        if(resultStatusCode != 200) {
+                                          // ignore: use_build_context_synchronously
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(content: Text('DB err. Maybe USER_NOT_FOUND')));
+                                        }
+                                        else{
+                                          safePrint('Play Story');
+                                          // ignore: use_build_context_synchronously
+                                          Navigator.push<dynamic>(
+                                            context,
+                                            MaterialPageRoute<dynamic>(
+                                              builder: (BuildContext context) => VideoPlayerScreen(widget.book.title),
+                                            ),
+                                          ).then((_) => setState(() {}));
+                                        }
+                                        setState(() {isComplete = true;});
                                       },
                                     ),
                                   )
@@ -618,7 +632,14 @@ class BookInfoScreenState extends State<BookInfoScreen>
                   ),
                 ),
               ),
-            )
+            ),
+            if(isComplete == false)
+              Container(
+                color: Colors.black.withOpacity(0.1),
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
           ],
         ),
       ),

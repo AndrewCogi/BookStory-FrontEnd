@@ -32,4 +32,7 @@ class AppDataProvider extends ChangeNotifier {
   Future<String> getDescription(String descriptionPath) {
     return _dataSource.getDescription(descriptionPath);
   }
+  Future<int> addView(String userEmail, int bookId){
+    return _dataSource.addView(userEmail, bookId);
+  }
 }

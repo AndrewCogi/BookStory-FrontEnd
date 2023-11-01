@@ -193,7 +193,7 @@ class AppDataSource extends DataSource{
         body: json.encode({'user':{'userEmail':userEmail}, 'book':{'bookId':bookId}})
       );
       safePrint("1. response.body: ${response.body}");
-      safePrint("2. response.statusCode: ${response.statusCode}"); // TODO : 서버 고쳐서 모든 response.body를 response.statusCode와 맞춤..ㅠㅠ 확인하기!
+      safePrint("2. response.statusCode: ${response.statusCode}");
       return response.statusCode;
     }catch(error){
       safePrint(error.toString());
@@ -209,6 +209,26 @@ class AppDataSource extends DataSource{
       return utf8.decode(await http.readBytes(Uri.parse(url)));
     }catch(error){
       return "Failed to fetch data";
+    }
+  }
+
+  @override
+  Future<int> addView(String userEmail, int bookId) async {
+    final String url = '$baseUrl${'view/add'}';
+    safePrint(url);
+    try{
+      final http.Response response;
+      response = await http.post(
+          Uri.parse(url),
+          headers: header,
+          body: json.encode({'user':{'userEmail':userEmail}, 'book':{'bookId':bookId}})
+      );
+      safePrint("1. response.body: ${response.body}");
+      safePrint("2. response.statusCode: ${response.statusCode}");
+      return response.statusCode;
+    }catch(error){
+      safePrint(error.toString());
+      rethrow;
     }
   }
 }

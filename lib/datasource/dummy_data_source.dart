@@ -86,4 +86,10 @@ class DummyDataSource implements DataSource {
     // TODO: implement getBooksByTitle
     throw UnimplementedError();
   }
+
+  @override
+  Future<int> addView(String userEmail, int bookId){
+    // TODO: implement getBooksByTitle
+    throw UnimplementedError();
+  }
 }
