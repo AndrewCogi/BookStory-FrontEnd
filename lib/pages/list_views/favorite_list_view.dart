@@ -44,16 +44,20 @@ class FavoriteListViewState extends State<FavoriteListView>
       child: FutureBuilder<List<Book>?>(
           future: () async {
             final email = await _authController.getCurrentUserEmail();
+            print("AA: $email");
             // ignore: use_build_context_synchronously
             return Provider.of<AppDataProvider>(context, listen: false)
                 .getBooksByUserEmailFavorite(email);
           }(),
           builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
             if(snapshot.data == null && snapshot.connectionState == ConnectionState.done){
+              print("BB");
               // 받아온 데이터가 없다 == 세션만료 or 로그인안함 => 자동 로그아웃 시키기
-              _authController.onLogout(context);
-              HomeDrawer.isLogin = false;
-              HomeDrawer.userID = 'Guest User';
+              if(HomeDrawer.isLogin == true){
+                _authController.onLogout(context);
+                HomeDrawer.isLogin = false;
+                HomeDrawer.userID = 'Guest User';
+              }
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

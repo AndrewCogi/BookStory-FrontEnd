@@ -189,7 +189,7 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
           break;
         case DrawerIndex.feedback:
           setState(() {
-            screenView = const FeedbackScreen();
+            // screenView = const FeedbackScreen();
           });
           break;
         case DrawerIndex.rate:

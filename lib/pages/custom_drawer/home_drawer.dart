@@ -60,17 +60,17 @@ class HomeDrawerState extends State<HomeDrawer> {
       ),
       DrawerMenu(
         index: DrawerIndex.feedback,
-        labelName: 'FeedBack',
+        labelName: 'FeedBack (soon)',
         icon: const Icon(Icons.help),
       ),
       DrawerMenu(
         index: DrawerIndex.rate,
-        labelName: 'Rate this app',
+        labelName: 'Rate this app (soon)',
         icon: const Icon(Icons.share),
       ),
       DrawerMenu(
         index: DrawerIndex.about,
-        labelName: 'About Us',
+        labelName: 'About Us (soon)',
         icon: const Icon(Icons.info),
       ),
     ];
