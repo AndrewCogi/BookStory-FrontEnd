@@ -271,24 +271,31 @@ class CategoryView extends StatelessWidget {
                                                       .nearlyBlue,
                                                 ),
                                               ),
-                                              Container(
-                                                decoration: const BoxDecoration(
-                                                  color: BookStoryAppTheme
-                                                      .nearlyBlue,
-                                                  borderRadius:
-                                                  BorderRadius.all(
-                                                      Radius.circular(
-                                                          8.0)),
-                                                ),
-                                                child: const Padding(
-                                                  padding:
-                                                  EdgeInsets.all(
-                                                      4.0),
-                                                  child: Icon(
-                                                    Icons.add,
-                                                    color:
-                                                    BookStoryAppTheme
-                                                        .nearlyWhite,
+                                              InkWell( // TODO : 로그인하고 하트눌렀으면 빨강, 아니면 하양, 로그인안했으면 로그인하라 하기
+                                                onTap: () {
+                                                  print('add/remove favorite');
+                                                },
+                                                child: Container(
+                                                  height: 33,
+                                                  width: 33,
+                                                  decoration: const BoxDecoration(
+                                                    color: BookStoryAppTheme
+                                                        .nearlyBlue,
+                                                    borderRadius:
+                                                    BorderRadius.all(
+                                                        Radius.circular(
+                                                            8.0)),
+                                                  ),
+                                                  child: const Padding(
+                                                    padding:
+                                                    EdgeInsets.all(
+                                                        4.0),
+                                                    child: Icon(
+                                                      Icons.favorite,
+                                                      color:
+                                                      Colors.red,
+                                                      size: 20,
+                                                    ),
                                                   ),
                                                 ),
                                               )

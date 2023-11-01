@@ -6,6 +6,7 @@ import 'package:book_story/pages/list_views/popular_book_list_view.dart';
 import 'package:book_story/main.dart';
 import 'package:book_story/pages/list_views/new_book_list_view.dart';
 import 'package:book_story/pages/screens/book_info_screen.dart';
+import 'package:book_story/pages/screens/plus_screen.dart';
 import 'package:book_story/pages/screens/search_result_screen.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
@@ -192,6 +193,12 @@ class HomeScreenState extends State<HomeScreen> {
               InkWell(
                 onTap:() {
                   safePrint('More Info - New Books');
+                  Navigator.push<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => const PlusScreen(whichPlus: 'new'),
+                    ),
+                  ).then((_) => setState(() {}));
                 },
                 child: const Icon(
                   Icons.add,
@@ -247,6 +254,12 @@ class HomeScreenState extends State<HomeScreen> {
                 InkWell(
                   onTap:() {
                     safePrint('More Info - Popular Books');
+                    Navigator.push<dynamic>(
+                      context,
+                      MaterialPageRoute<dynamic>(
+                        builder: (BuildContext context) => const PlusScreen(whichPlus: 'popular'),
+                      ),
+                    ).then((_) => setState(() {}));
                   },
                   child: const Icon(
                     Icons.add,

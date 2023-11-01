@@ -1,18 +1,22 @@
 import 'package:amplify_core/amplify_core.dart';
+import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/models/book_model.dart';
 import 'package:book_story/pages/list_views/favorite_list_view.dart';
+import 'package:book_story/pages/list_views/plus_list_view.dart';
 import 'package:book_story/pages/screens/book_info_screen.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 
-class FavoriteScreen extends StatefulWidget {
-  const FavoriteScreen({super.key});
+class PlusScreen extends StatefulWidget {
+  const PlusScreen({super.key, required this.whichPlus, this.categoryTypes});
+  final String whichPlus;
+  final List<CategoryType>? categoryTypes;
 
   @override
-  FavoriteScreenState createState() => FavoriteScreenState();
+  PlusScreenState createState() => PlusScreenState();
 }
 
-class FavoriteScreenState extends State<FavoriteScreen> {
+class PlusScreenState extends State<PlusScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -23,27 +27,52 @@ class FavoriteScreenState extends State<FavoriteScreen> {
       color: isLightMode ? BookStoryAppTheme.nearlyWhite : BookStoryAppTheme.nearlyBlack,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Column(
-          children: <Widget>[
-            SizedBox(
-              height: MediaQuery.of(context).padding.top,
+        body: Stack(
+          children: [
+            Column(
+              children: <Widget>[
+                SizedBox(
+                  height: MediaQuery.of(context).padding.top,
+                ),
+                getAppBarUI(),
+                Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        setState(() {});
+                      },
+                      child: getPlusUI(),
+                    )
+                ),
+              ],
             ),
-            getAppBarUI(),
-            Expanded(
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  setState(() {});
-                },
-                child: getFavoriteUI(),
-              )
-            ),
+            Padding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+              child: SizedBox(
+                width: AppBar().preferredSize.height,
+                height: AppBar().preferredSize.height,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius:
+                    BorderRadius.circular(AppBar().preferredSize.height),
+                    child: const Icon(
+                      Icons.arrow_back_ios,
+                      color: BookStoryAppTheme.nearlyBlack,
+                    ),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ),
+            )
           ],
-        ),
+        )
       ),
     );
   }
 
-  Widget getFavoriteUI() {
+  Widget getPlusUI() {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     return Column(
@@ -51,7 +80,9 @@ class FavoriteScreenState extends State<FavoriteScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Expanded(
-          child: FavoriteListView(
+          child: PlusListView(
+            whichPlus: widget.whichPlus,
+            categoryTypes: widget.categoryTypes,
             callBack: (Book c) {
               moveTo(c);
             },
@@ -82,7 +113,7 @@ class FavoriteScreenState extends State<FavoriteScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Here are your',
+                  'Want more books?',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
@@ -92,7 +123,7 @@ class FavoriteScreenState extends State<FavoriteScreen> {
                   ),
                 ),
                 Text(
-                  'Favorite Books',
+                  'More Books',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,

@@ -10,12 +10,12 @@ import 'package:book_story/pages/list_views/society_culture_book_list_view.dart'
 import 'package:book_story/pages/list_views/sophistication_learning_book_list_view.dart';
 import 'package:book_story/pages/list_views/today_book_list_view.dart';
 import 'package:book_story/pages/screens/book_info_screen.dart';
+import 'package:book_story/pages/screens/plus_screen.dart';
 import 'package:book_story/pages/screens/search_result_screen.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 
 class LibraryScreen extends StatefulWidget {
-  static CategoryType categoryType = CategoryType.age4plus;
   const LibraryScreen({super.key});
 
   @override
@@ -105,13 +105,12 @@ class LibraryScreenState extends State<LibraryScreen> {
               ),
               InkWell(
                 onTap:() {
-                  safePrint('More Info - Today Books');
+                  safePrint('Detail - Today Books');
                 },
                 child: const Icon(
-                  Icons.add,
-                  color:
-                  Colors.grey,
-                  size: 28,
+                  Icons.help_outline_rounded,
+                  color: Colors.grey,
+                  size: 25,
                 ),
               ),
             ],
@@ -161,6 +160,12 @@ class LibraryScreenState extends State<LibraryScreen> {
               InkWell(
                 onTap:() {
                   safePrint('More Info - 동화/창작 Books');
+                  Navigator.push<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => const PlusScreen(whichPlus: 'category',categoryTypes: [CategoryType.fairyTale, CategoryType.creative]),
+                    ),
+                  ).then((_) => setState(() {}));
                 },
                 child: const Icon(
                   Icons.add,
@@ -216,6 +221,12 @@ class LibraryScreenState extends State<LibraryScreen> {
               InkWell(
                 onTap:() {
                   safePrint('More Info - 교양/학습 Books');
+                  Navigator.push<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => const PlusScreen(whichPlus: 'category',categoryTypes: [CategoryType.sophistication, CategoryType.learning]),
+                    ),
+                  ).then((_) => setState(() {}));
                 },
                 child: const Icon(
                   Icons.add,
@@ -271,6 +282,12 @@ class LibraryScreenState extends State<LibraryScreen> {
               InkWell(
                 onTap:() {
                   safePrint('More Info - 생활/습관 Books');
+                  Navigator.push<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => const PlusScreen(whichPlus: 'category',categoryTypes: [CategoryType.lifeStyle, CategoryType.habits]),
+                    ),
+                  ).then((_) => setState(() {}));
                 },
                 child: const Icon(
                   Icons.add,
@@ -326,6 +343,12 @@ class LibraryScreenState extends State<LibraryScreen> {
               InkWell(
                 onTap:() {
                   safePrint('More Info - 사회/문화 Books');
+                  Navigator.push<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => const PlusScreen(whichPlus: 'category',categoryTypes: [CategoryType.society, CategoryType.culture]),
+                    ),
+                  ).then((_) => setState(() {}));
                 },
                 child: const Icon(
                   Icons.add,
@@ -381,6 +404,12 @@ class LibraryScreenState extends State<LibraryScreen> {
               InkWell(
                 onTap:() {
                   safePrint('More Info - 명작/고전 Books');
+                  Navigator.push<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => const PlusScreen(whichPlus: 'category',categoryTypes: [CategoryType.masterpiece, CategoryType.classic]),
+                    ),
+                  ).then((_) => setState(() {}));
                 },
                 child: const Icon(
                   Icons.add,
@@ -436,6 +465,12 @@ class LibraryScreenState extends State<LibraryScreen> {
               InkWell(
                 onTap:() {
                   safePrint('More Info - 자연/과학 Books');
+                  Navigator.push<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => const PlusScreen(whichPlus: 'category',categoryTypes: [CategoryType.natural, CategoryType.science]),
+                    ),
+                  ).then((_) => setState(() {}));
                 },
                 child: const Icon(
                   Icons.add,
