@@ -70,7 +70,7 @@ class FavoriteScreenState extends State<FavoriteScreen> {
       MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => BookInfoScreen(category),
       ),
-    );
+    ).then((_) => setState(() {}));
   }
 
   Widget getAppBarUI() {

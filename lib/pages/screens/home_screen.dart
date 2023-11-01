@@ -277,7 +277,7 @@ class HomeScreenState extends State<HomeScreen> {
       MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => BookInfoScreen(category),
       ),
-    );
+    ).then((_) => setState(() {}));
   }
 
   Widget getButtonUI(CategoryType categoryTypeData, bool isSelected) {

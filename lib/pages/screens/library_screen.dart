@@ -467,7 +467,7 @@ class LibraryScreenState extends State<LibraryScreen> {
       MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => BookInfoScreen(category),
       ),
-    );
+    ).then((_) => setState(() {}));
   }
 
   Widget getSearchBarUI() {
