@@ -1,3 +1,8 @@
+import 'package:book_story/controllers/auth_controller.dart';
+import 'package:book_story/controllers/impl/auth_controller_impl.dart';
+import 'package:book_story/pages/custom_drawer/home_drawer.dart';
+import 'package:book_story/pages/popups/book_story_dialog.dart';
+import 'package:book_story/pages/screens/login_screen.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -12,6 +17,8 @@ class RatingPopup extends StatefulWidget {
 class RatingPopupState extends State<RatingPopup> {
   double _currentRating = 5.0;
   String _ratingText = "최고에요!";
+  final AuthController _authController = AuthControllerImpl();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -84,14 +91,59 @@ class RatingPopupState extends State<RatingPopup> {
           ),
           ElevatedButton(
             child: const Text("확인"),
-            onPressed: () {
-              Navigator.of(context).pop(_currentRating);
+            onPressed: () async {
+              // 만료 정보 받아오기
+              bool sessionIsExpired = await _authController.checkUserSessionIsExpired(context);
+              // '평가하기' 버튼에 대해서도 해당 처리가 들어가지만 여기에서 한번 더 사용하는 이유는,
+              // 평가를 작성하는 도중에 세션이 끝났을 경우, 아래 작성된 세션 만료 처리에서 로그인을 하지 않은 경우,
+              // 여기서 로그인해야 평가를 올릴 수 있도록 잡아내기 위함이다.
+              if(HomeDrawer.isLogin == false){
+                // ignore: use_build_context_synchronously
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('로그인하세요'),
+                      content: const Text('로그인 후 이용 가능해요.'),
+                      actions: <Widget>[
+                        ElevatedButton(
+                          child: const Text('로그인'),
+                          onPressed: (){
+                            Navigator.of(context).pop(); // 대화 상자 닫기
+                            Navigator.push<dynamic>(
+                              context,
+                              MaterialPageRoute<dynamic>(
+                                builder: (BuildContext context) => const LoginScreen(),
+                              ),
+                            ).then((value) => setState(() {}));
+                          },
+                        ),
+                        ElevatedButton(
+                          child: const Text('닫기'),
+                          onPressed: () {
+                            Navigator.of(context).pop(); // 대화 상자 닫기
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
+              // 만약, 세션이 만료되었다면, 사용자에게 알리고 자동 로그아웃 시키기
+              else if(sessionIsExpired == true){
+                _authController.onLogout(context);
+                HomeDrawer.isLogin = false;
+                HomeDrawer.userID = 'Guest User';
+                BookStoryDialog.showDialogBoxSessionExpired(context);
+              }
+              else{
+                Navigator.of(context).pop(_currentRating);
+              }
             },
           ),
         ],
       )
     );
-
   }
 
   // 점수에 따라 텍스트 업데이트 함수

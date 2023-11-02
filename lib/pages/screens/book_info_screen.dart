@@ -255,7 +255,7 @@ class BookInfoScreenState extends State<BookInfoScreen>
                                                             MaterialPageRoute<dynamic>(
                                                               builder: (BuildContext context) => const LoginScreen(),
                                                             ),
-                                                          );
+                                                          ).then((value) => setState(() {}));
                                                         },
                                                       ),
                                                       ElevatedButton(
