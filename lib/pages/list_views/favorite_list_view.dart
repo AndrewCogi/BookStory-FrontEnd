@@ -62,14 +62,13 @@ class FavoriteListViewState extends State<FavoriteListView>
                   children: [
                     const Text('로그인 후 이용 가능해요.\n'),
                     ElevatedButton(
-                        onPressed: () async {
-                          await Navigator.push<dynamic>(
+                        onPressed: () {
+                          Navigator.push<dynamic>(
                             context,
                             MaterialPageRoute<dynamic>(
                               builder: (BuildContext context) => const LoginScreen(),
                             ),
-                          );
-                          setState(() {}); // 새로고침을 위해 작성됨
+                          ).then((value) => setState(() {})); // 새로고침을 위해 작성됨
                         },
                       child: const Text("로그인")
                     ),
