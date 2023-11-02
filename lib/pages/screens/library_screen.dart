@@ -1,7 +1,10 @@
 import 'package:amplify_core/amplify_core.dart';
+import 'package:book_story/controllers/auth_controller.dart';
+import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/main.dart';
 import 'package:book_story/models/book_model.dart';
+import 'package:book_story/pages/custom_drawer/home_drawer.dart';
 import 'package:book_story/pages/list_views/fairy_tale_creative_book_list_view.dart';
 import 'package:book_story/pages/list_views/life_style_habits_book_list_view.dart';
 import 'package:book_story/pages/list_views/masterpiece_classic_book_list_view.dart';
@@ -9,6 +12,7 @@ import 'package:book_story/pages/list_views/natural_science_book_list_view.dart'
 import 'package:book_story/pages/list_views/society_culture_book_list_view.dart';
 import 'package:book_story/pages/list_views/sophistication_learning_book_list_view.dart';
 import 'package:book_story/pages/list_views/today_book_list_view.dart';
+import 'package:book_story/pages/popups/book_story_dialog.dart';
 import 'package:book_story/pages/screens/book_info_screen.dart';
 import 'package:book_story/pages/screens/plus_screen.dart';
 import 'package:book_story/pages/screens/search_result_screen.dart';
@@ -24,6 +28,7 @@ class LibraryScreen extends StatefulWidget {
 
 class LibraryScreenState extends State<LibraryScreen> {
   final searchController = TextEditingController();
+  final AuthController _authController = AuthControllerImpl();
 
   @override
   void dispose(){
@@ -495,7 +500,7 @@ class LibraryScreenState extends State<LibraryScreen> {
   }
 
 
-  void moveTo(Book category) {
+  void moveTo(Book category) async {
     safePrint('${category.title} selected.');
     Navigator.push<dynamic>(
       context,
@@ -503,6 +508,15 @@ class LibraryScreenState extends State<LibraryScreen> {
         builder: (BuildContext context) => BookInfoScreen(category),
       ),
     ).then((_) => setState(() {}));
+
+    // 만약, 세션이 만료되었다면, 사용자에게 알리고 자동 로그아웃 시키기
+    bool sessionIsExpired = await _authController.checkUserSessionIsExpired(context);
+    if(sessionIsExpired == true){
+      _authController.onLogout(context);
+      HomeDrawer.isLogin = false;
+      HomeDrawer.userID = 'Guest User';
+      BookStoryDialog.showDialogBoxSessionExpired(context);
+    }
   }
 
   Widget getSearchBarUI() {

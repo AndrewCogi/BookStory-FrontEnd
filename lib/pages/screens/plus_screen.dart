@@ -1,8 +1,12 @@
 import 'package:amplify_core/amplify_core.dart';
+import 'package:book_story/controllers/auth_controller.dart';
+import 'package:book_story/controllers/impl/auth_controller_impl.dart';
 import 'package:book_story/enums/category_type.dart';
 import 'package:book_story/models/book_model.dart';
+import 'package:book_story/pages/custom_drawer/home_drawer.dart';
 import 'package:book_story/pages/list_views/favorite_list_view.dart';
 import 'package:book_story/pages/list_views/plus_list_view.dart';
+import 'package:book_story/pages/popups/book_story_dialog.dart';
 import 'package:book_story/pages/screens/book_info_screen.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +21,7 @@ class PlusScreen extends StatefulWidget {
 }
 
 class PlusScreenState extends State<PlusScreen> {
+  final AuthController _authController = AuthControllerImpl();
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +97,7 @@ class PlusScreenState extends State<PlusScreen> {
     );
   }
 
-  void moveTo(Book category) {
+  void moveTo(Book category) async {
     safePrint('${category.title} selected.');
     Navigator.push<dynamic>(
       context,
@@ -100,6 +105,15 @@ class PlusScreenState extends State<PlusScreen> {
         builder: (BuildContext context) => BookInfoScreen(category),
       ),
     ).then((_) => setState(() {}));
+
+    // 만약, 세션이 만료되었다면, 사용자에게 알리고 자동 로그아웃 시키기
+    bool sessionIsExpired = await _authController.checkUserSessionIsExpired(context);
+    if(sessionIsExpired == true){
+      _authController.onLogout(context);
+      HomeDrawer.isLogin = false;
+      HomeDrawer.userID = 'Guest User';
+      BookStoryDialog.showDialogBoxSessionExpired(context);
+    }
   }
 
   Widget getAppBarUI() {
