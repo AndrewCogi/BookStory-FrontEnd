@@ -1,6 +1,4 @@
-import 'package:book_story/datasource/voice_sentence_data.dart';
-import 'package:book_story/utils/speech_to_text_utils.dart';
-import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:book_story/pages/list_views/voice_list_item.dart';
 import 'package:book_story/utils/book_story_app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -13,32 +11,15 @@ class VoiceScreen extends StatefulWidget {
   }
 }
 
-class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 & progress bar 진행되도록 하기
-  double progressValue = 0.0;
-  String progressText = "1 / 100";
-  String plainText = "";
-  String speechText = "";
-  VoiceSentenceData voiceSentenceList = VoiceSentenceData();
-  SpeechToTextUtils speechToTextUtils = SpeechToTextUtils();
-
-  void recogniseSpeech(SpeechRecognitionResult result){
-    setState(() {
-      speechText = result.recognizedWords;
-    });
-  }
+class _VoiceScreenState extends State<VoiceScreen> {
 
   @override
   void initState(){
-    plainText = voiceSentenceList.getSentence(0);
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await speechToTextUtils.initialize();
-    });
   }
 
   @override
   void dispose() {
-    speechToTextUtils.stopListening();
     super.dispose();
   }
 
@@ -47,174 +28,62 @@ class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
 
-    void updateProgress() {
-      setState(() {
-        progressValue += 0.01;
-        if (progressValue >= 1.0) {
-          progressValue = 0.0;
-        }
-        plainText = voiceSentenceList.getSentence((progressValue*100).toInt());
-        speechText = "";
-        progressText = "${((progressValue+0.01)*100).toInt()} / 100";
-      });
-    }
-
     return Container(
       color: isLightMode ? BookStoryAppTheme.nearlyWhite : BookStoryAppTheme.nearlyBlack,
       child: SafeArea(
         top: false,
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          body: SingleChildScrollView(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      height: MediaQuery.of(context).padding.top,
-                    ),
-                    getAppBarUI(),
-                    Expanded(
-                      child: Scaffold(
-                        body: Center(
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 30),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: 10,
-                                    child: LinearProgressIndicator(
-                                      value: progressValue,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  progressText,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 34.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: isLightMode
-                                        ? Colors.black
-                                        : Colors.white,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
-                                child: Container(
-                                    height: 130,
-                                    padding: const EdgeInsets.all(20.0),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                        color: Colors.white,
-                                        width: 2.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Colors.black26, // Add a shadow effect
-                                          blurRadius: 10.0,
-                                          spreadRadius: 2.0,
-                                          offset: Offset(0, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        plainText,
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(fontSize: 24.0),
-                                      ),
-                                    )
-
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-                              setResultIcon(),
-                              const SizedBox(height: 20),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
-                                child: Container(
-                                  height: 130,
-                                  padding: const EdgeInsets.all(20.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                      color: Colors.white,
-                                      width: 2.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Colors.black26, // Add a shadow effect
-                                        blurRadius: 10.0,
-                                        spreadRadius: 2.0,
-                                        offset: Offset(0, 3),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      speechText,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(fontSize: 24.0),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Column(
-                                  children: [
-                                    Align(
-                                        alignment: Alignment.bottomRight,
-
-                                        child: (speechToTextUtils.isListening() == false)&&(speechText.replaceAll(" ", "") == plainText.replaceAll(" ", "")) ?
-                                        MaterialButton(
-                                            onPressed: () {
-                                              updateProgress();
-                                            },
-                                            child: const Icon(Icons.arrow_forward_rounded, color: BookStoryAppTheme.nearlyBlue, size: 50)
-                                        ) : null
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-                        floatingActionButton: InkWell(
-                          child: FloatingActionButton.large(
-                            onPressed: () async {
-                              String? text = await speechToTextUtils.startListening(recogniseSpeech);
-                              setState(() {
-                                speechText = text ?? "";
-                              });
-                            }, // to avoid conflict InkWell:onTap
-                            child: speechToTextUtils.isListening() ? const Icon(Icons.stop) : const Icon(Icons.mic),
+          body: Stack(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        height: MediaQuery.of(context).padding.top,
+                      ),
+                      getAppBarUI(),
+                      Expanded(
+                        child: RefreshIndicator(
+                          onRefresh: () async {
+                            setState(() {});
+                          },
+                          child: Scaffold(
+                            body: ListView(
+                              children: [
+                                VoiceListItem("조현식"),
+                                VoiceListItem(""),
+                                VoiceListItem(""),
+                                VoiceListItem(""),
+                                const SizedBox(height: 8.0),
+                                const Divider(thickness: 3),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ),
+              Positioned(
+                bottom: 16,  // 아래 여백 조절
+                right: 16,   // 오른쪽 여백 조절
+                child: FloatingActionButton(
+                  onPressed: () {
+                    // TODO : 사용방법 팝업 띄우기
+                  },
+                  child: const Icon(
+                    Icons.help_outline_rounded,
+                    size: 25,
+                  ),
+                ),
+              ),
+            ],
+          )
         ),
       )
     );
@@ -241,7 +110,7 @@ class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 
                   ),
                 ),
                 Text(
-                  'Record Your Voice',
+                  'Manage Your Voices',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -261,28 +130,5 @@ class _VoiceScreenState extends State<VoiceScreen> { // TODO : 녹음본 저장 
         ],
       ),
     );
-  }
-
-  Widget setResultIcon() {
-    if(speechToTextUtils.isListening()) {
-      return const Icon(
-          Icons.more_horiz,
-          color: BookStoryAppTheme.nearlyBlue,
-          size: 50);
-    } else {
-      if(speechText.replaceAll(" ", "") == plainText.replaceAll(" ", "")) {
-        return const Icon(
-            Icons.done_outlined,
-            color: BookStoryAppTheme.nearlyBlue,
-            size: 50
-        );
-      } else {
-        return const Icon(
-            Icons.more_horiz,
-            color: Colors.transparent,
-            size: 50
-        );
-      }
-    }
   }
 }

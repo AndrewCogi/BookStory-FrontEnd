@@ -71,8 +71,8 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
   showDialogBoxNoInternetConnection(bool terminate) => showCupertinoDialog<String>(
     context: context,
     builder: (BuildContext context) => CupertinoAlertDialog(
-      title: const Text('인터넷 연결 없음'),
-      content: const Text('인터넷에 연결할 수 없습니다.\n인터넷을 확인해 주세요.'),
+      title: const Text('인터넷 연결이 불안정합니다'),
+      content: const Text('인터넷 연결이 불안정합니다.\n인터넷을 확인해 주세요.'),
       actions: <Widget>[
         TextButton(
           onPressed: () async {
@@ -182,9 +182,9 @@ class NavigationHomeScreenState extends State<NavigationHomeScreen>{
         case DrawerIndex.voice:
           setState(() {
             screenView = const VoiceScreen();
-            showDialog(context: context, builder: (BuildContext context){
-              return const RecordTipsPopup();
-            });
+            // showDialog(context: context, builder: (BuildContext context){
+            //   return const RecordTipsPopup();
+            // });
           });
           break;
         case DrawerIndex.feedback:

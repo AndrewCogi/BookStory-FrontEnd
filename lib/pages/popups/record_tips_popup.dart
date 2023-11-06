@@ -13,33 +13,33 @@ class RecordTipsPopup extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Icon(
-              Icons.warning,
+              Icons.tips_and_updates_rounded,
               color: Colors.orange,
               size: 48.0,
             ),
             const SizedBox(height: 16.0),
             const Text(
-              'Please record in a quiet place.',
-              style: TextStyle(fontSize: 18.0),
+              '조용한 곳에서 녹음해 주세요.',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             ),
 
             const SizedBox(height: 16.0),
             const Text(
-              'The recorded sentences are 100 sentences in total.',
-              style: TextStyle(fontSize: 18.0),
+              '녹음은 총 12문장에 대해 진행됩니다.',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16.0),
             const Text(
-              'If you leave during recording, you will have to record again.',
-              style: TextStyle(fontSize: 18.0),
+              '문장을 정확히 읽어주셔야\n 다음 문장으로 넘어가실 수 있습니다.',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16.0),
             const Text(
-              'Please read with your child in mind.',
-              style: TextStyle(fontSize: 18.0),
+              '아이에게 읽어주듯이 녹음해 주세요.',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16.0),
