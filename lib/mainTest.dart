@@ -31,7 +31,7 @@ class VoiceListScreen extends StatelessWidget {
 }
 
 class VoiceListItem extends StatefulWidget {
-  String voiceName;
+  String voiceName="";
   int recordingCount = 0;
   bool isUploading = false;
 
@@ -198,7 +198,9 @@ class _VoiceListItemState extends State<VoiceListItem> {
             ElevatedButton(
               onPressed: () {
                 setState(() {
-                  widget.voiceName = "";
+                  widget.voiceName="";
+                  widget.recordingCount = 0;
+                  widget.isUploading = false;
                 });
                 Navigator.of(context).pop();
               },
