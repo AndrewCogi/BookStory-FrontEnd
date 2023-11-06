@@ -72,6 +72,8 @@ dependencies:
 
   flutter_native_splash: ^2.3.4
 
+  percent_indicator: ^4.0.1
+
 dev_dependencies:
   flutter_launcher_icons: 0.13.1
   flutter_lints: ^2.0.0
