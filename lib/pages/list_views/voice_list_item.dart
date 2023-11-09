@@ -29,7 +29,10 @@ class VoiceListItemState extends State<VoiceListItem> {
       margin: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.blue, width: 2.0),
+        border: Border.all(
+          color: widget.voiceName != "" ? Colors.blue : Colors.grey,
+          width: 2.0
+        ),
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: _buildContent(),

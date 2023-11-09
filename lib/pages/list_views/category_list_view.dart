@@ -293,7 +293,7 @@ class CategoryView extends StatelessWidget {
                                                     child: Icon(
                                                       Icons.favorite,
                                                       color:
-                                                      Colors.red,
+                                                      Colors.redAccent,
                                                       size: 20,
                                                     ),
                                                   ),
